@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewData["Title"] = "Airport";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+
+@using BOC.Models;
+@using BOC.Controllers;
+@model LoungeModel;
+
+<div class="container" style="padding-top:20px;padding-left:20px;">
+    <div style="margin-top:10px;text-align: center;font-size: x-large;color: #005393;font-family:Tahoma;">AIRPORT LIST</div>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <table class="table table-bordered" id="tableData" style="font-family:Tahoma;">
+        <thead style="background-color: #64B053;color: white">
+            <tr>
+                <th>ID</th>
+                <th>AirportName</th>
+                <th>CityName</th>
+                <th>CountryName</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                var i = 1;
+                @foreach (var item in @Model.ListAirport)
+                {
+
+            <tr class="airportlstindex">
+                <th scope="row"> @i</th>
+                <td class="airport">
+                    @*<a class="airportlst" href="#" data-seq="@Html.Raw(item.Airport)">@item.AirportName.ToString()</a>*@
+                    @item.AirportName.ToString()
+                    <button type="button" class="btn btn-primary BL" data-seq="@Html.Raw(item.Airport)">BL</button>
+                    <button type="button" class="btn btn-primary FLC" data-seq="@Html.Raw(item.Airport)">FLC</button>
+                </td>
+                <td class="cityname">
+                    @Html.DisplayFor(modelItem => item.CityName)
+                    <input type="hidden" id="city" value="@item.CityName" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryName)
+                </td>
+            </tr>
+                    i = i + 1;
+                }
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $(function () {
+        //Paging Table
+        //$('.table').DataTable({
+        //    "pagingType": "full_numbers"
+        //});
+
+        //Search
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableData tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $(".BL").click(function (e) {
+            //e.preventDefault();           
+            var airport = $(this).attr("data-seq");
+            var trparent = $(this).closest("tr.airportlstindex").first();
+            var city = trparent.find("td.cityname").text();
+
+            $.ajax({
+                type: "POST",
+                url: "/FlightView/BL",
+                data: { airport: airport, city: city },
+                cache: false,
+                success: function (data) {
+                    window.location = "/FlightView/BL";
+                },
+                error: function (data) {
+                    alertify.warning(data.mess);
+                    return false;
+                }
+            });
+        });
+
+        $(".FLC").click(function (e) {
+            // e.preventDefault();
+            var airport = $(this).attr("data-seq");
+            var trparent = $(this).closest("tr.airportlstindex").first();
+            var city = trparent.find("td.cityname").text();
+
+            $.ajax({
+                type: "POST",
+                url: "/FlightView/FLC",
+                data: { airport: airport, city: city },
+                cache: false,
+                success: function (data) {
+                    window.location = "/FlightView/FLC";
+                },
+                error: function (data) {
+                    alertify.warning(data.mess);
+                    return false;
+                }
+            });
+        });
+
+
+
+    })
+
+
+</script>
+
+
+
+

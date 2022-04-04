@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+<style>
+     .dx-scrollable {
+    width:auto!important;
+}
+</style>
+@using BOC.Models;
+@model FlightViewModel;
+
+<h2 style="padding-top:20px; padding-left: 20px;">Result search : @ViewBag.Name</h2>
+
+
+    <form method="post" id="frmDocReader" enctype="multipart/form-data" asp-controller="FO_DOC_READER" asp-action="Index">
+        <table border=0 class="table dx-auto-width border-0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>
+                    Input email: (E.g.:tinhnd)  @Html.TextBoxFor(model => model.Email, new { @class = "form-control", id = "username", placeholder = "Input Your Account" })
+                    <br />  <input type="submit" value="OK" class="btn btn-primary" />
+                </th>
+                <th>Input BAV ID: (E.g.:0787)   @Html.TextBoxFor(model => model.Baver_ID, new { @class = "form-control", id = "employeeid", placeholder = "Input Your EmployeeID" })</th>
+                <th>
+                    Input Your Fleet :
+                    <div style="position:relative;width:200px;height:calc(1.5em + .75rem + 2px);border:0;padding:0;margin:0;">
+                        <select name="fleet" style="position:absolute;top:0px;left:0px;width:200px; height:calc(1.5em + .75rem + 2px);line-height:20px;margin:0;padding:0;"
+                                value={this.props.fleet ? this.props.fleet : null}
+                                onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('yourfleet').value=this.options[this.selectedIndex].value;">
+                            <option value="null"></option>
+                            <option value="787">787</option>
+                            <option value="320">320</option>
+                            <option value="190">190</option>
+                        </select>
+                        <input type="text" name="displayValue" id="displayValue"
+                               placeholder="Add/select a fleet" onfocus="this.val()"
+                               style="position:absolute;top:0px;left:0px;width:183px;height:calc(1.5em + .75rem + 2px);border:1px solid #556;">
+                        @Html.HiddenFor(model => model.YourFleet, new { @id = "yourfleet", @Name = "yourfleet" });
+                    </div>
+                  
+                </th>
+                @*<th><br /><input type="submit" value="OK" class="btn btn-primary" /></th>*@
+            </tr>
+            
+        </table>
+    </form>
+
+
+
+@if (TempData["Feedback"] != null)
+{
+<input type="hidden" id="error" value="@Model.ErrorMessage" />
+}
+
+@if (Model != null && Model.FlightInfo != null && Model.FlightInfo.Count > 0)
+{
+
+@(Html.DevExtreme().DataGrid()
+            .ID("gridContainer")
+            .ShowBorders(true)
+            .DataSource(Model.FlightInfo, "FODocReader_ID")
+            .Columns(c =>
+            {
+                c.Add().DataField("ID").Caption("No").Width("5%");
+                c.Add().DataField("FileName").Width("80%");
+                c.Add().DataField("ReadTime").Width("15%");
+                c.Add().DataField("Notify").Width("10%");
+               
+            })
+            .Paging(p => p.PageSize(20))
+            .Pager(pager =>
+            {
+                pager.ShowPageSizeSelector(true);
+                pager.AllowedPageSizes(new[] { 10, 20, 50 });
+                pager.ShowInfo(true);
+            })
+            .ShowBorders(true)
+            .ShowColumnLines(true)
+            .ShowRowLines(true)
+            .FilterRow(f => f.Visible(true))
+            .HeaderFilter(f => f.Visible(false))
+            .GroupPanel(p => p.Visible(true))
+            .Grouping(g => g.AutoExpandAll(false))
+            .RemoteOperations(true)
+            .WordWrapEnabled(true)
+            .GroupPanel(z => z.AllowColumnDragging(false))
+
+    )
+
+}
+
+
+<script>
+    $(function () {
+
+        if ($("#error").val() == "Data entered must not be blank!") {
+            alertify.alert($("#error").val());
+        }
+
+
+
+    })
+
+</script>
+
+

@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewData["Title"] = "SearchResult";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+@using BOC.Areas.E_Library.Models;
+@using DevExtreme.AspNet.Mvc
+<style>
+    .dx-scrollable {
+   width: 100%;
+    }
+    .dx-command-adaptive{
+        display:none
+    }
+    .dx-header-row{
+        background-color:lightgreen;color:darkgreen
+    }
+    
+    .dx-page{
+         background-color:lightgreen;
+    }
+    .dx-datagrid-content:hover{
+       cursor:pointer;
+   }
+   
+</style>
+<div style="width:90%;margin:auto;margin-top:40px">
+   
+        @(Html.DevExtreme().DataGrid<SearchResult>()
+    .ID("gridContainer").Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual)).Selection(s => s.Mode(SelectionMode.Single)).HoverStateEnabled(true)
+    .ShowBorders(true).AllowColumnResizing(true)
+    .FilterRow(filterRow => filterRow
+        .Visible(true)
+        .ApplyFilter(GridApplyFilterMode.Auto)
+    )
+    .SearchPanel(searchPanel => searchPanel
+        .Visible(true)
+        .Width(240)
+        .Placeholder("Search...")
+    ).Paging(p=>p.PageSize(10))
+    .HeaderFilter(headerFilter => headerFilter.Visible(false))
+    .Columns(columns => {
+         columns.AddFor(m => m.DocProfileID)
+            .Width(50).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b></b>No</div><div> STT</div>
+            </text>).HidingPriority(0);
+
+         columns.AddFor(m => m.ID)
+            .Width(50).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>No</b></div><div> STT</div>
+            </text>);
+    
+       columns.AddFor(m => m.Subject).Width(140).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Tên tài liệu</b></div><div>Document Tittle</div>
+            </text>);
+             columns.AddFor(m => m.Description)
+            .Width(100).Alignment(HorizontalAlignment.Center)
+             .HeaderCellTemplate(@<text>
+                <div><b>Mô Tả</b></div><div>Description</div>
+            </text>);
+
+        columns.AddFor(m => m.DivisionCode).Width(120).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Đơn vị nhập liệu</b></div><div>Input Division</div>
+            </text>);
+        columns.AddFor(m => m.PublishCode)
+            .Width(120).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Đơn vị phát hành</b></div><div>Issuing unit</div>
+            </text>);
+            columns.AddFor(m => m.FromDate)
+          .Width(140)
+           .Format("M/d/yyyy, HH:mm") .Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Ngày hiệu lực</b></div><div> Effective Date</div>
+            </text>);
+         columns.AddFor(m => m.ToDate)
+            .Width(120)
+            .Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Ngày hết hạn</b></div><div> Expire Date</div>
+            </text>);
+       
+             columns.AddFor(m => m.ISBN).Width(140).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>ISBN</b></div><div></div>
+            </text>);
+
+            columns.AddFor(m => m.Version)
+           .Width(80)
+           .Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+            <div><b>Phiên bản</b></div><div>Version</div>
+            </text>);
+
+           @*  columns.AddFor(m => m.Version).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div>Phiên bản</div><div>Version</div>
+            </text>);*@
+
+            columns.AddFor(m => m.LastUpdate)
+           .Width(180)
+           .Format("M/d/yyyy, HH:mm") .Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Lần cập nhật cuối</b></div><div> Last update</div>
+            </text>);
+            columns.AddFor(m => m.UserUpdate)
+          .Width(120)
+            .Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Người cập nhật cuối</b></div><div> User update</div>
+            </text>);
+        columns.AddFor(m => m.ReadStatus)@*.AllowResizing(false)*@
+           .Width(140).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Trạng Thái Đọc</b></div><div> Read Status</div>
+            </text>);       
+    }).OnSelectionChanged("selection_changed")
+    .DataSource(d => d.Mvc().Controller("Search").LoadAction("Get_eLib_Of_Folderh")@*.LoadParams(new { UnRead = @ViewData["UnRead"],
+    Newest = @ViewData["Newest"],
+    KeySearch = @ViewData["KeySearch"],
+    Author = @ViewData["Author"],
+    ISBN =  @ViewData["ISBN"],
+    DocDivID=@ViewData["DocDivID"],
+    PublishID=@ViewData["PublishID"],
+    FromDate=@ViewData["FromDate"],
+    ToDate=@ViewData["ToDate"]})*@.Key("DocProfileID"))  
+
+)
+@*<input type="hidden" name="DocProfileID" id="DocProfileID" />*@
+@* @Html.HiddenFor(model => model.DocProfileID)*@
+        <script>
+
+            
+
+           /* function getOrderDay(rowData) {
+            return (new Date(rowData.OrderDate)).getDay();
+            }*/
+            function selection_changed(selectedItems) {
+           var data = selectedItems.selectedRowsData[0];
+          /*  alert(data.ISBN)*/
+            window.location.href = "/E-Library/Search/DocumentList?DocProfileID="+ Math.random(1) + "8c11dbe0884a34c2a631f25c7b872e65a2ec2bb4adcb7df9af0678ba03cec69fb669586ax" +  data.DocProfileID
+            //window.location.href = "/E-Library/Search/DocumentList";
+            $('#DocProfileID').val(data.DocProfileID);
+            if(data) {
+           /* $(".employeeNotes").text(data.Notes);
+            $(".employeePhoto").attr("src", data.Picture);*/
+           
+        }
+    }
+
+        </script>
+   
+</div>

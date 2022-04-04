@@ -1,0 +1,71 @@
+﻿@{
+
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Language") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Language");
+
+}
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - SeatMap Page</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/seatmap/SeatMap.css" />
+    <link rel="stylesheet" href="~/css/seatmap/SeatNote.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @if (select == "EN")
+    {
+        <script src="~/lib/alertify/js/alertify.js"></script>
+    }
+    else
+    {
+        <script src="~/lib/alertify/js/alertify - VN.js"></script>
+
+    }
+
+</head>
+<body>
+
+    <div id="content">
+        <main role="main" class="pb-1">
+            @RenderBody()
+        </main>
+    </div>
+    @section scripts{
+
+        <script>
+            $(function () {
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    // true for mobile device
+                    $("#content").addClass("container-sm");
+
+                } else {
+                    // false for not mobile device
+                    $("#content").addClass("container-fluid");
+
+
+                }
+            })
+
+        </script>
+        <script>
+                var getHomeAction = "@Url.Action("Index","Home")";
+                if (getHomeAction == "/")
+                    getHomeAction = "";
+                var _subFolder = getHomeAction;
+        </script>
+       
+
+    }
+
+
+  
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

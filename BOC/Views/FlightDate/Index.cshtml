@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+
+
+@using BOC.Models;
+@model LoungeModel;
+
+
+<style>
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        min-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        width: 35%;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    .dx-fieldset {
+        height: 500px;
+    }
+
+    .dx-texteditor-container {
+        width: 400px;
+    }
+</style>
+
+<div class="container" style="padding-top:60px;">
+
+    <div class="panel panel-default">
+
+        <div class="panel-body" style="padding-left:10px;">
+
+            <form method="post"  id="frmFlightDate" enctype="multipart/form-data" asp-controller="FlightDate" asp-action="Detail">
+                <fieldset class="col-md-6">
+                    <legend>Flight Filter</legend>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                &ensp;&ensp; Station:&ensp;&ensp;&ensp;&ensp;&ensp;
+                                @(Html.DevExtreme().DropDownBoxFor(model => model.AirportChoose)
+    .ID("dropDownBox")
+    .ValueExpr("ID")
+    .DisplayExpr(new JS("gridBox_displayExpr"))
+    .DataSource(d => d.Mvc()
+        .Controller("FlightDate/Detail")
+        .LoadAction("Post")
+        .LoadMode(DataSourceLoadMode.Raw)
+        .Key(Model.AirportChoose)
+    )
+    .Width("380")
+    .Placeholder("Select Your Station....")
+    .ShowClearButton(true)
+    .OnValueChanged("gridBox_valueChanged")
+    .ContentTemplate(new TemplateName("EmbeddedDataGridSingle"))
+                            )
+                                @using (Html.DevExtreme().NamedTemplate("EmbeddedDataGridSingle"))
+                                {
+                                    @(Html.DevExtreme().DataGrid()
+                .ID("embedded-datagrid")
+                .DataSource(Model.ListAirport, "Airport")
+                .Columns(columns => {
+                    columns.Add().DataField("Airport").Width(0);
+                    columns.Add().DataField("AirportName");
+                    columns.Add().DataField("CityName");
+                    columns.Add().DataField("CountryName");
+                })
+                .HoverStateEnabled(true)
+                .Paging(p => p.PageSize(10))
+                .FilterRow(f => f.Visible(true))
+                .Scrolling(s => s.Mode(GridScrollingMode.Infinite))
+                .Height(345)
+                .Width(380)
+                .Selection(s => s.Mode(SelectionMode.Single))
+                //.SelectedRowKeys(new JS(@"[component.option(""key"")]"))
+                .SelectedRowKeys(Model.AirportChoose)
+                .OnSelectionChanged(@<text>
+                        function(selectedItems) {
+                            var keys = selectedItems.selectedRowKeys;
+                            component.option("value", keys);
+
+                          }
+                    </text>)
+                )
+                                }
+
+
+                            </div><br />
+                                  <div class="row">
+                                      &ensp;&ensp; Date:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;@Html.TextBoxFor(model => model.Date,
+new { placeholder = "dd/mm/yyyy", id = "datepicker", style = "width:380px;" })
+                                      @*<input data-date-format="dd/mm/yyyy" id="datepicker">*@
+
+                                  </div>
+                            <br />
+                            <div class="row">
+                                &ensp;&ensp; Route Type:&ensp;
+                                @Html.DropDownListFor(model => model.SelectedRouting, new SelectList((IEnumerable<SelectListItem>)ViewBag.List, "Value", "Text"), new { @class = "dropdown" , style = "width:380px;" })
+          
+                            </div><br />
+                            <div class="row">&ensp;&ensp; Key Search:&ensp;@Html.TextBoxFor(model => model.Key,new { style = "width:380px;" })@*<input type="text" id="key" />*@</div><br />
+                            <div class="row">
+                                &ensp;&ensp; Time Zone:&ensp;&ensp;
+                                <input type="checkbox" name="check" value="HAN" checked onclick="onlyOne(this)"> &ensp;&ensp;HAN&ensp;&ensp;
+                                <input type="checkbox" name="check" value="UTC" onclick="onlyOne(this)">&ensp;&ensp;UTC&ensp;&ensp;
+                                <input type="checkbox" name="check" value="LOCAL" onclick="onlyOne(this)">&ensp;&ensp;LOCAL&ensp;&ensp;
+
+                                @Html.HiddenFor(model => model.TimeZone, new { @id = "TimeZone" })
+                            </div><br />
+                                  <div class="row">&ensp;&ensp;View Type:&ensp;&ensp;@Html.TextBoxFor(model => model.ViewType, new { style = "width:380px;" })@*<input type="text" id="viewtype" />*@</div><br />
+                            <div class="row">&ensp;&ensp;@Html.CheckBoxFor(model => model.AutoHide)@*<input type="checkbox" name="checkbox">*@ &ensp;&ensp;Auto Hide&ensp;&ensp;</div>
+                            <input type="submit" id="filter" value="OK" class="btn btn-primary" style="float:right" />
+
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" id="error" value="@Model.ErrorMessage" />
+
+       <!-- bootstrap -->
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+    /*Format datepicker bootstrap*/
+
+    $('#datepicker').datepicker({
+        weekStart: 1,
+        daysOfWeekHighlighted: "6,0",
+        autoclose: true,
+        todayHighlight: true,
+        format: 'dd/mm/yyyy'
+       
+
+    });
+
+   
+     
+    $('#datepicker').datepicker("setDate", new Date());
+
+    function onlyOne(checkbox) {
+        var checkboxes = document.getElementsByName('check')
+        checkboxes.forEach((item) => {
+            if (item !== checkbox) item.checked = false
+        })
+        //Bind value timezone checked
+        $.each($("input[name='check']:checked"), function () {
+            $('#TimeZone').val($(this).val());
+
+        });
+
+    }
+
+
+
+
+    function gridBox_valueChanged(e) {
+        let element = document.getElementById("embedded-datagrid");
+        let instance = DevExpress.ui.dxAccordion.getInstance(element);
+        if (element.length) {
+            var dataGrid = element.dxDataGrid(instance);
+            dataGrid.selectRows(e.value, false);
+
+        }
+    }
+
+    function gridBox_displayExpr(item) {
+        return item && item.Airport;
+
+    }
+
+    $(function () {
+        if ($("#error").val() !== "") {
+            alertify.alert($("#error").val());
+
+        }
+    
+    })
+
+
+
+
+
+</script>
+
+
+

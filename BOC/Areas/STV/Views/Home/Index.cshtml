@@ -1,0 +1,142 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+@using BOC.Models;
+@using BOC.Controllers;
+@model LoungeModel;
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>AirPort Page</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="~/css/jquery.dataTables.min.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <div style="margin-top:10px;padding-left:5px;font-size: x-large;color: #005393;font-family:Tahoma;text-align:center;">AIRPORT LIST</div>
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        <table class="table table-bordered" id="tableData" style="font-family:Tahoma;">
+            <thead style="background-color: #64B053;color: white">
+                <tr>
+                    <th>ID</th>
+                    <th>AirportName</th>
+                    <th>CityName</th>
+                    <th>CountryName</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    var i = 1;
+                    @foreach (var item in @Model.ListAirport)
+                    {
+
+                        <tr class="airportlstindex">
+                            <th scope="row"> @i</th>
+                            <td class="airport">
+                                @*<a class="airportlst" href="#" data-seq="@Html.Raw(item.Airport)">@item.AirportName.ToString()</a>*@
+                                @item.AirportName.ToString()
+                                <button type="button" class="btn btn-primary BL"  data-seq="@Html.Raw(item.Airport)">BL</button>
+                                <button type="button" class="btn btn-primary FLC"  data-seq="@Html.Raw(item.Airport)">FLC</button>
+                            </td>
+                            <td class="cityname">
+                                @Html.DisplayFor(modelItem => item.CityName)
+                                <input type="hidden" id="city" value="@item.CityName" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CountryName)
+                            </td>
+                        </tr>
+                        i = i + 1;
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+                var getHomeAction = "@Url.Action("Index","Home")";
+                if (getHomeAction == "/")
+                    getHomeAction = "";
+                var _subFolder = getHomeAction;
+</script>
+<script>
+    $(function () {
+        //Search
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableData tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+
+
+        $(".BL").click(function (e) {
+            //e.preventDefault();           
+            var airport = $(this).attr("data-seq");
+            var trparent = $(this).closest("tr.airportlstindex").first();
+            var city = trparent.find("td.cityname").text();
+
+            $.ajax({
+                type: "POST",
+                url: _subFolder + "/FlightView/BL",
+                data: { airport: airport, city: city },
+                cache: false,
+                success: function (data) {
+                    window.location = _subFolder+ "/FlightView/BL";
+                },
+                error: function (data) {
+                    alertify.warning(data.mess);
+                    return false;
+                }
+            });
+        });
+
+        $(".FLC").click(function (e) {
+           // e.preventDefault();
+            var airport = $(this).attr("data-seq");
+            var trparent = $(this).closest("tr.airportlstindex").first();
+            var city = trparent.find("td.cityname").text();
+
+            $.ajax({
+                type: "POST",
+                url: _subFolder + "/FlightView/FLC",
+                data: { airport: airport, city: city },
+                cache: false,
+                success: function (data) {
+                    window.location = _subFolder + "/FlightView/FLC";
+                },
+                error: function (data) {
+                    alertify.warning(data.mess);
+                    return false;
+                }
+            });
+        });
+
+
+
+    })
+
+
+</script>
+

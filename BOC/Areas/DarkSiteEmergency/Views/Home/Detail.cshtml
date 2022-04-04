@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_News.cshtml";
+}
+@if(Model[0]!=null)
+@foreach (var item in Model[0])
+{
+    @if (item.DaskSiteID == ViewBag.DaskSiteID)
+    {
+    <p>@Html.Raw(item.Html_Data)</p>
+    }
+}

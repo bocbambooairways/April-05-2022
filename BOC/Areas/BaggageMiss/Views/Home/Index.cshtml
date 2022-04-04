@@ -1,0 +1,211 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using BOC.Areas.Baggage.Models;
+@using BOC.Areas.Baggage.Controllers;
+@model CheckModel;
+
+@{
+
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+   
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="author" content="NhatNguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Baggage Miss</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css">
+     <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @if (select == "EN")
+    {
+        <script src="~/lib/alertify/js/alertify.js"></script>
+
+    }
+    else
+    {
+        <script src="~/lib/alertify/js/alertify - VN.js"></script>
+
+    }
+</head>
+<body class="my-login-page">
+    <section class="h-100" style="margin-top:50px;">
+        <div class="container h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-5"><img src="/images/logo.png" style="width:184px;height:45px;" alt="logo"></div>
+                                <div class="col-sm-9" style="float:right">
+                                    <a href="#" id="vn"><img src="/images/vn.png" width="24" height="30" /></a>
+                                    <a href="#" id="en"><img src="/images/en.png" width="20" height="20" /></a>
+                                </div>
+                                <div class="col-sm-12"><h4 id="texthead" class="card-title" style="text-align:center;color:#00548E;font-family:sans-serif;padding-top:40px;"></h4></div>
+                            </div>
+
+                            <div>
+                                <form method="post" enctype="multipart/form-data" class="my-login-validation" novalidate="" asp-controller="Home" asp-action="Login">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        @if (select == "EN")
+                                        {
+                                            <label for="pnr">PNR</label>
+                                            @Html.TextBoxFor(model => model.PNR, new { @class = "form-control", id = "PNR", placeholder = "Input Your PNR" })
+                                        }
+                                        else
+                                        {
+                                            <label for="pnr">Mã Đặt Chỗ</label>
+                                            @Html.TextBoxFor(model => model.PNR, new { @class = "form-control", id = "PNR", placeholder = "Vui lòng nhập mã đặt chỗ của bạn" })
+                                        }
+
+                                    </div>
+                                    <div class="form-group">
+                                        @if (select == "EN")
+                                        {
+                                            <label for="fltno">FltNo</label>
+                                            @Html.TextBoxFor(model => model.FltNo, new { @class = "form-control", id = "FltNo", placeholder = "Input Your Flight No" })
+
+                                        }
+                                        else
+                                        {
+                                            <label for="fltno">Số Hiệu Chuyến Bay</label>
+                                            @Html.TextBoxFor(model => model.FltNo, new { @class = "form-control", id = "FltNo", placeholder = "Vui lòng nhập số hiệu chuyến bay." })
+
+                                        }
+                                    </div>
+
+                                    <div class="form-group m-0">
+                                        @Html.HiddenFor(model => model.WidthOfDevice, new { @id = "widthofdevice" })
+                                        @Html.HiddenFor(model => model.TypeOfDevice, new { @id = "typeofdevice" })
+                                        @if (select == "EN")
+                                        {
+                                            <button type="submit" id="check" class="btn btn-primary btn-block">
+                                                Login
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" id="check" class="btn btn-primary btn-block">
+                                                Đăng nhập
+                                            </button>
+                                        }
+                                    </div>
+                                    @Html.HiddenFor(model => model.token, new { @id = "token" })
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        @if (select == "EN")
+                        {
+                            <div>Copyright & copy; @DateTime.Now.Year  &mdash; Bamboo Airways</div>
+                        }
+                        else
+                        {
+                            <div>Bản quyền &copy; @DateTime.Now.Year  &mdash; Bamboo Airways</div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <input type="hidden" id="result" value="@Model.Result" />
+
+    <input type="hidden" id="error" value="@Model.ErrorMessage" />
+
+    <input type="hidden" id="langselect" value="@select" />
+
+    <script>
+        $(function () {
+            var lang = $("#langselect").val() == null ? "VN" : $("#langselect").val();
+            var x = localStorage.getItem("Token");
+            //$("#token").val(localStorage.getItem("Token"));
+            var width = getscreenresolution();
+
+            if ($("#error").val() !== "") {
+                if ($("#error").val() == "Data entered cannot be left blank." && lang == "VN") {
+
+                    alertify.alert("Dữ liệu nhập không được bỏ trống.");
+                }
+                if ($("#error").val() == "Data entered cannot be left blank." && lang == "EN"){
+                    alertify.alert($("#error").val());
+                }
+
+                if ($("#error").val() == 'Not found ' && lang == "VN") {
+                    alertify.alert("Không tìm thấy.");
+                }
+                if ($("#error").val() == 'Not found ' && lang == "EN") {
+                    alertify.alert($("#error").val());
+                }
+
+
+            }
+            if ($("#result").val() !== "") {
+                $('#password').val("");
+
+            }
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // true for mobile device
+                $("#typeofdevice").val("MOBILE");
+                $("#widthofdevice").val(width.toString());
+                if (lang == "VN" || lang == "") {
+                    document.getElementById("texthead").innerHTML = "Khai báo hành lý bỏ quên.";
+                }
+                else {
+                    document.getElementById("texthead").innerHTML = "Left-behind article declaration.";
+                }
+
+
+            } else {
+                
+                // false for not mobile device
+                $("#typeofdevice").val("NONE");
+                $("#widthfdevice").val(width.toString());
+                if (lang == "VN" || lang == "") {
+                    document.getElementById("texthead").innerHTML = "Khai báo hành lý bỏ quên";
+                }
+                else {
+                    document.getElementById("texthead").innerHTML = "Left-behind article declaration";
+                }
+
+            }
+
+            $("a#vn").bind('touchstart click', function () {
+                window.location.href = _subFolder + "/Home/SetLang?id=VN";
+            });
+            $("a#en").bind(' touchstart click', function () {
+                window.location.href = _subFolder + "/Home/SetLang?id=EN";
+            });
+        })
+    </script>
+    <script>
+                var getHomeAction = "@Url.Action("Index","Home")";
+                if (getHomeAction == "/")
+                    getHomeAction = "";
+                var _subFolder = getHomeAction;
+    </script>
+    <script>
+        /*Lấy kích thước chiều rộng màn hình*/
+        function getscreenresolution() {
+            return screen.width;
+        }
+    </script>
+    }
+    @*<script>
+            function getToken() {
+                var x = localStorage.getItem("Token");
+                document.getElementById("token").val() = x;
+
+            }
+        </script>*@
+
+</body>
+</html>

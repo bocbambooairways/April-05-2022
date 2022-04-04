@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewData["Title"] = "FlightDoc";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+
+@using BOC.Models;
+@model List<FlightDoc>;
+
+<style>
+    #box {
+        background-color: #006BB8;
+        width: 100%;
+        border-radius: 25px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    #div1 {
+        height: 30px;
+        width: 20%;
+        float: left;
+        color: #333;
+        font-family: Tahoma;
+    }
+
+    #div2 {
+        height: 30px;
+        width: 30%;
+        border: solid 1px #acd9f5;
+        float: left;
+        margin-bottom: 5px;
+        color: #333;
+        font-family: Tahoma;
+    }
+   
+
+    #div1, #div2 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .inline {
+        display: inline-block;
+        margin: 2px;
+    }
+  
+</style>
+<script>
+    $(function () {
+        document.getElementById("doc").innerHTML = "No electricity!";
+    });
+</script>
+<div class="container" style="padding-top:60px;">
+    @if (Model == null)
+    {
+        <p id="doc"></p>
+    }
+    else
+    {
+         foreach (var item in Model)
+    {
+        if (@item.OddEvent == 0)
+        {
+    <div style="background-color:#f4fab5">
+        <div class="row">
+            <div class="col">
+                <b>Airport:</b>@item.Airport.ToString()
+            </div>
+            <div class="col">
+                <b>Doctype/RouteType:</b>@item.DocumentType.ToString()/@item.RouteType.ToString()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b>User:</b>@item.UserUpdate.ToString()
+            </div>
+            <div class="col">
+                <b>Last Update:</b>@item.RecDate.ToString()
+            </div>
+        </div>
+        <div class="row">
+            <div style="height:auto;width:100%!important;margin:15px;">
+                <b>Content:</b><br />
+                <span style="white-space: pre-line">@item.Content.ToString()</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b>FileName:</b>@item.FileName.ToString()
+            </div>
+
+        </div>
+    </div>
+        }
+        else
+        {
+            <div style="background-color:#c4defb;">
+                <div class="row">
+                    <div class="col">
+                        <b>Airport:</b>@item.Airport.ToString()
+                    </div>
+                    <div class="col">
+                        <b>Doctype/RouteType:</b>@item.DocumentType.ToString()/@item.RouteType.ToString()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b>User:</b>@item.UserUpdate.ToString()
+                    </div>
+                    <div class="col">
+                        <b>Last Update:</b>@item.RecDate.ToString()
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="height:auto;width:100%!important;margin:15px;">
+                    <b>Content:</b><br />
+                    <span style="white-space: pre-line">@item.Content.ToString()</span></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b>FileName:</b>@item.FileName.ToString()
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+
+    }
+    }
+
+</div>
+

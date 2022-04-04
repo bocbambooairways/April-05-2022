@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+@using BOC.Areas.E_Library.Models
+@using DevExtreme.AspNet.Mvc
+@model IEnumerable<Doc_Folder_Get>
+ <style>
+ .dx-scrollable {
+   width: 100%
+    
+}
+.dx-button-content{
+    background-color:green;
+    border-radius:8px!important;
+    background-image: linear-gradient(green,darkgreen)!important;
+}
+.dx-button-text{
+    color:white;
+}
+.dx-button-content:hover{
+    background-color:darkgreen;
+    background-image: linear-gradient(green,#66FF66)!important;
+}
+
+.dx-header-row{
+        background-color:lightgreen;color:darkgreen
+    }
+
+</style>
+
+<div style="width:90%;margin:auto;margin-top:40px;margin-bottom:40px;background-color:lightgray">
+@(Html.DevExtreme().TreeList<Doc_Folder_Get>()
+    .ID("employees")
+    .DataSource(Model)
+    .KeyExpr("ID")
+    .ParentIdExpr("HeadID")
+    .FilterRow(filterRow => filterRow.Visible(true)).ShowBorders(true)
+    .Selection(s => s.Mode(SelectionMode.Single)).Paging(m=>m.PageSize(5)).Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+    .Columns(column => {
+    column.AddFor(m => m.Name).Alignment(HorizontalAlignment.Left).Width("400px").HeaderCellTemplate(@<text>
+                <div><b style="margin-left:205px">Tên</b></div><div style="margin-left:200px"> Name</div>
+            </text>).CellTemplate(@<text>
+                <img src="/images/folder-icon.jpg" width="20" height="20">
+                <span class="name"><%-data.Name%></span>
+            </text>);
+    
+    column.AddFor(m => m.Description).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div style=""><b>Mô tả</b></div><div> Description</div>
+            </text>);
+    column.AddFor(m => m.InputDivision).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Đơn vị nhập liệu</b></div><div> Input Division</div>
+            </text>);
+     column.AddFor(m => m.Action).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Thao tác</b></div><div> Action</div>
+            </text>).CellTemplate( @<text>
+        @(Html.DevExtreme().Button()
+                
+                .Text("Mở / Open")
+                .OnClick("function () { onItemClick(data); }")
+        )
+    </text>);
+       
+    })
+)
+</div>
+
+ <script>
+
+     function onItemClick(data) {
+    window.location.href = "/E-Library/Search/GetSearchFolder?ID="+ Math.random(1) + "8c11dbe0884a34c2a631f25c7b872e65a2ec2bb4adcb7df9af0678ba03cec69fb669586ax" + data.ID
+}
+           function _OnCellClick(selectedItems) {
+            var data = selectedItems.selectedRowsData[0];
+            alert(data.Description)
+            }
+            function getOrderDay(rowData) {
+            return (new Date(rowData.OrderDate)).getDay();
+            }
+            function selection_changed(selectedItems) {
+           var data = selectedItems.selectedRowsData[0];
+            alert(data.Description)
+           if(data) {
+           
+        }
+    }
+
+        </script>

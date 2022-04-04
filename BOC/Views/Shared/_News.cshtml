@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DarkSite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" type="image/x-icon" href="~/images/favicon.ico">
+</head>
+<body>
+    <div class="container" style="position: relative">
+        <img src="~/images/LogoBamBoo.png" height="60" width="200" class="LogoBamboo" />
+        <img src="~/images/RoundLogo.png" width="40" height="40" class="RoundLogo" />
+        @if (@HttpContextAccessor.HttpContext.Session.GetString("action") == "Detail")
+        {
+            <a href="/DarkSiteEmergency/Home/@ViewBag.Action?lang=EN&DaskSiteID=@ViewBag.DaskSiteID" class="en">EN</a>
+            <a href="/DarkSiteEmergency/Home/@ViewBag.Action?lang=VN&DaskSiteID=@ViewBag.DaskSiteID" class="vn">VN</a>
+
+        }
+        else
+        {
+            <a href="/DarkSiteEmergency/Home/@ViewBag.Action?lang=EN" class="en">EN</a>
+            <a href="/DarkSiteEmergency/Home/@ViewBag.Action?lang=VN" class="vn">VN</a>
+
+        }
+    </div>
+    <header>
+        <nav class="navbar1 navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color: #828282 !important">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li id="lindex" class="nav-item">
+                            <a class="nav-link text-white tablinks" asp-area="DarkSiteEmergency" asp-controller="Home" asp-action="Index">@ViewBag.Main</a>
+                        </li>
+                        <li id="linews" class="nav-item" style="background-color: black">
+                            <a class="nav-link text-white" asp-area="DarkSiteEmergency" asp-controller="Home" asp-action="News">@ViewBag.News</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="container" style="position: relative; border-top: 2px solid #e2e1e1;">
+            <div class="row">
+                <div class="col-md-8" style="padding:20px 40px">
+
+
+                    @if (Model != null)
+                        @foreach (var item in Model[1])
+                        {
+                            if (item != null)
+                                @Html.Raw(item.Html_Data)
+                            }
+
+                </div>
+
+                <div class="col-md-4">
+                    <img src="~/images/footer1.png" width="300" class="LogoFooter" style=" height:90%" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 BottomFooter">
+                    <p>@Html.Raw("@ 2018 Bamboo Airways Copyright. All Rights Reserved.")</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

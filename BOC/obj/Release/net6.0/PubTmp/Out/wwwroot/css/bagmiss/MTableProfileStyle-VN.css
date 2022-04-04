@@ -1,0 +1,115 @@
+﻿@media only screen and (max-device-width: 480px), only screen and (min-device-width: 560px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2) {
+    body {
+        background-color: rgb(235, 243, 248);
+    }
+
+    page {
+        background: white;
+        display: block;
+        margin: 10px auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+
+        page[size="A4"] {
+            width: 30cm;
+            height: auto;
+        }
+
+            page[size="A4"][layout="portrait"] {
+                width: 29.7cm;
+                height: auto;
+            }
+
+    
+    .container {
+        flex-direction: column;
+    }
+
+    #texthead {
+        color: #00548E;
+        font-family: sans-serif;
+        word-wrap: break-word;
+        margin-left: 10px;
+        margin-top: 10px;
+        flex-grow: 2;
+    }
+
+    .info {
+        display: table-cell;
+        width: 160px;
+        color: #00548E;
+        margin-left: 42px;
+        /*! vertical-align: middle; */
+        flex-grow: 1;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    /* iPhone only */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+      
+      
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        margin-left: 150px;
+        word-wrap: break-word;
+    }
+
+
+        td:before {
+            position: absolute;
+            top: 12px;
+            left: 6px;
+            width: 200px;
+            padding-right: 40px;
+            white-space: nowrap;
+            margin-left: -150px;
+        }
+
+        td:nth-of-type(1):before {
+            content: "";
+        }
+
+        td:nth-of-type(2):before {
+            content: "STT";
+        }
+
+        td:nth-of-type(3):before {
+            content: "Mã Hồ Sơ";
+        }
+
+        td:nth-of-type(4):before {
+            content: "Họ Tên";
+        }
+
+        td:nth-of-type(5):before {
+            content: "Địa Chỉ";
+        }
+
+        td:nth-of-type(6):before {
+            content: "Email";
+        }
+
+        td:nth-of-type(7):before {
+            content: "SĐT";
+        }
+}
+
+
+
+
+
+
+   

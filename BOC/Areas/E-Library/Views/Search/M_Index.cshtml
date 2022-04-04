@@ -1,0 +1,187 @@
+﻿@using DevExtreme.AspNet.Mvc
+@model BOC.Areas.E_Library.Models.Search;
+
+@{
+    ViewData["Title"] = "M_SearchResult";
+   Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+<style>
+    .dx-scrollable {
+    width: 100%
+    
+}
+.btn_search{
+    float:right;
+    background-color:#4682B4;
+    border-radius:10px;
+    padding:10px
+}
+.M_ClearFix{
+    overflow:hidden
+
+}
+</style>
+@using (Html.BeginForm("M_SearchResult", "Search", FormMethod.Post)) {
+
+<h5 style="text-align:center;color:red;margin-top:100px">Tìm kiếm tài liệu / Document search area </h5>
+
+<div style="width:80%;margin:auto;background-color:white;margin-top:5px" class="M_ClearFix">
+
+<p style="margin-top:6px">Từ khóa / Key search</p>
+<input type="text" name="KeySearch" class="form-control" placeholder ="Nhập từ khóa / Typing Key search" />
+
+<p style="margin-top:20px">Ngày phát hành / Issuing date</p>
+@(Html.DevExtreme().DateBoxFor(m=>m.ReceivedDate)
+                .Type(DateBoxType.Date)
+                .Value(string.Empty)
+            )
+<p style="margin-top:20px">Ngày xuất bản / Publish date</p>
+
+            @(Html.DevExtreme().DateBoxFor(m=>m.PublishDate)
+                .Type(DateBoxType.Date)
+                .Value(string.Empty)
+            )
+
+<p style="margin-top:20px">ISBN</p>
+<input type="text" name="isdn" class="form-control" placeholder ="Nhập ISBN / Typing ISBN" />
+
+<p style="margin-top:20px">Tác giả / Author</p>
+<input type="text" name="Author" class="form-control" placeholder ="Nhập tác giả / Typing Author" />
+
+<p style="margin-top:20px">Đơn vị nhập liệu / Input division</p>
+ 
+  @(Html.DevExtreme().DropDownBoxFor(m=>m.DocDivID)
+                
+                .ValueExpr("DocDivID")
+                .DisplayExpr(new JS("gridBox_displayExpr"))
+                .DataSource(d => d.Mvc()
+                    .Controller("Search")
+                    .LoadAction("Get")
+                    .LoadMode(DataSourceLoadMode.Raw)
+                    .Key("DocDivID")
+                )
+                .Placeholder("")
+                .ShowClearButton(true)
+                .OnValueChanged("gridBox_valueChanged")
+                .ContentTemplate(new TemplateName("EmbeddedDataGridSingle"))
+            )
+
+@using(Html.DevExtreme().NamedTemplate("EmbeddedDataGridSingle")) {
+    @(Html.DevExtreme().DataGrid()
+        .ID("embedded-datagrid")
+        .DataSource(new JS(@"component.getDataSource()"))
+        .Columns(columns => {
+           @* columns.Add().DataField("CompanyName");*@
+            columns.Add().DataField("DivisionCode");
+            columns.Add().DataField("DivisionName");
+        })
+        .HoverStateEnabled(true)
+        .Paging(p => p.PageSize(10))
+        .FilterRow(f => f.Visible(true))
+        .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
+        .Height(345)
+        .Selection(s => s.Mode(SelectionMode.Single))
+        .SelectedRowKeys(new JS(@"component.option(""value"") ? [component.option(""value"")] : []"))
+        .OnSelectionChanged(@<text>
+            function(selectedItems) {
+                var keys = selectedItems.selectedRowKeys;
+                component.option("value", keys);
+                component.close();
+            }
+        </text>)
+    )
+}
+<script>
+    function gridBox_valueChanged(e) {
+        var $dataGrid = $("#embedded-datagrid");
+
+        if ($dataGrid.length) {
+            var dataGrid = $dataGrid.dxDataGrid("instance");
+            dataGrid.selectRows(e.value, false);
+        }
+    }
+
+    function gridBox_displayExpr(item) {
+      return  item.DivisionName 
+        //return item && item.DivisionCode + " <" + item.DivisionName + ">";
+         //return item.DocDivID 
+    }
+</script>                
+
+
+<p style="margin-top:20px">Đơn vị phát hành / Issuing unit</p>
+ @(Html.DevExtreme().DropDownBoxFor(m=>m.PublishID)
+                .ValueExpr("PublishID")
+                .DisplayExpr(new JS("gridBox_displayExpr1"))
+                .DataSource(d => d.Mvc()
+                    .Controller("Search")
+                    .LoadAction("GetIssue")
+                    .LoadMode(DataSourceLoadMode.Raw)
+                    .Key("PublishID")
+                )
+                .Placeholder("")
+                .ShowClearButton(true)
+                .OnValueChanged("gridBox_valueChanged")
+                .ContentTemplate(new TemplateName("EmbeddedDataGridSingle1"))
+            )
+
+@using(Html.DevExtreme().NamedTemplate("EmbeddedDataGridSingle1")) {
+    @(Html.DevExtreme().DataGrid()
+        .ID("embedded-datagrid1")
+        .DataSource(new JS(@"component.getDataSource()"))
+        .Columns(columns => {
+           @* columns.Add().DataField("CompanyName");*@
+            columns.Add().DataField("PublishCode");
+            columns.Add().DataField("PublishName");
+        })
+        .HoverStateEnabled(true)
+        .Paging(p => p.PageSize(10))
+        .FilterRow(f => f.Visible(true))
+        .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
+        .Height(345)
+        .Selection(s => s.Mode(SelectionMode.Single))
+        .SelectedRowKeys(new JS(@"component.option(""value"") ? [component.option(""value"")] : []"))
+        .OnSelectionChanged(@<text>
+            function(selectedItems) {
+                var keys = selectedItems.selectedRowKeys;
+                component.option("value", keys);
+                component.close();
+            }
+        </text>)
+    )
+}
+<script>
+    function gridBox_valueChanged(e) {
+        var $dataGrid = $("#embedded-datagrid1");
+
+        if ($dataGrid.length) {
+            var dataGrid = $dataGrid.dxDataGrid("instance");
+            dataGrid.selectRows(e.value, false);
+
+        }
+    }
+
+    function gridBox_displayExpr1(item) {
+      return  item.PublishName 
+        //return item && item.DivisionCode + " <" + item.DivisionName + ">";
+         //return item.DocDivID 
+    }
+
+</script>
+
+<div class="form-check" style="margin-top:10px">
+  @Html.CheckBoxFor(m => m.CheckRead, new {@class="form-check-input",@checked = "checked"})
+  <label class="form-check-label" style="font-size:18px;margin-left:5px">Chưa đọc / Unread</label>
+</div>
+
+  <div class="form-check" style="margin-top:10px">
+  @Html.CheckBoxFor(m => m.CheckNews, new {@class="form-check-input" })
+  <label class="form-check-label" style="font-size:18px;margin-left:5px">Mới nhất (trong vòng 30 ngày gần đây) /
+
+Newest (from 30 days or earlier)</label>
+</div>
+<input type="submit"  value="Tìm Kiếm / Search" class="btn btn-primary btn_search"  style="margin-top:10px;margin-bottom:20px;padding:10px 20px;background-image: linear-gradient(green,darkgreen)!important"/>
+<input type="hidden" name="M_Page" value="M_Page">
+
+</div>
+}

@@ -1,0 +1,41 @@
+﻿@using DevExtreme.AspNet.Mvc
+@model IEnumerable<BOC.Areas.E_Library.Models.SearchResult>;
+@using BOC.Areas.E_Library.Models;
+@{
+    ViewData["Title"] = "M_SearchResult";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+<form style="margin-top:100px" action="/E-Library/Search/M_GetSearchFolder" method="post">
+@foreach(var item in Model)
+{
+<div style="width:90%;background-color:white;margin-left:auto;margin-right:auto;margin-top:20px;margin-bottom:20px">
+     <div style="width:100%;display:flex">
+     <div style="flex:2%">
+     <span style="color:darkgreen">@item.ID. </span>
+     </div>
+      <div style="flex:98%">
+    <h4 style="color:darkgreen"><a style="text-decoration:none" href="/E-Library/Search/M_DocumentList?DocProfileID=8c11dbe0884a34c2a631f25c7b872e65a2ec2bb4adcb7df9af0678ba03cec69fb669586ax @item.DocProfileID">@item.Subject</a></h4>
+    <p>@item.Description</p>
+    <div style="width:100%;display:flex;font-size:12px">
+     <div style="flex:70%">
+    <span>ISBN-Version:</span><span><b> @item.ISBN</b></span>
+     </div>
+     <div style="flex:30%">
+     <span>Input</span><span><b>@item.DivisionCode</b></span>
+     </div>
+     </div>
+
+     <div style="width:100%;display:flex;font-size:12px">
+     <div style="flex:70%">
+    <span>Last update</span><span><b> @item.LastUpdate</b></span>
+     </div>
+     <div style="flex:30%">
+     <span>Status</span><span><b> @item.ReadStatus</b></span>
+     </div>
+     </div>
+ </div>
+ </div>
+</div>
+}
+<input type="hidden" value=@ViewBag.ID name="ID" >
+</form>

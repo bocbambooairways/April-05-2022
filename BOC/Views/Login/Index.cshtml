@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+@using BOC.Models
+@using BOC.Controllers
+@model LoginModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login BOC</title>
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+</head>
+<body class="my-login-page">
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-5"><img src="/images/logo.png" style="width:184px;height:45px;" alt="logo"></div>
+                                <div class="col-sm-7"><h3 id="texthead" class="card-title" style="float:right;color:#00548E;font-family:sans-serif;padding-top:50px;"></h3></div>
+                            </div>
+
+                            <div>
+                                <form method="post" enctype="multipart/form-data" class="my-login-validation" novalidate="" asp-controller="Login" asp-action="Index">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label for="email">User name</label>
+                                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", id = "username", placeholder = "Input Your Account", })
+                                        <div class="invalid-feedback">
+                                            Email is invalid
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">
+                                            Password
+                                            <a href="/Forgot/Index" class="float-right" style="font-style:italic;">
+                                                Forgot Password?
+                                            </a>
+                                        </label>
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", id = "password", placeholder = "Input Your PassWord", type = "password" })
+                                        <div class="invalid-feedback">
+                                            Password is required
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-checkbox custom-control">
+                                            @Html.CheckBoxFor(model => model.Remember, new { @class = "custom-control-input", @id = "remember", @name = "remember", @checked = "checked" })
+                                            <label for="remember" class="custom-control-label">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-0">
+                                        @Html.HiddenFor(model => model.TypeOfDevice)
+                                        <button type="submit" id="login" class="btn btn-primary btn-block">
+                                            Login
+                                        </button>
+                                    </div>
+                                         <input type="hidden" id="DocProfileID" name="DocProfileID" value= "@ViewData["DocProfileID"]" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        Copyright &copy; 2018  &mdash; Bamboo Airways
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <input type="hidden" id="result" value="@Model.Result" />
+    <input type="hidden" id="error" value="@Model.ErrorMessage" />
+    <script src="/js/my-login.js"></script>
+    <script src="/lib/DetectDevice.js"></script>
+    
+</body>
+</html>

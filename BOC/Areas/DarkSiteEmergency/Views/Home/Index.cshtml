@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutDarkSite.cshtml";
+}
+
+    <div class="row" style="margin-top:-10px">
+        <div class="col-md-8 LeftSide">
+            @if (Model[0] != null)
+            @foreach (var item in Model[0])
+            {
+            <p style="margin:10px">
+                @Html.Raw(item.Html_Data)
+            </p>
+            }
+        </div>
+        <div class="col-md-4 RightSide">
+            @if (Model[2] != null)
+            @foreach (var item in Model[2])
+            {
+            <p>
+                @Html.Raw(item.Html_Data)
+            </p>
+            }
+        </div>
+    </div>
+
+   

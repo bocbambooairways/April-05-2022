@@ -1,0 +1,182 @@
+﻿@{
+
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+    var device = @HttpContextAccessor.HttpContext.Session.GetString("TypeOfDevice");
+
+
+}
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baggage Miss</title>
+    <!-- Jquey -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+     @*Bootstrap*@ 
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    @if (select == "EN")
+    {
+        <script src="~/lib/alertify/js/alertify.js"></script>
+
+    }
+    else
+    {
+        <script src="~/lib/alertify/js/alertify - VN.js"></script>
+
+    }
+
+    <link rel="stylesheet" href="~/css/bootstrap_BM.min.css" />
+    <link href="~/css/bagmiss/TableProfileStyle.css" rel="stylesheet" />
+    <!-- Alertify -->
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <!-- DevExtreme themes -->
+    <link rel="stylesheet" href="/css/devextreme/dx.common.css">
+    <link rel="stylesheet" href="/css/devextreme/dx.light.css">
+    <!-- DevExtreme library -->
+    <script type="text/javascript" src="/js/devextreme/dx.all.js"></script>
+    
+    @if (device == "NONE")
+    {
+         <link rel="stylesheet" href="/css/bagmiss/style4baggagemiss.css">
+    }
+<style>
+    body {
+        /* background-color: rgb(128, 255, 128);*/
+        background-color: rgb(235, 243, 248);
+    }
+
+
+    page {
+        background: white;
+        display: block;
+        margin: 10px auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+
+
+        page[size="A4"] {
+               width: 30cm;
+            /*height: 29.7cm;*/
+            height: 35cm;
+        }
+    #back2Top {
+        width: 40px;
+        line-height: 40px;
+        overflow: hidden;
+        z-index: 999;
+        display: none;
+        cursor: pointer;
+        -moz-transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        transform: rotate(270deg);
+        position: fixed;
+        bottom: 50px;
+        right: 0;
+        background-color: #DDD;
+        color: #555;
+        text-align: center;
+        font-size: 30px;
+        text-decoration: none;
+    }
+
+        #back2Top:hover {
+            background-color: #DDF;
+            color: #000;
+        }
+
+</style>
+
+</head>
+
+<body>
+
+    <article>
+        <section>
+            <page size="A4">
+                <br>
+                @RenderBody()
+            </page>
+        </section>
+    </article>
+    <!-- footer content -->
+    <footer>
+        <div class="pull-right" style="text-align: center;color: #00548E;">
+            @if (select == "EN")
+            {
+                <div>All rights & Copyrights reserved by Bamboo Airways</div>
+            }
+            else
+            {
+                <div>Bản quyền &copy; Bamboo Airways</div>
+            }
+        </div>
+
+        <div class="clearfix"></div>
+        <script>
+                var getHomeAction = "@Url.Action("Index","Home")";
+                if (getHomeAction == "/")
+                    getHomeAction = "";
+                var _subFolder =  getHomeAction;
+        </script>
+    </footer>
+    <!-- /footer content -->
+    <a id="back2Top" title="Back to top" href="#">&#10148;</a>
+
+
+    <script>
+        $(document).ready(function () {
+            //Back to top when user scroll
+            $(window).scroll(function () {
+                if ($(this).scrollTop()) {
+                    $('#back2Top').fadeIn();
+                } else {
+                    $('#back2Top').fadeOut();
+                }
+            });
+
+            $("#back2Top").click(function () {
+                //1 second of animation time
+                //html works for FFX but not Chrome
+                //body works for Chrome but not FFX
+                //This strange selector seems to work universally
+                $("html, body").animate({ scrollTop: 0 }, 1000);
+            });
+           
+        });
+    </script>
+    @*<script>
+     
+            // When the user scrolls the page, execute myFunction
+        window.onscroll = function () { myFunction() };
+
+            // Get the header
+        var header = document.getElementById("tableProfile");
+
+            // Get the offset position of the navbar
+            var sticky = header.offsetTop;
+
+            // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+            function myFunction() {
+                if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+                } else {
+                header.classList.remove("sticky");
+                }
+            }
+
+    </script>*@
+
+
+    @*@RenderSection("Scripts", required: false)*@
+</body>
+</html>
+
+

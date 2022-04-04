@@ -1,0 +1,128 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Emergency
+build_property.RootNamespace = Emergency
+build_property.ProjectDir = C:\Users\DELL\OneDrive - Bamboo Airways\Documents\Emergency\Emergency\Emergency\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\DELL\OneDrive - Bamboo Airways\Documents\Emergency\Emergency\Emergency
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/ClosingPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxDbG9zaW5nUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxlcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Home/News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxOZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/DarkSiteEmergency/Views/Scheduler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcU2NoZWR1bGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/MeetingRoom/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWVldGluZ1Jvb21cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/MeetingRoom/Views/Home/SignIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWVldGluZ1Jvb21cVmlld3NcSG9tZVxTaWduSW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Areas/MeetingRoom/Views/Scheduler/MeetingRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWVldGluZ1Jvb21cVmlld3NcU2NoZWR1bGVyXE1lZXRpbmdSb29tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_AddRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZGRSb29tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_ConfirmRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db25maXJtUm9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_ContentConfirmAlert.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db250ZW50Q29uZmlybUFsZXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_ContentConfirmRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db250ZW50Q29uZmlybVJvb20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_DateCellTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EYXRlQ2VsbFRlbXBsYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_DevExtremeLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZXZFeHRyZW1lTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_EditRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FZGl0Um9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_Layout1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQxLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_modal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9tb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_User.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Vc2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/OneDrive - Bamboo Airways/Documents/Emergency/Emergency/Emergency/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+<style>
+    .dx-scrollable {
+    width:auto!important;
+}
+</style>
+
+
+<h1>FLIGHT DATE: @ViewData["Date"].ToString()</h1>
+
+@(Html.DevExtreme().DataGrid<BOC.Models.Flight>()
+.ID("Container")
+.DataSource(
+    ds => ds.Mvc()
+        .Controller("FlightDateApi")
+        .LoadAction("Get")
+        .LoadParams(new { TimeZone = @ViewData["TimeZone"], date = @ViewData["Date"], key = @ViewData["KeySsearch"], SelectedRouting = @ViewData["Int_Dom"], ViewType = @ViewData["ViewType"], AutoHide = @ViewData["AutoHide"] })
+)
+.RemoteOperations(true)
+.AllowColumnReordering(false)
+.AllowColumnResizing(false)
+.ColumnAutoWidth(true)
+.ColumnFixing(c => c.Enabled(true))
+.Columns(columns => {
+
+
+columns.AddFor(m => m.ID).Width(50).Fixed(true);
+
+@*columns.AddFor(m => m.FlightID).Width(100);*@
+
+
+ //columns.AddFor(m => m.TimeKey).Width(0);
+
+columns.AddFor(m => m.Date).Width(100).Fixed(true);
+columns.AddFor(m => m.Date_Color).Width(0).Fixed(true);
+
+columns.AddFor(m => m.FltNo).Width(80).Fixed(true)
+.CellTemplate(@<text>
+             <a href="@Url.Action("FlightOne", "FlightDate")?FlightId=<%- data.FlightID %>"><span style="color:#0204fd;font-weight:bold;"><%-value%></span></a>
+        </text>);
+columns.AddFor(m => m.FltNo_Color).Width(0);
+
+columns.AddFor(m => m.RegisterNo);
+columns.AddFor(m => m.RegisterNo_Color).Width(0);
+
+columns.AddFor(m => m.Aircraft);
+columns.AddFor(m => m.Aircraft_Color).Width(0);
+
+columns.AddFor(m => m.Route);
+columns.AddFor(m => m.Route_Color).Width(0);
+
+columns.AddFor(m => m.DateTime_ATA);
+columns.AddFor(m => m.DateTime_ATA_Color).Width(0);
+
+columns.Add()
+.Caption("STD/ETD")
+.Width(100)
+.CalculateCellValue(@<text>
+                function(data) {
+                    return [
+                        data.STD, data.ETD]
+                        .join("/");
+                }
+            </text>);
+
+columns.AddFor(m => m.BDT);
+columns.AddFor(m => m.BDT_Color).Width(0);
+
+columns.AddFor(m => m.DoorClose);
+columns.AddFor(m => m.DoorClose_Color).Width(0);
+
+columns.AddFor(m => m.TOff);
+columns.AddFor(m => m.TOff_Color).Width(0);
+
+columns.Add()
+.Caption("STA/ETA")
+.Width(100)
+.CalculateCellValue(@<text>
+                function(data) {
+                    return [
+                        data.STA, data.ETA]
+                        .join("/");
+                }
+            </text>);
+
+    columns.AddFor(m => m.TDown);
+    columns.AddFor(m => m.TDown_Color).Width(0);
+
+    columns.AddFor(m => m.ATD);
+    columns.AddFor(m => m.ATD_Color).Width(0);
+
+
+    columns.AddFor(m => m.ATA);
+    columns.AddFor(m => m.ATA_Color).Width(0);
+
+
+    columns.AddFor(m => m.Terminal);
+    columns.AddFor(m => m.Terminal_Color).Width(0);
+
+
+    columns.AddFor(m => m.Gate);
+    columns.AddFor(m => m.Gate_Color).Width(0);
+
+
+    columns.AddFor(m => m.Belt_Dep);
+
+    columns.AddFor(m => m.Belt_Dep_Color).Width(0);
+
+
+    columns.AddFor(m => m.Bay_Dep);
+    columns.AddFor(m => m.Bay_Dep_Color).Width(0);
+
+    columns.AddFor(m => m.Bay_Arr);
+    columns.AddFor(m => m.Bay_Arr_Color).Width(0);
+
+
+})
+    .Paging(p => p.PageSize(10))
+    .ShowBorders(true)
+    .ShowColumnLines(true)
+    //.OnCellPrepared("cell_prepared")
+    .ShowRowLines(true)
+    .WordWrapEnabled(true)
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(false))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .GroupPanel(z => z.AllowColumnDragging(false))
+    .Pager(pager =>
+    {
+        pager.ShowPageSizeSelector(true);
+        pager.AllowedPageSizes(new[] { 10, 20, 50 });
+        pager.ShowInfo(true);
+    })
+    .Summary(s => s.TotalItems(totalItems =>
+    {   totalItems.AddFor(m => m.FlightID).SummaryType(SummaryType.Count).ShowInColumn("FltNo").DisplayFormat("Flt: {0}");
+
+    })
+
+  )
+)
+
+
+
+
+
+

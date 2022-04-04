@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    var sessionName = new Byte[20];
+    bool nameOK = Context.Session.TryGetValue("Username", out sessionName);
+    var sessionToken = @HttpContextAccessor.HttpContext.Session.GetString("Token");
+
+
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Bamboo Web</title>
+  @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/css/bootstrap_BM.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+@*     <link rel="stylesheet" href="~/css/data.css" asp-append-version="true" />
+     <link rel="s" href="~/js/data.css" asp-append-version="true" />*@
+         <!-- bootstrap-daterangepicker -->
+    <link href="~/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+     <script src="~/js/devextreme/jquery.js"></script>
+     <script src="~/js/knockout-min.js"></script>
+           <!-- alertify -->
+    <link href="~/lib/alertify/css/alertify.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+   @* <script src="~/js/devextreme/dx.all.js"></script>*@
+  @*  <link rel="icon" type="image/x-icon" href="~/images/favicon.ico">*@
+      <!-- Dev Express -->
+    <script src="~/js/vendor.js" asp-append-version="true"></script>
+ <style>
+ body ,html{
+  font-family: "Lato", sans-serif;
+  margin:0px;padding:0px; 
+  background-color:white;
+}
+.dx-treeview-item:hover {
+        color: red
+}
+.cleartofix{
+    overflow:auto
+}
+
+ </style>
+  <script type="text/javascript">
+        function makeTableScroll() {
+            // Constant retrieved from server-side via JSP
+            var maxRows = 10;
+
+            var table = document.getElementById('tableBagHS');
+            if (table != null) {
+                var wrapper = table.parentNode;
+                var rowsInTable = table.rows.length;
+                var height = 0;
+                if (rowsInTable > maxRows) {
+                    for (var i = 0; i < maxRows; i++) {
+                        height += table.rows[i].clientHeight;
+                    }
+                    wrapper.style.height = height + "px";
+                }
+            }
+        }
+    </script>
+</head>
+<body >
+  <div id="mySidenav" class="sidenav">
+    <div style="background-color:white;padding-top:10px;padding-bottom:10px"  >
+     <img src="~/images/logo.png" height="auto" width="80%" style="display:block;margin:auto;cursor:pointer" id="logo" onclick="closeNav(event)"/>
+   </div>
+   <div class="demo-container">
+        <div id="treeview" data-bind="dxTreeView: treeViewOptions"  ></div>
+    </div>
+</div>
+<div class="Desktop_nav_horizontal cleartofix">
+  <span id="close" style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776;</span>
+   <a href="" style="float:right;margin-right:10px;margin-top:10px;color:white;text-decoration:none">@HttpContextAccessor.HttpContext.Session.GetString("Username")</a>                  
+ <img src="/images/user.png" width="40" height="40" style="float:right;margin-right:10px!important" onclick="logout(this)">
+ </div>
+ @RenderBody()
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "350px";
+  document.getElementById("treeview").style.display = "block";
+
+}
+function closeNav(event) {
+  var x = event.target;
+  if(x.id =="logo")
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("treeview").style.display = "none";
+}
+
+</script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/data.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+     <!-- bootstrap -->
+    <script src="~/js/bootstrap-datepicker.min.js"></script>
+   
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

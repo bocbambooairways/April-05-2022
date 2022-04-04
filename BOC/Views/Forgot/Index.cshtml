@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+
+@using BOC.Models
+@using BOC.Controllers
+
+@model LoginModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="nhatnguyen">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+</head>
+<body class="my-login-page">
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row justify-content-md-center align-items-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color:#00548E;">Forgot Password</h4>
+                            <form method="POST" enctype="multipart/form-data" class="my-login-validation" novalidate="" asp-controller="Forgot" asp-action="Index">
+                                <div class="form-group">
+                                    <label for="email">E-Mail Address</label>
+                                    @Html.TextBoxFor(model => model.YourEmail, new { @class = "form-control", id = "email", placeholder = "Input Your Email" })
+                                    <div class="invalid-feedback">
+                                        Email is invalid
+                                    </div>
+                                    <label for="email">EmployeeId</label>
+                                    @Html.TextBoxFor(model => model.EmployeeId, new { @class = "form-control", id = "employeeid", placeholder = "Input Your EmployeeId" })
+                                    <div class="form-text text-muted">
+                                        By clicking "Send Password" we will send your password through by email
+                                    </div>
+                                </div>
+                                <div class="form-group m-0">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        Send Password
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        Copyright &copy; @DateTime.Now.Year &mdash; Bamboo Airways
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <input type="hidden" id="error" value="@Model.ErrorMessage" />
+
+    <script src="/js/my-login.js"></script>
+
+        <script>
+
+            $(function () {
+                if ($("#error").val() !== "") {
+                    alertify.alert($("#error").val());
+
+                }
+            })
+
+
+        </script>
+
+</body>
+</html>

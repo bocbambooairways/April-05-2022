@@ -1,0 +1,176 @@
+﻿@{
+    Layout = null;
+}
+
+@using BOC.Models;
+@using BOC.Controllers;
+@model LoungeModel;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="NhatNguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Flight View FLC</title>
+    <link rel="stylesheet" type="text/css" href="~/css/lounge/mybootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="~/css/lounge/lounge.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+    <style>
+        #back2Top {
+            width: 40px;
+            line-height: 40px;
+            overflow: hidden;
+            z-index: 999;
+            display: none;
+            cursor: pointer;
+            -moz-transform: rotate(270deg);
+            -webkit-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            -ms-transform: rotate(270deg);
+            transform: rotate(270deg);
+            position: fixed;
+            bottom: 50px;
+            right: 0;
+            background-color: #DDD;
+            color: #555;
+            text-align: center;
+            font-size: 30px;
+            text-decoration: none;
+        }
+
+            #back2Top:hover {
+                background-color: #DDF;
+                color: #000;
+            }
+
+        .inline {
+            display: inline-block;
+            margin: 2px;
+        }
+        /* Create three unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+        }
+
+        .left {
+           /* width: 40%;*/
+            width:25%;
+            height: 100px;
+        }
+
+        .right {
+            /*width: 40%;*/
+            right:25%;
+            height: 100px;
+            float:right;
+        }
+
+        .middle {
+            /*width: 20%;*/
+            width:50%;
+            height: 100px;
+            text-align: center;
+            float: left;
+            clear: none;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: inline-grid;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container1">
+        <div class="header1">
+            <div class="" id="bg111">
+                <div class="column left">
+                    @*<div class='inline'><div><img src="~/images/header.png" class="header" style="margin-left:-15px;height:90px;" /></div></div>
+        <div class='inline'><div> <img src="~/images/logo.png" class="logo" /></div></div>*@
+                    @*<img src="~/images/header1.png" style="width:100%;height:100px;max-height:110%;margin-left:-25px;" />*@
+                    <img src="~/images/logo.png" class="logo" />
+                </div>
+                <div class="column middle" id="title">
+                    <p>QUẦY CHECKIN</p>
+                    <p style="margin-top:-28px;">CHECKIN COUNTER</p>
+                    @*<img src="~/images/title.PNG" style="width:100%;height:100px;max-height:100%;" />*@
+                    
+
+                </div>
+                @if (TempData["FlightLounge"] != null)
+                {
+                    <div class="column right" id="airport-list">
+                        <p style="font-size:16pt;font-weight:bold;float:right; white-space: nowrap;">@TempData["FlightLounge"].ToString(),@DateTime.Now.ToString("dd'/'MM'/'yyyy")</p>
+                        <p style="font-weight:bold;font-size:24pt;clear: both;float: right;">@DateTime.Now.ToString("HH:mm")</p>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div id="main">
+            <ul>
+                @foreach (var item in Model.ListFlightRoute)
+                {
+                    <li>
+                        <h1>@item.Info.ToString()</h1>
+
+                    </li>
+
+                }
+            </ul>
+        </div>
+        <div class="footer" id="footer">
+            <img src="~/images/footer.png" class="footerflight" />
+            <div class="centered" @*style="margin-top:-14px!important "*@><a href="https://www.bambooairways.com/" style="color:#ffffff;">www.bambooairways.com</a></div>
+        </div>
+    </div>
+    <script>
+                var getHomeAction = "@Url.Action("Index","Home")";
+                if (getHomeAction == "/")
+                    getHomeAction = "";
+                var _subFolder = getHomeAction;
+</script>
+<script>
+    $(function () {
+        CountTime();
+        //Back to top when user scroll
+        $(window).scroll(function () {
+            if ($(this).scrollTop()) {
+                $('#back2Top').fadeIn();
+            } else {
+                $('#back2Top').fadeOut();
+            }
+        });
+
+        $("#back2Top").click(function () {
+            //1 second of animation time
+            //html works for FFX but not Chrome
+            //body works for Chrome but not FFX
+            //This strange selector seems to work universally
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+
+    })
+
+
+    //Count Time And ReDirect Page
+    function CountTime() {
+        setTimeout(function () { window.location = _subFolder + "/FlightView/FLC"; }, 120000);
+
+    }
+
+</script>
+
+</body>
+</html>

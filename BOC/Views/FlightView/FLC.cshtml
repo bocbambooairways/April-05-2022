@@ -1,0 +1,248 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using BOC.Models;
+@using BOC.Controllers;
+@model LoungeModel;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="NhatNguyen">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Flight View Page</title>
+    <link rel="stylesheet" type="text/css" href="~/css/lounge/mybootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="~/css/lounge/lounge.css">
+     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/alertify/js/alertify.js"></script>
+    <style>
+        #back2Top {
+            width: 40px;
+            line-height: 40px;
+            overflow: hidden;
+            z-index: 999;
+            display: none;
+            cursor: pointer;
+            -moz-transform: rotate(270deg);
+            -webkit-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            -ms-transform: rotate(270deg);
+            transform: rotate(270deg);
+            position: fixed;
+            bottom: 50px;
+            right: 0;
+            background-color: #DDD;
+            color: #555;
+            text-align: center;
+            font-size: 30px;
+            text-decoration: none;
+        }
+
+            #back2Top:hover {
+                background-color: #DDF;
+                color: #000;
+            }
+        /* Safari syntax */
+        :-webkit-full-screen {
+            background-color: white;
+        }
+
+        /* IE11 */
+        :-ms-fullscreen {
+            background-color: white;
+        }
+
+        /* Standard syntax */
+        :fullscreen {
+            background-color: white;
+        }
+
+
+        /* Create three unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+        }
+
+        .left, .right {
+            width: 25%;
+            height: 100px;
+        }
+
+        .middle {
+            width: 50%;
+            height: 100px;
+            text-align: center;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body id="element">
+
+    <div class="container">
+        <div class="row" id="bg">
+            <div class="column left">
+                <img src="~/images/logo.png" class="logo" />
+            </div>
+            <div class="column middle" id="title">
+                CHUYẾN ĐI/DEPARTURE
+            </div>
+            @if (TempData["FlightLounge"] != null)
+            {
+                <div class="column right" id="airport-list">
+                    <p style="font-size:16pt;font-weight:bold;float:right; white-space: nowrap;">@TempData["FlightLounge"].ToString(),@DateTime.Now.ToString("dd'/'MM'/'yyyy")</p>
+                    <p style="float:right;font-weight:bold;font-size:24pt;padding-left:180px;margin-top:-20px;">@DateTime.Now.ToString("HH:mm")</p>
+                </div>
+
+
+                <table class="table table-bordered">
+                    <thead style="background-color: #00447F;color:white">
+                        <tr class="text">
+                            <th style="text-align: center;width:10%;"><p style="font-size:20pt;margin:0;">GIỜ STD</p><p style="font-size:16pt;">Schedule</p></th>
+                            <th style="text-align: center;width:10%;"><p style="font-size:20pt;margin:0;">GIỜ ETD </p><p style="font-size:16pt;">Estimate</p></th>
+                            <th style="text-align: center;width:30%;"><p style="font-size:20pt;margin:0;">NƠI ĐẾN </p><p style="font-size:16pt;">Destination</p></th>
+                            <th style="text-align: center;width:10%;"><p style="font-size:20pt;margin:0;">CHUYẾN BAY </p><p style="font-size:16pt;">Flight</p></th>
+                            <th style="text-align: center;width:10%;"><p style="font-size:20pt;margin:0;">CỬA </p><p style="font-size:16pt;">Gate</p></th>
+                            <th style="text-align: center;width:30%;"><p style="font-size:20pt;margin:0;">GHI CHÚ </p><p style="font-size:16pt;">Remark</p></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in @Model.ListFlightLounge)
+                    {
+                        if (@item.FltStatus.ToString() == "OPEN")
+                        {
+                            <tbody style="background-color: #64B053;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+                        if (@item.FltStatus.ToString() == "BOARDING")
+                        {
+                            <tbody style="background-color: #64B053;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+                        if (@item.FltStatus.ToString() == "CLOSE")
+                        {
+                            <tbody style="background-color:#0B6121;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+                        if (@item.FltStatus.ToString() == "CHECKIN COMPLETE")
+                        {
+                            <tbody style="background-color:#008000;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+                        if (@item.FltStatus.ToString() == "DELAY")
+                        {
+                            <tbody style="background-color:#B45F04;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top: 15px;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+                        if (@item.FltStatus.ToString() == "CANCEL")
+                        {
+                            <tbody style="background-color:#848484;color:white;">
+
+                                <tr>
+                                    <th class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.STD.ToString()</th>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;">@item.ETD.ToString()</td>
+                                    <td><div class="text" style="font-size:20pt!important;">@item.CityName.ToString() </div><div style="font-size:14pt!important;">@item.AirportName.ToString()</div></td>
+                                    <td class="text" style="font-size:20pt!important;text-align: center;padding-top:15px;">@item.FlightNo.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;text-align:center;padding-top:15px;">@item.Gate.ToString()</td>
+                                    <td class="text" style="font-size:20pt!important;padding-top:15px;">@item.Remark.ToString()</td>
+                                </tr>
+                            </tbody>
+                        }
+
+                    }
+                </table>
+
+            }
+        </div>
+        <a id="back2Top" title="Back to top" href="#">&#10148;</a>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        CountTime();
+        //Back to top when user scroll
+        $(window).scroll(function () {
+            if ($(this).scrollTop()) {
+                $('#back2Top').fadeIn();
+            } else {
+                $('#back2Top').fadeOut();
+            }
+        });
+
+        $("#back2Top").click(function () {
+            //1 second of animation time
+            //html works for FFX but not Chrome
+            //body works for Chrome but not FFX
+            //This strange selector seems to work universally
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+
+    })
+
+
+    //Count Time And ReDirect Page
+    function CountTime() {
+        setTimeout(function () { window.location = "/FlightView/FLC_Counter"; }, 120000);
+
+    }
+
+</script>
+

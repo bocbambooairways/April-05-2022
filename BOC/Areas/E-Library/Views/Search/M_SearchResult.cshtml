@@ -1,0 +1,139 @@
+﻿@using DevExtreme.AspNet.Mvc
+@model IEnumerable<BOC.Areas.E_Library.Models.SearchResult>;
+@using BOC.Areas.E_Library.Models;
+@{
+    ViewData["Title"] = "M_SearchResult";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+
+<form style="margin-top:100px" action="/E-Library/Search/M_Searchresult" method="post">
+@foreach(var item in Model)
+{
+<div style="width:90%;background-color:#F2F2F2;border-radius:10px;margin-left:auto;margin-right:auto;margin-top:20px;margin-bottom:20px;padding:10px">
+     <div style="width:100%;display:flex">
+     <div style="flex:2%">
+     <span style="color:darkgreen">@item.ID. </span>
+     </div>
+      <div style="flex:98%">
+    <h4 style="color:darkgreen;font-size:18px"><a style="text-decoration:none" href="/E-Library/Search/M_DocumentList?DocProfileID=8c11dbe0884a34c2a631f25c7b872e65a2ec2bb4adcb7df9af0678ba03cec69fb669586ax @item.DocProfileID">@item.Subject</a></h4>
+    <p>@if (item.Description.Count() > 60)
+                        {
+                            @item.Description.ToString().Substring(0,60)<span>...</span>
+                        }
+                        else
+                        {
+                           @item.Description 
+                        }</p>
+     
+    <div style="width:100%;display:flex;font-size:12px">
+     <div style="flex:70%">
+    <span>ISBN-Version:</span><span><b> @item.ISBN</b></span>
+     </div>
+     <div style="flex:30%">
+     <span>Input</span><span><b> @item.DivisionCode</b></span>
+     </div>
+     </div>
+
+     <div style="width:100%;display:flex;font-size:12px">
+     <div style="flex:70%">
+    <span>Last update</span><span><b> @item.LastUpdate</b></span>
+     </div>
+     <div style="flex:30%">
+     <span>Status</span>
+                            @if (item.ReadStatus == "READ")
+                            {
+                                <span style = "color:darkgreen">
+                                    <b> @item.ReadStatus</b>
+                                </span>
+                            }
+                             @if (item.ReadStatus == "UNREAD")
+                            {
+                                <span style = "color:darkblue">
+                                    <b> @item.ReadStatus</b>
+                                </span>
+                            }
+                             @if (item.ReadStatus == "PASSED")
+                            {
+                                <span style = "color:red">
+                                    <b> @item.ReadStatus</b>
+                                </span>
+                            }
+                             @if (item.ReadStatus == "FAILED")
+                            {
+                                <span style = "color:black">
+                                    <b> @item.ReadStatus</b>
+                                </span>
+                            }
+
+     </div>
+     </div>
+ </div>
+ </div>
+</div>
+
+}
+
+<div style="margin-left:5%;margin-top:10px;margin-bottom:20px;overflow:hidden;padding-top:10px" class="">
+<span style="float:left;margin-right:10px">Show</span><span>
+           @if(@ViewBag.pagesize == 10)
+           {
+                <select class="form-control" name="pagesize" id="pagesize" onchange="changePage()" style="width:60px;float:left;margin-right:10px;transform:translate(0px,-5px)">
+                  <option selected >10</option>
+                  <option value=20>20</option>
+                  <option value=30>30</option>
+                  </select>
+           }
+
+             @if (@ViewBag.pagesize == 20)
+            {
+                <select class="form-control" name="pagesize" id="pagesize" onchange="changePage()" style="width:60px;float:left;margin-right:10px;transform:translate(0px,-5px)">
+                    <option>10</option>
+                  <option selected>20</option>
+                  <option>30</option>
+                  </select>
+            }
+             @if (@ViewBag.pagesize == 30)
+            {
+                <select class="form-control" name="pagesize" id="pagesize" onchange="changePage()" style="width:60px;float:left;margin-right:10px;transform:translate(0px,-5px)">
+                    <option>10</option>
+                  <option>20</option>
+                  <option selected>30</option>
+                  </select>
+            }
+</span>
+<span style="float:left;margin-right:10px;text-align:center">@ViewBag.currentpage of @ViewBag.numSize</span>
+<span style="float:left;margin-right:10px">
+            @if(@ViewBag.currentpage <= 1)
+            {
+  <button id="previous" name="previous" class="btn btn-danger" type="submit" value="previous"  style="width:50px;transform:translate(0px,-5px)" disabled>&lt;</button>
+            }
+            else
+            {
+  <button id="previous" name="previous" class="btn btn-danger" type="submit" value="previous"  style="width:50px;transform:translate(0px,-5px)">&lt;</button>
+             
+            }
+</span>
+<span style="float:left;margin-right:10px">
+            @if(@ViewBag.currentpage >= @ViewBag.numSize)
+            {
+                <button id="next" name="next" class="btn btn-danger" type="submit" style="width:50px;transform:translate(0px,-5px)" value="next" onclick="" disabled>></button>
+
+            }
+            else
+            {
+               <button id="next" name="next" class="btn btn-danger" type="submit" style="width:50px;transform:translate(0px,-5px)" value="next" onclick="">></button>
+
+            }
+  </span>  
+</div>
+<input type="hidden" name="currentpage" id="currentpage" value="@ViewBag.currentpage" />
+<input type="hidden" name="_pagesize" id="_pagesize" value="@ViewBag.pagesize"/>
+
+<script>
+function changePage() {
+  var _pageSize = document.getElementById("pagesize").value;
+  document.getElementById("_pagesize").value = _pageSize;
+}
+</script>
+
+</form>

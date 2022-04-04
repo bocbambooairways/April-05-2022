@@ -1,0 +1,819 @@
+﻿@-moz-document url-prefix() {
+    table {
+        table-layout: auto !important;
+    }
+
+        table th {
+            width:50px!important;
+            height:auto;
+        }
+}
+/*Iphone(480 x 640)*/
+@media screen and (min-width: 320px) {
+    table {
+        border-collapse: separate;
+        border-spacing: -100px -100px;
+        margin: 0;
+        padding: 0;
+        width: 320px;
+        table-layout: fixed;
+    }
+   
+
+        table th,
+        table td {
+            text-align: center;
+        }
+
+    /*ghế Restricted ^^ */
+
+    .btnblocked {
+        background: hsl(340deg 0% 70%); /* màu baground của ghế Block ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontblocked {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 4px;
+        font-size: 0.5rem;
+        background: hsl(345deg, 0%, 60%); /* màu của ghế Block ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnblocked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnblocked:active .front {
+        transform: translateY(-2px);
+    }
+
+    /*ghế Available ^^ */
+    .btnavailable {
+        background: hsl(160deg 0% 80%); /* màu baground của ghế Available ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontavailable {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(270deg 0% 95%); /* màu của ghế Available ^^ */
+        color: black;
+        transform: translateY(-6px);
+    }
+
+    .btnavailable:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnavailable:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    /*ghế Occupided ^^ */
+    .btnoccupid {
+        background: hsl(0deg 44% 44%); /* màu baground của ghế Occupided ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontoccupid {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(0deg 89% 44%); /* màu của ghế đang giữ chỗ ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnoccupid:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnoccupid:active .front {
+        transform: translateY(-2px);
+    }
+    /*ghế Book ^^ */
+    .btnbooked {
+        background: hsl(45deg 79% 40%); /* màu baground của ghế Book ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontbooked {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(45deg 79% 57%); /* màu của ghế Book ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnbooked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnbooked:active .front {
+        transform: translateY(-2px);
+    }
+
+    /*ghế Checkin ^^ */
+    .btncheckin {
+        background: hsl(135deg 63% 30%); /* màu baground của ghế Checkin ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontcheckin {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(135deg 63% 50%); /* màu của ghế Checkin ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btncheckin:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btncheckin:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    .clicked {
+        background-color: yellow;
+    }
+    /*Fix column table*/
+    .sticky-col {
+        position: -webkit-sticky;
+        position: sticky;
+        background-color: #FFFFFF;
+        z-index: 99;
+    }
+
+    .first-col {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        left: 0px;
+    }
+
+    fieldset.scheduler-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+        margin-top: 30px !important;
+        width: 50%;
+    }
+
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+        margin-top: -15px;
+        background-color: white;
+        color: black;
+    }
+    /* general styling */
+    body {
+        font-family: Tahoma, sans-serif;
+        line-height: 1.25;
+    }
+}
+/*Tablet nhỏ(480 x 640)*/
+@media screen and (min-width: 480px) {
+    table {
+        border-collapse: separate;
+        border-spacing: -100px -100px;
+        margin: 0;
+        padding: 0;
+        width: 320px;
+        table-layout: fixed;
+    }
+
+ 
+        table th,
+        table td {
+            text-align: center;
+        }
+
+    /*ghế Restricted ^^ */
+
+    .btnblocked {
+        background: hsl(340deg 0% 70%); /* màu baground của ghế Block ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontblocked {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 4px;
+        font-size: 0.5rem;
+        background: hsl(345deg, 0%, 60%); /* màu của ghế Block ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnblocked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnblocked:active .front {
+        transform: translateY(-2px);
+    }
+
+    /*ghế Available ^^ */
+    .btnavailable {
+        background: hsl(160deg 0% 80%); /* màu baground của ghế Available ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontavailable {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(270deg 0% 95%); /* màu của ghế Available ^^ */
+        color: black;
+        transform: translateY(-6px);
+    }
+
+    .btnavailable:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnavailable:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    /*ghế Occupided ^^ */
+    .btnoccupid {
+        background: hsl(0deg 44% 44%); /* màu baground của ghế Occupided ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontoccupid {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(0deg 89% 44%); /* màu của ghế đang giữ chỗ ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnoccupid:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnoccupid:active .front {
+        transform: translateY(-2px);
+    }
+    /*ghế Book ^^ */
+    .btnbooked {
+        background: hsl(45deg 79% 40%); /* màu baground của ghế Book ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontbooked {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(45deg 79% 57%); /* màu của ghế Book ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnbooked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btnbooked:active .front {
+        transform: translateY(-2px);
+    }
+
+    /*ghế Checkin ^^ */
+    .btncheckin {
+        background: hsl(135deg 63% 30%); /* màu baground của ghế Checkin ^^ */
+        border: none;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 2px;
+        width: 50px !important;
+        height: 100%;
+    }
+
+    .frontcheckin {
+        display: block;
+        padding: 8px 2px;
+        border-radius: 6px;
+        font-size: 0.5rem;
+        background: hsl(135deg 63% 50%); /* màu của ghế Checkin ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btncheckin:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    .btncheckin:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    .clicked {
+        background-color: yellow;
+    }
+    /*Fix column table*/
+    .sticky-col {
+        position: -webkit-sticky;
+        position: sticky;
+        background-color: #FFFFFF;
+        z-index: 99;
+    }
+
+    .first-col {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        left: 0px;
+    }
+
+    fieldset.scheduler-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+        margin-top: 30px !important;
+        width: 50%;
+    }
+
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+        margin-top: -15px;
+        background-color: white;
+        color: black;
+    }
+    /* general styling */
+    body {
+        font-family: Tahoma, sans-serif;
+        line-height: 1.25;
+    }
+}
+/*Ipad dọc(768 x 1024)*/
+@media screen and (min-width: 768px) {
+    table {
+        border-collapse: separate;
+        border-spacing: -50px -50px;
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        table-layout: fixed;
+    }
+
+
+        table th,
+        table td {
+            text-align: center;
+            padding: -5.25rem !important;
+        }
+
+
+    /* Ghế Block ^^ */
+    .btnblocked {
+        background: hsl(340deg 0% 70%); /* màu baground của ghế Block ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontblocked {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(345deg, 0%, 60%); /* màu của ghế Block ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnblocked:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    .btnlocked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /* Ghế Available ^^ */
+    .btnavailable {
+        background: hsl(160deg 0% 80%); /* màu baground của ghế Available ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontavailable {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(270deg 0% 95%); /* màu của ghế Available ^^ */
+        color: black;
+        transform: translateY(-6px);
+    }
+
+    .btnavailable:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnavailable:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Occupid*/
+    .btnoccupid {
+        background: hsl(0deg 44% 44%); /* màu baground của ghế Occupid ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontoccupid {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(0deg 89% 44%); /* màu của ghế Occupid ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnoccupid:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnoccupid:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Book*/
+    .btnbooked {
+        background: hsl(45deg 79% 40%); /* màu baground của ghế Book ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontbooked {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(45deg 79% 57%); /* màu của ghế Book ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnbooked:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnbooked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Checkin*/
+    .btncheckin {
+        background: hsl(135deg 63% 30%); /* màu background của ghế Checkin ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontcheckin {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(135deg 63% 50%); /* màu của ghế Checkin ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btncheckin:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btncheckin:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+
+    .clicked {
+        background-color: yellow;
+    }
+    /*Fix column table*/
+    .sticky-col {
+        position: -webkit-sticky;
+        position: sticky;
+        background-color: #FFFFFF;
+    }
+
+    .first-col {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        left: 0px;
+    }
+}
+/*Ipad ngang(1024 x 768)*/
+@media screen and (min-width: 1024px) {
+    table {
+        border-collapse: separate;
+        border-spacing: -50px -50px;
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        table-layout: fixed;
+    }
+
+ 
+        table th,
+        table td {
+            text-align: center;
+            padding: -5.25rem !important;
+        }
+
+
+    /* Ghế Block ^^ */
+    .btnblocked {
+        background: hsl(340deg 0% 70%); /* màu baground của ghế Block ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontblocked {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(345deg, 0%, 60%); /* màu của ghế Block ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnblocked:active .front {
+        transform: translateY(-2px);
+    }
+
+
+    .btnlocked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /* Ghế Available ^^ */
+    .btnavailable {
+        background: hsl(160deg 0% 80%); /* màu baground của ghế Available ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontavailable {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(270deg 0% 95%); /* màu của ghế Available ^^ */
+        color: black;
+        transform: translateY(-6px);
+    }
+
+    .btnavailable:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnavailable:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Occupid*/
+    .btnoccupid {
+        background: hsl(0deg 44% 44%); /* màu baground của ghế Occupid ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontoccupid {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(0deg 89% 44%); /* màu của ghế Occupid ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnoccupid:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnoccupid:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Book*/
+    .btnbooked {
+        background: hsl(45deg 79% 40%); /* màu baground của ghế Book ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontbooked {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(45deg 79% 57%); /* màu của ghế Book ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btnbooked:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btnbooked:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /*Ghế Checkin*/
+    .btncheckin {
+        background: hsl(135deg 63% 30%); /* màu background của ghế Checkin ^^ */
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .frontcheckin {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        background: hsl(135deg 63% 50%); /* màu của ghế Checkin ^^ */
+        color: white;
+        transform: translateY(-6px);
+    }
+
+    .btncheckin:active .front {
+        transform: translateY(-2px);
+    }
+
+    .btncheckin:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+
+    .clicked {
+        background-color: yellow;
+    }
+    /*Fix column table*/
+    .sticky-col {
+        position: -webkit-sticky;
+        position: sticky;
+        background-color: #FFFFFF;
+    }
+
+    .first-col {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        left: 0px;
+    }
+    /* general styling */
+    body {
+        font-family: Tahoma, sans-serif;
+        line-height: 1.25;
+    }
+}

@@ -1,0 +1,97 @@
+﻿html, body {
+    margin: 0px;
+    height: 100vh;
+    font-family: Tahoma;
+    background-color: rgba(255,255,255,0);
+}
+
+#bg {
+    width: 100vw;
+    height: 100vh;
+   
+}
+*:fullscreen, *:-webkit-full-screen, *:-moz-full-screen {
+    background-color: rgba(255,255,255,0);
+}
+.logo {
+  /*  width: 250px;*/
+    height: auto;
+}
+
+#title {
+    font-size: 28.2pt;
+    font-family: Tahoma;
+    color: #005393;
+    padding-top: 10px;
+    font-weight:bold;
+}
+
+
+#airport-list {
+    font-size: 16.2pt;
+    color: #005393;
+    font-family: Tahoma;
+/*    padding-top: 10px;*/
+    font-weight: bold;
+    padding-left:20px;
+}
+.text {
+    color: #FFFFFF;
+    font-family: Tahoma;
+    font-weight: bold;
+  
+}
+
+.header {
+    height: 100%;
+  
+ }
+.lg {
+    height: 100%;
+    
+}
+#main {
+    height: auto;
+    width: 100vw;
+    background-color: #64B053;
+    color: white;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+
+li {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    /* Column | row */
+    width: 100vw;
+}
+
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#footer {
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 100vw;
+    float: left;
+    clear: none;
+}
+
+.footerflight {
+    width: 100vw;
+    height: 50px;
+    margin-top: -6px;
+}
+
+.header1{
+    height:100px;
+}

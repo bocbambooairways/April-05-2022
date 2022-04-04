@@ -1,0 +1,368 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/SeatMap/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var lang = @HttpContextAccessor.HttpContext.Session.GetString("Language") == null ? "" : @HttpContextAccessor.HttpContext.Session.GetString("Language");
+    var widthTable = 60 * Int32.Parse(Model.Data.col.ToString());
+}
+
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using BOC.Areas.SeatMap.Models;
+@model SeatMapModel;
+
+
+<div style="margin-top:2px;">
+    <h2 style="margin-left:100px;color:#00558F;">SEATMAP</h2>
+    @if (Model.Data != null)
+    {
+        @if (lang == "EN")
+        {
+            <p style="font-weight: bold;margin-left:10px;">FlightNo: @Model.Data.FltNo.ToString()/@Model.Data.FltDate.ToString()/@Model.Data.Route.ToString()</p>
+            <p style="font-weight: bold; margin-left: 25px;">PNR: @Model.Data.PNR.ToString()&emsp;&emsp;&emsp;&emsp;PERSON: @Model.Data.TotalPax.ToString()</p>
+        }
+        @if (lang == "VN")
+        {
+            <p style="font-weight: bold;margin-left:10px;">SỐ HIỆU CHUYẾN BAY: @Model.Data.FltNo.ToString()/@Model.Data.FltDate.ToString()/@Model.Data.Route.ToString()</p>
+            <p style="font-weight: bold; margin-left: 25px;">PNR: @Model.Data.PNR.ToString()&emsp;&emsp;&emsp;&emsp;SỐ NGƯỜI: @Model.Data.TotalPax.ToString()</p>
+        }
+
+    }
+</div>
+<br>
+
+<input type="hidden" id="error" value="@Model.Message" />
+@if (Model.Data != null)
+{
+
+    <div class="table-responsive" style="zoom:80%">
+        <table class="tableSeat" style="width:@widthTable.ToString()px!important;">
+            <thead>
+                <tr>
+                    <th scope="col" class="sticky-col first-col" style="border: 1px solid #FFFFFF;text-align:center;width:50px;">RowNo</th>
+                    @for (int i = 0; i < Model.Data.col; i++)
+                    {
+                        <th scope="col" style="border: 1px solid #FFFFFF;"></th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.Data.ls)
+                {
+                    var stt = 1;
+                    <tr>
+                        <th scope="row" class="sticky-col first-col" style="border: 1px solid #FFFFFF;margin-top:20px; text-align: center; font-size: 1.25rem;">@item.RowNo.ToString()</th>
+                        @for (int j = 0; j < Model.Data.col; j++)
+                        {
+                            @if (item.SeatRow[@j].Attr.ToString() == "RESTRICTED")
+                            {
+
+                                <td style="background-color: #FFFFFF; border: 1px solid #FFFFFF;">
+                                    <button class="btnblocked" data-bb="@ViewBag.FlightID,@ViewBag.PNR" id="btn_@j-@stt">
+                                        <span class="frontblocked">
+                                            @item.SeatRow[@j].SeatNo.ToString()
+                                        </span>
+                                    </button>
+                                </td>
+
+                            }
+                            @if (item.SeatRow[@j].Attr.ToString() == "OCCUPIED")
+                            {
+
+
+                                <td style="background-color: #FFFFFF; border: 1px solid #FFFFFF;">
+                                    <button class="btnoccupid" data-bb="@ViewBag.FlightID,@ViewBag.PNR" id="btn_@j-@stt">
+                                        <span class="frontoccupid">
+                                            @item.SeatRow[@j].SeatNo.ToString()
+                                        </span>
+                                    </button>
+                                </td>
+
+                            }
+                            @if (item.SeatRow[@j].Attr.ToString() == "AVAILABLE")
+                            {
+
+                                <td style="background-color: #FFFFFF; border: 1px solid #FFFFFF;">
+                                    <button class="btnavailable" data-bb="@ViewBag.FlightID,@ViewBag.PNR" id="btn_@j-@stt">
+                                        <span class="frontavailable">
+                                            @item.SeatRow[@j].SeatNo.ToString()
+                                        </span>
+                                    </button>
+                                </td>
+
+                            }
+                            @if (item.SeatRow[@j].Attr.ToString() == "")
+                            {
+
+                                <td style="border: 1px solid #FFFFFF;width:150%!important;height:auto;">
+                                    <button style="visibility:hidden;">
+                                    
+                                    </button>
+                                </td>
+
+                            }
+                            @if (item.SeatRow[@j].Attr.ToString() == "CHECKIN")
+                            {
+
+                                <td style="background-color: #FFFFFF; border: 1px solid #FFFFFF;">
+                                    <button class="btncheckin" data-bb="@ViewBag.FlightID,@ViewBag.PNR" id="btn_@j-@stt">
+                                        <span class="frontcheckin">
+                                            @item.SeatRow[@j].SeatNo.ToString()
+                                        </span>
+                                    </button>
+                                </td>
+
+                            }
+                            @if (item.SeatRow[@j].Attr.ToString() == "BOOK")
+                            {
+
+                                <td style="background-color: #FFFFFF; border: 1px solid #FFFFFF;">
+                                    <button class="btnbooked" data-bb="@ViewBag.FlightID,@ViewBag.PNR" id="btn_@j-@stt">
+                                        <span class="frontbooked">
+                                            @item.SeatRow[@j].SeatNo.ToString()
+                                        </span>
+                                    </button>
+                                </td>
+
+                            }
+
+                            stt = stt + 1;
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+}
+@if (lang == "VN")
+{
+    <input type="button" value="Xóa ghế đã chọn" id="delseat" data-bb="@ViewBag.FlightID,@ViewBag.PNR" class="btn btn-primary" style="margin-left:25px;" />
+}
+else
+{
+    <input type="button" value="Reset seat selection" id="delseat" data-bb="@ViewBag.FlightID,@ViewBag.PNR" class="btn btn-primary" style="margin-left:25px;" />
+}
+
+
+@if (lang == "VN")
+{
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Ghi Chú:</legend>
+        <div class="panel panel-default">
+
+
+            <table>
+                <thead>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button class="btnbookedNote">
+                                <span class="frontbookedNote">
+                                </span>
+                            </button>
+                        </td>
+                        <td style="font-style: italic;font-size:10pt;width:200px;">Chỗ đã chọn</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btnavailableNote">
+                                <span class="frontavailableNote">
+                                </span>
+                            </button>
+                        </td>
+                        <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">Chỗ còn trống</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btnoccupidNote">
+                                <span class="frontoccupidNote">
+                                </span>
+                            </button>
+                        </td>
+                        <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">&emsp;&emsp;&emsp;Chỗ không còn trống</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btnblockedNote">
+                                <span class="frontblockedNote">
+                                </span>
+                            </button>
+                        </td>
+                        <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">&emsp;&emsp;&emsp;Chỗ không khả dụng</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+
+}
+else
+{
+
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Note:</legend>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <button class="btnbookedNote">
+                                    <span class="frontbookedNote">
+                                    </span>
+                                </button>
+                            </td>
+                            <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">&emsp;&emsp;&emsp;&nbsp;&nbsp;Your selected seat</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btnavailableNote">
+                                    <span class="frontavailableNote">
+                                    </span>
+                                </button>
+                            </td>
+                            <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">Available</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btnoccupidNote">
+                                    <span class="frontoccupidNote">
+                                    </span>
+                                </button>
+                            </td>
+                            <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">Occupied</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btnblockedNote">
+                                    <span class="frontblockedNote">
+                                    </span>
+                                </button>
+                            </td>
+                            <td style="margin-left:10px;font-style: italic;font-size:10pt;width:200px;">&emsp;Unavailable</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+
+<script>
+    $(function () {
+        if ($("#error").val() !== "Success") {
+            alertify.alert($("#error").val());
+        }
+
+
+
+        $(".btnavailable").click(function () {
+            
+            var id = this.id;
+            var data = $(this).attr("data-bb");
+            var seatchoose = $(this).data('clicked', true).text().replace(/\s/g, '');//Loại bỏ ký tự \n
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: "/Seatmap/Home/SelectSeat",
+                dataType: "json",
+                cache: false,
+                data: { 't_Data': data, 't_SeatChoose': seatchoose, 't_Status': 'OK' },
+                success: function (data) {
+                    
+                    if (data.result == 0) {
+                        //$('#' + id).find(".frontavailable").removeClass("frontavailable").addClass("frontbooked");
+                        //$('#' + id).removeClass("btnavailable").addClass("btnbooked");
+                        return location.reload(true); /*nếu không refresh lại thì phải duyệt vẽ lại table*/
+                    }
+                    else {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                },
+
+            });
+
+        });
+
+        $("body").on('touchstart click', ".btnbooked", function () {
+            
+            var id = this.id;
+            var data = $(this).attr("data-bb");
+            var seatchoose = $(this).data('clicked', true).text().replace(/\s/g, '');//Loại bỏ ký tự \n
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: "/Seatmap/Home/SelectSeat",
+                dataType: "json",
+                data: { 't_Data': data, 't_SeatChoose': seatchoose, 't_Status': 'XX' },
+                cache: false,
+                success: function (data) {
+                    
+                    if (data.result == 0) {
+                        //$('#' + id).find(".frontbooked").removeClass("frontbooked").addClass("frontavailable");
+                        //$('#' + id).removeClass("btnbooked").addClass("btnavailable");
+                        return location.reload(true);
+
+                    }
+                    else {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                },
+
+            });
+        });
+
+        $("#delseat").click(function () {
+            
+            var data = $(this).attr("data-bb");
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: "/Seatmap/Home/DeleteSeat",
+                dataType: "json",
+                cache: false,
+                data: { 't_Data': data },
+                success: function (data) {
+                    
+                    if (data.result == 0) {
+                        return location.reload(true);
+                    }
+                    else {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                },
+
+            });
+
+        });
+
+    });
+
+</script>
+
+
+
+
+
+

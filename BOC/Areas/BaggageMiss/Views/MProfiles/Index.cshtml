@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/BaggageMiss/Views/Shared/_MLayout.cshtml";
+}
+
+
+@{
+
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+    var stage = @HttpContextAccessor.HttpContext.Session.GetString("Status");
+    
+
+}
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json;
+@using BOC.Areas.BaggageMiss.Models;
+
+@if (select == "EN")
+{
+    <link rel="stylesheet" href="/css/bagmiss/MTableProfileStyle-EN.css" />
+
+}
+else
+{
+    <link rel="stylesheet" href="/css/bagmiss/MTableProfileStyle-VN.css" />
+
+}
+
+    <div class="row" style="margin-left:20px;">
+        <div class="col-sm-5"><img src="/images/logo.png" style="width:184px;height:45px;" alt="logo"></div>
+        <div class="col-sm-9" style="float:right">
+            <a href="#" id="vn"><img src="/images/vn.png" width="24" height="30" /></a>
+            <a href="#" id="en"><img src="/images/en.png" width="20" height="20" /></a>
+        </div>
+        <div class="container">
+            <h4 id="texthead" class="card-title"></h4>
+            <div class="info">PNR: @ViewBag.PNR.ToString()</div>
+            <div class="info">FltNo: @ViewBag.FltNo.ToString()</div>
+        </div>
+
+
+    </div>
+    @foreach (var item in ViewBag.ProfileDescLst)
+    {
+        <div class="card text-dark bg-light mb-3" style="max-width: 96%;margin-left:10px;">
+            <div class="card-header"> @item.ProfileNo&nbsp;&nbsp;<a class="edit" style="float:right;" id="EditProfile" href="#" data-bb="@item.BagMiss_ID"><img src="/images/edit.png" width="20" height="20" /></a></div>
+            <div class="card-body">
+                @if (item.Status == "CL" && select == "EN")
+                {
+                    <h5 class="card-title" style="font-style: italic; color: #4EBDEC!important;">
+                        Completed
+                    </h5>
+                }
+                @if (item.Status == "CL" && select == "VN")
+                {
+                    <h5 class="card-title" style="font-style: italic; color: #4EBDEC!important;">
+                        Đã hoàn thành
+                    </h5>
+                }
+                @if (item.Status != "CL" && select == "EN")
+                {
+                    <h5 class="card-title" style="font-style: italic; color: #E2AE14!important;">
+                        Not yet
+                    </h5>
+                }
+                @if (item.Status != "CL" && select == "VN")
+                {
+                    <h5 class="card-title" style="font-style: italic; color: #E2AE14!important;">
+                        Chưa hoàn thành
+                    </h5>
+                }
+
+                <p class="card-text">@item.FullName</p>
+                <p class="card-text">@item.Address </p>
+                <p class="card-text">@item.Email</p>
+                <p class="card-text">@item.Phone</p>
+            </div>
+
+        </div>
+    }
+
+    <div class="row">
+        @if (select == "EN")
+        {
+            <button type="button" class="btn btn-primary" id="CreateProfile" style="margin-left:50px;">New Profile</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="CreateProfile" style="margin-left: 50px;">Tạo hồ sơ mới</button>
+        }
+
+
+    </div>
+    <br />
+
+    <input type="hidden" id="langselect" value="@select" />
+
+    <script>
+        $(function () {
+
+            var lang = $("#langselect").val() == null ? "VN" : $("#langselect").val();
+
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // true for mobile device
+                $("#typeofdevice").val("MOBILE");
+                if (lang == "VN" || lang == "") {
+                    document.getElementById("texthead").innerHTML = "Vui lòng chọn hồ sơ của bạn.";
+                }
+                else {
+                    document.getElementById("texthead").innerHTML = "Please choose your miss baggage profile.";
+                }
+
+
+            } else {
+                // false for not mobile device
+                $("#typeofdevice").val("NONE");
+                if (lang == "VN" || lang == "") {
+                    document.getElementById("texthead").innerHTML = "Vui lòng chọn hồ sơ của bạn";
+                }
+                else {
+                    document.getElementById("texthead").innerHTML = "Please choose your miss baggage profile";
+                }
+
+            }
+
+            $("a#vn").bind('touchstart click', function () {
+                window.location.href = _subFolder + "/MProfiles/SetLang?id=VN";
+            });
+            $("a#en").bind('touchstart click', function () {
+                window.location.href = _subFolder + "/MProfiles/SetLang?id=EN";
+            });
+            $(".btn-primary").bind('touchstart click', function () {
+                window.location.href = _subFolder + "/MPages/Index?t_flag=" + lang + "&t_bagmiss_id=0";
+
+            });
+
+            $("a.edit").bind('touchstart click', function () {
+
+                var BagMiss_ID = $(this).attr("data-bb");
+                if (BagMiss_ID != null) {
+                    window.location.href = _subFolder + "/MPages/Index?t_flag=" + lang + "&t_bagmiss_id=" + BagMiss_ID;
+                }
+                else {
+                    alertify.alert("Please select your profile.");
+                }
+
+            });
+
+            $("#CreateProfile").bind('touchstart click', function () {
+
+                window.location.href = _subFolder + "/MPages/Index?t_flag=" + lang + "&t_bagmiss_id=" + 0 + "&t_action=" + 0;
+
+
+            });
+
+
+
+        })
+    </script>
+
+
+

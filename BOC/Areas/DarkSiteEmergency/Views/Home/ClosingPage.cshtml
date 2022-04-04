@@ -1,0 +1,11 @@
+﻿<link href="~/css/site.css" rel="stylesheet" />
+<body style="background-color: #f1f1f1">
+    <div class="closingpage">
+            @if (Model[0] != null)
+            @foreach (var item in Model[0])
+            {
+               
+            @Html.Raw(item.Html_Data)
+            }
+    </div>
+</body>

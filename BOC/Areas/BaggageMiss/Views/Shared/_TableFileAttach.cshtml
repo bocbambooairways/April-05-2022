@@ -1,0 +1,123 @@
+﻿@{
+    var stage = @HttpContextAccessor.HttpContext.Session.GetString("Status");
+    var lang = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+ 
+    }
+
+    @using Microsoft.AspNetCore.Http;
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+    @using Newtonsoft.Json;
+    @using BOC.Areas.BaggageMiss.Models;
+
+    @{
+
+        List<FileDisplay> _attachfileList = SessionHelper.GetObjectFromJson<List<FileDisplay>>(@HttpContextAccessor.HttpContext.Session, "Miss_AttachFileHS");
+
+
+    }
+
+    @if (lang == "EN")
+    {
+        <table class="table table-bordered" id="tableAttach">
+
+            <thead>
+                <tr>
+
+                    <th scope="col">File Name</th>
+                    <th scope="col">LastUpdate</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @if (@stage != "CL")
+            {
+                @foreach (var item in _attachfileList)
+                {
+
+                    <tbody>
+                        <tr style="word-wrap: break-word;">
+                            <td>@item.FileName</td>
+                            <td>@item.LastUpdate</td>
+                            <td>
+                               
+                                    <a class="viewattach" id="@item.SysFileName.ToString()" href="#" onclick="ViewAttach(this.id)" alt="Image description"><img src="/images/view.png" width="20" height="20" /></a>
+                                    <a class="deleteattach" href="#" data-attach="@item.SysFileName"><img src="/images/delete.png" width="20" height="20" /></a>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+
+                }
+            }
+            else
+            {
+                @foreach (var item in _attachfileList)
+                {
+
+                    <tbody>
+                        <tr style="word-wrap: break-word;">
+                            <td>@item.FileName</td>
+                            <td>@item.LastUpdate</td>
+                            <td>
+                                <a class="viewattach" id="@item.SysFileName.ToString()" href="#" onclick="ViewAttach(this.id)" alt="Image description"><img src="/images/view.png" width="20" height="20" /></a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                }
+
+            }
+
+        </table>
+    }
+
+    @if (lang == "VN")
+    {
+        <table class="table table-bordered" id="tableAttach">
+
+            <thead>
+                <tr>
+
+                    <th scope="col">Tên File</th>
+                    <th scope="col">Ngày Cập Nhật</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @if (@stage != "CL")
+            {
+                @foreach (var item in _attachfileList)
+                {
+
+                    <tbody>
+                        <tr style="word-wrap: break-word;">
+                            <td>@item.FileName</td>
+                            <td>@item.LastUpdate</td>
+                            <td>
+                                <a class="viewattach" id="@item.SysFileName.ToString()" href="#" onclick="ViewAttach(this.id)" alt="Image description"><img src="/images/view.png" width="20" height="20" /></a>
+                                <a class="deleteattach" href="#" data-attach="@item.SysFileName"><img src="/images/delete.png" width="20" height="20" /></a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                }
+            }
+            else
+            {
+                @foreach (var item in _attachfileList)
+                {
+
+                    <tbody>
+                        <tr style="word-wrap: break-word;">
+                            <td>@item.FileName</td>
+                            <td>@item.LastUpdate</td>
+                            <td>
+                                <a class="viewattach" id="@item.SysFileName.ToString()" href="#" onclick="ViewAttach(this.id)" alt="Image description"><img src="/images/view.png" width="20" height="20" /></a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                }
+
+            }
+
+        </table>
+    }

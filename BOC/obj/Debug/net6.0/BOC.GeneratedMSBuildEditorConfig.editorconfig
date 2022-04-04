@@ -1,0 +1,292 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BOC
+build_property.RootNamespace = BOC
+build_property.ProjectDir = C:\Users\BAV\Desktop\BOC March  22\Convert to BOC\BOC\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\BAV\Desktop\BOC March  22\Convert to BOC\BOC
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/MPages/BaggageDescEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcTVBhZ2VzXEJhZ2dhZ2VEZXNjRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/MPages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcTVBhZ2VzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/MProfiles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcTVByb2ZpbGVzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Pages/BaggageDescEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcUGFnZXNcQmFnZ2FnZURlc2NFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcUGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Profiles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcUHJvZmlsZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Shared/_MLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcU2hhcmVkXF9NTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/BaggageMiss/Views/Shared/_TableFileAttach.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQmFnZ2FnZU1pc3NcVmlld3NcU2hhcmVkXF9UYWJsZUZpbGVBdHRhY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/ClosingPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxDbG9zaW5nUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxlcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/DarkSiteEmergency/Views/Home/News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRGFya1NpdGVFbWVyZ2VuY3lcVmlld3NcSG9tZVxOZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Folder/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXEZvbGRlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Folder/Index3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXEZvbGRlclxJbmRleDMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/DocumentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxEb2N1bWVudExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/DownloadFile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxEb3dubG9hZEZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/GetSearchFolder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxHZXRTZWFyY2hGb2xkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/Index1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxJbmRleDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/NoSearchResult.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxOb1NlYXJjaFJlc3VsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/QA.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxRQS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/SearchResult.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxTZWFyY2hSZXN1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/_QA.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxfUUEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/E-Library/Views/Search/_ResultModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRS1MaWJyYXJ5XFZpZXdzXFNlYXJjaFxfUmVzdWx0TW9kYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/FO/Views/FO_DOC_READER/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRk9cVmlld3NcRk9fRE9DX1JFQURFUlxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/SeatMap/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2VhdE1hcFxWaWV3c1xIb21lXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/SeatMap/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2VhdE1hcFxWaWV3c1xTaGFyZWRcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/STV/Views/FlightView/BL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU1RWXFZpZXdzXEZsaWdodFZpZXdcQkwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/STV/Views/FlightView/FLC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU1RWXFZpZXdzXEZsaWdodFZpZXdcRkxDLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/STV/Views/FlightView/FLC_Counter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU1RWXFZpZXdzXEZsaWdodFZpZXdcRkxDX0NvdW50ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Areas/STV/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU1RWXFZpZXdzXEhvbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/BagFound/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFnRm91bmRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/BagFound/ShowModalEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFnRm91bmRcU2hvd01vZGFsRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightDateMobile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0RGF0ZU1vYmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightDate/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0RGF0ZVxEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightDate/FlightDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0RGF0ZVxGbGlnaHREb2MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightDate/FlightOne.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0RGF0ZVxGbGlnaHRPbmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightDate/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0RGF0ZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightView/BL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0Vmlld1xCTC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightView/FLC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0Vmlld1xGTEMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FlightView/FLC_Counter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0Vmlld1xGTENfQ291bnRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Forgot/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9yZ290XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/FO_DOC_READER/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRk9fRE9DX1JFQURFUlxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Home/DeskTop.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXNrVG9wLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Home/Mobile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNb2JpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Home/Mobile_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNb2JpbGVfSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Login/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Lounge/Airport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG91bmdlXEFpcnBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Report/Report1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XFJlcG9ydDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Report/Report2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XFJlcG9ydDIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Report/Report3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XFJlcG9ydDMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_DeskTop.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZXNrVG9wLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_DevExtremeLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZXZFeHRyZW1lTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_LayoutDarkSite.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXREYXJrU2l0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_Mobile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Nb2JpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_modal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9tb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/BAV/Desktop/BOC March  22/Convert to BOC/BOC/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-a7rf0unnam

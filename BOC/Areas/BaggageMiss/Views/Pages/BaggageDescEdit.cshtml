@@ -1,0 +1,614 @@
+﻿@{
+
+    BaggageMissDescModel lstdescEdit = ViewBag.MissBagDescEdit;
+    List<FileAttach_HS> _attachfileList = SessionHelper.GetObjectFromJson<List<FileAttach_HS>>(@HttpContextAccessor.HttpContext.Session, "Miss_AttachFileHS");
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+    var stage = @HttpContextAccessor.HttpContext.Session.GetString("Status");
+    var GroupID = 0;
+}
+
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json;
+@using BOC.Models;
+@using BOC.Areas.BaggageMiss.Models;
+@model BaggageMissDesc;
+
+<style>
+    #required:after {
+        content: " *";
+        color: red;
+    }
+
+    #point:before {
+        content: " *";
+        color: red;
+    }
+</style>
+
+@if (select == "EN" && stage != "CL")
+{
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Baggage Information</h5>
+               @* <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>*@
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Baggage Description">
+                            <p id="required">Baggage Description</p>
+                            <textarea class="form-control" id="itembaggage_edit" rows="4" maxlength="1000" style="margin-top:-14px;">@lstdescEdit.Item.ToString()</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"><p id="required">Quantity:</p><input type="number"  step="any" min="0" name="number" style="margin-top:-14px;" value="@lstdescEdit.Qty" class="form-control" id="quantity_edit" oninput="check(this)" placeholder="Enter your quantity"></div>
+                        <div class="col-md-5">
+                            <p>
+                                Total Amount:
+                            </p>
+                            @if (lstdescEdit.TotalAmount.ToString() == "0")
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value=0 maxlength="15" style="margin-top:-14px;" />
+                            }
+                            else
+                            {
+                               
+                                <input type="text" name="number" class="form-control" id="amount_edit" value="@lstdescEdit.TotalAmount.ToString("#,###")" onkeypress="return onlyNumberKey(event)" maxlength="15" placeholder="Enter your total amount" style="margin-top:-14px;">
+                            }
+
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                Currency:
+                            </p>
+                            @if (lstdescEdit.Currency.ToString() == "VND")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top:-14px;">
+                                    <option selected value="VND">VNĐ</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            }
+                            @if (lstdescEdit.Currency.ToString() == "USD")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top:-14px;">
+                                    <option value="VND">VNĐ</option>
+                                    <option selected value="USD">USD</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Other description (if any)">
+                            Remark:
+                            @*<input type="text" class="form-control" id="remark_edit" value="@lstdescEdit.Remark.ToString()">*@
+                            <textarea class="form-control" id="remark_edit" rows="4" maxlength="1000" style="margin-top:4px;">@lstdescEdit.Remark.ToString()</textarea>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Baggage Description:</div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered" style="margin-left:40px!important;margin-right:20px!important;">
+
+
+                            @for (int i = 0; i < lstdescEdit.BagDesc.Count; i++)
+                            {
+
+                                @if (lstdescEdit.BagDesc[i].BagGroup_ID != @GroupID)
+                                {
+                                    <tr>
+                                        <td colspan="2" style="background-color:#4E8DEC;color:#FFFFFF;font-size:medium;font-weight:bold;text-align:center;">@lstdescEdit.BagDesc[i].GroupName_EN</td>
+                                    </tr>
+                                    GroupID = lstdescEdit.BagDesc[i].BagGroup_ID;
+                                }
+
+
+                        <tr>
+                            @{
+                                var so_id = @lstdescEdit.BagDesc[i].BagDesc_ID.ToString();
+                                var namegroup = @lstdescEdit.BagDesc[i].BagGroupCode;
+                            }
+                            @if (lstdescEdit.BagDesc[i].UserCheck == true)
+                            {
+                                <td style="width:200px;"><input type="radio" checked id="BagGroup_@i" name="@lstdescEdit.BagDesc[i].BagGroup_ID.ToString()" style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" value=@so_id></td>
+                            }
+                            else
+                            {
+                                <td style="width:200px;"><input type="radio" id="BagGroup_@i" name="@lstdescEdit.BagDesc[i].BagGroup_ID.ToString()" style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" value=@so_id></td>
+                            }
+
+                            <td colspan="2">
+                                <img src="~/images/BaggageMiss/@lstdescEdit.BagDesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                <label for="edit_@i" style="margin-top:10px;">@lstdescEdit.BagDesc[i].Desc_EN.ToString()</label>
+                            </td>
+
+                        </tr>
+
+                            }
+
+
+                        </table>
+                    </div>
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary float-left" id="saveBaggageUpdate" onclick="clickUpdate()">Save</button>&nbsp;
+                        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+ }
+@if (select == "EN" && stage == "CL")
+{
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Baggage Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-y: auto;">
+               
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Baggage Description">
+                            <p id="required">Baggage Description</p>
+                            <textarea class="form-control" id="itembaggage_edit" rows="4" maxlength="1000" style="margin-top:-14px;">@lstdescEdit.Item.ToString()</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">  <p id="required">Quantity:</p><input type="number" step="any" min="0" name="number" style="margin-top: -14px;" value="@lstdescEdit.Qty" class="form-control" id="quantity_edit" oninput="check(this)" placeholder="Enter your quantity"></div>
+                        <div class="col-md-5">
+                            <p>
+                                Total Amount:
+                            </p>
+                            @if (lstdescEdit.TotalAmount.ToString() == "0")
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value=0 onkeypress="return onlyNumberKey(event)" maxlength="15" style="margin-top: -14px;" />
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value="@lstdescEdit.TotalAmount.ToString("#,###")" onkeypress="return onlyNumberKey(event)" maxlength="15" style="margin-top: -14px;" />
+                            }
+
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                Currency:
+                            </p>
+                            @if (lstdescEdit.Currency.ToString() == "VND")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top: -14px;">
+                                    <option selected value="VND">VNĐ</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            }
+                            @if (lstdescEdit.Currency.ToString() == "USD")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top: -14px;">
+                                    <option value="VND">VNĐ</option>
+                                    <option selected value="USD">USD</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Other description (if any)">
+                            Remark:
+                            @*<input type="text" class="form-control" id="remark_edit" value="@lstdescEdit.Remark.ToString()">*@
+                            <textarea class="form-control" id="remark_edit" rows="4" maxlength="1000" style="margin-top: 4px;">@lstdescEdit.Remark.ToString()</textarea>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Baggage Description:</div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered" style="margin-left: 40px !important; margin-right: 20px !important;">
+
+
+                            @for (int i = 0; i < lstdescEdit.BagDesc.Count; i++)
+                            {
+
+                                @if (lstdescEdit.BagDesc[i].BagGroup_ID != @GroupID)
+                                {
+                                    <tr>
+                                        <td colspan="2" style="background-color: #ffcc00; color: #000000; font-size: medium; font-weight: bold; text-align: center;">@lstdescEdit.BagDesc[i].GroupName_EN</td>
+                                    </tr>
+                                    GroupID = lstdescEdit.BagDesc[i].BagGroup_ID;
+                                }
+
+
+                                <tr>
+                                    @if (lstdescEdit.BagDesc[i].UserCheck == true)
+                                    {
+                                        <td style="width:200px;"><input type="radio" checked id="BagGroup_@i" name="@lstdescEdit.BagDesc[i].BagGroup_ID.ToString()" style="height: 20px; width: 20px; margin-left: 20px; margin-top: 20px;" value="@lstdescEdit.BagDesc[i].BagDetailCode"></td>
+                                    }
+                                    else
+                                    {
+                                        <td style="width:200px;"><input type="radio" disabled id="BagGroup_@i" name="@lstdescEdit.BagDesc[i].BagGroup_ID.ToString()" style="height: 20px; width: 20px; margin-left: 20px; margin-top: 20px;" value="@lstdescEdit.BagDesc[i].BagDetailCode"></td>
+                                    }
+
+                                    <td colspan="2">
+                                        <img src="~/images/BaggageMiss/@lstdescEdit.BagDesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                        <label for="edit_@i" style="margin-top: 10px; display: block;">@lstdescEdit.BagDesc[i].Desc_EN.ToString()</label>
+                                    </td>
+
+                                </tr>
+
+                            }
+
+
+                        </table>
+                    </div>
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (select == "VN" && stage != "CL")
+{
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông Tin Hành Lý Bỏ Quên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Mô Tả Hành Lý">
+                            <p id="required">Mô Tả Hành Lý:</p>
+                            <textarea class="form-control" id="itembaggage_edit" rows="3" maxlength="1000" style="margin-top:-14px;">@lstdescEdit.Item.ToString()</textarea>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4"><p id="required">Số Lượng:</p><input type="number" step="any" min="0" name="number" value="@lstdescEdit.Qty" class="form-control" id="quantity_edit" oninput="check(this)" placeholder="Vui lòng nhập số lượng" style="margin-top:-14px;"></div>
+                        <div class="col-md-5">
+                            <p> Trị Giá:</p>
+                            @if (lstdescEdit.TotalAmount.ToString() == "0")
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value=0 maxlength="15" style="margin-top:-14px;" />
+                            }
+                            else
+                            {
+                                <input type="text" name="number" class="form-control" id="amount_edit" value="@lstdescEdit.TotalAmount.ToString("#,###")" onkeypress="return onlyNumberKey(event)" maxlength="15" placeholder="Enter your total amount" style="margin-top:-14px;">
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                Tiền Tệ:
+                            </p>
+                            @if (lstdescEdit.Currency.ToString() == "VND")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top:-14px;">
+                                    <option selected value="VND">VNĐ</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            }
+                            @if (lstdescEdit.Currency.ToString() == "USD")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top:-14px;">
+                                    <option value="VND">VNĐ</option>
+                                    <option selected value="USD">USD</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Thông tin thêm(nếu có)">
+                            Ghi Chú:
+                            <textarea class="form-control" id="remark_edit" rows="2" maxlength="1000" style="margin-top:4px;">@lstdescEdit.Remark.ToString()</textarea>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Mô Tả Chi Tiết:</div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered" style="margin-left:40px!important;margin-right:20px!important;">
+
+
+                            @for (int i = 0; i < lstdescEdit.BagDesc.Count; i++)
+                            {
+
+                                @if (lstdescEdit.BagDesc[i].BagGroup_ID != @GroupID)
+                                {
+                                    <tr>
+                                        <td colspan="2" style="background-color: #ffcc00; color: #000000; font-size: medium; font-weight: bold; text-align: center;">@lstdescEdit.BagDesc[i].GroupName_VN</td>
+                                    </tr>
+                                    GroupID = lstdescEdit.BagDesc[i].BagGroup_ID;
+                                }
+
+                                <tr>
+                                    @{
+                                        var so_id = @lstdescEdit.BagDesc[i].BagDesc_ID.ToString();
+                                        var namegroup = @lstdescEdit.BagDesc[i].BagGroupCode;
+                                    }
+                                    @if (lstdescEdit.BagDesc[i].UserCheck == true)
+                                    {
+                                        <td style="width:200px;"><input type="radio" onchange="toggle(@so_id)" checked id=@so_id name=@namegroup style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" onclick="Radio_Selected(this)" value=@so_id></td>
+                                    }
+                                    else
+                                    {
+                                        <td style="width:200px;"><input type="radio" onchange="toggle(@so_id)" id=@so_id name=@namegroup style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" onclick="Radio_Selected(this)" value=@so_id></td>
+                                    }
+                                    <td colspan="2">
+                                        <img src="~/images/BaggageMiss/@lstdescEdit.BagDesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                        <label for="edit_@i" style="margin-top:10px;">@lstdescEdit.BagDesc[i].Desc_VN.ToString()</label>
+                                    </td>
+
+                                </tr>
+
+                            }
+
+
+                        </table>
+                    </div>
+                    <br />
+                    @if (stage != "CL")
+                    {
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary float-left" id="saveBaggageUpdate" onclick="clickUpdate()">Cập nhật</button>&nbsp;
+                            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (select == "VN" && stage == "CL")
+{
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông Tin Hành Lý Bỏ Quên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Mô Tả Hành Lý">
+                            <p id="required">Mô Tả Hành Lý:</p>
+                            <textarea class="form-control" id="itembaggage_edit" rows="3" maxlength="1000" style="margin-top:-14px;">@lstdescEdit.Item.ToString()</textarea>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4"><p id="required">Số Lượng:</p><input type="number" step="any" min="0" name="number" value="@lstdescEdit.Qty" class="form-control" id="quantity_edit" oninput="check(this)" placeholder="Vui lòng nhập số lượng" style="margin-top: -14px;"></div>
+                        <div class="col-md-5">
+                            <p> Trị Giá:</p>
+                            @if (lstdescEdit.TotalAmount.ToString() == "0")
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value=0 onkeypress="return onlyNumberKey(event)" maxlength="15" style="margin-top: -14px;" />
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" id="amount_edit" value="@lstdescEdit.TotalAmount.ToString("#,###")" onkeypress="return onlyNumberKey(event)" maxlength="15" style="margin-top: -14px;" />
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                Tiền Tệ:
+                            </p>
+                            @if (lstdescEdit.Currency.ToString() == "VND")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top: -14px;">
+                                    <option selected value="VND">VNĐ</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            }
+                            @if (lstdescEdit.Currency.ToString() == "USD")
+                            {
+                                <select name="currency" id="currency_edit" class="form-control" style="margin-top: -14px;">
+                                    <option value="VND">VNĐ</option>
+                                    <option selected value="USD">USD</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Thông tin thêm(nếu có)">
+                            Ghi Chú:
+                            <textarea class="form-control" id="remark_edit" rows="2" maxlength="1000" style="margin-top: 4px; display: block;">@lstdescEdit.Remark.ToString()</textarea>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Mô Tả Chi Tiết:</div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered" style="margin-left: 40px !important; margin-right: 20px !important;">
+
+
+                            @for (int i = 0; i < lstdescEdit.BagDesc.Count; i++)
+                            {
+
+                                @if (lstdescEdit.BagDesc[i].BagGroup_ID != @GroupID)
+                                {
+                                    <tr>
+                                        <td colspan="2" style="background-color: #ffcc00; color: #000000; font-size: medium; font-weight: bold; text-align: center;">@lstdescEdit.BagDesc[i].GroupName_VN</td>
+                                    </tr>
+                                    GroupID = lstdescEdit.BagDesc[i].BagGroup_ID;
+                                }
+
+                                <tr>
+                                    @{
+                                        var so_id = @lstdescEdit.BagDesc[i].BagDesc_ID.ToString();
+                                        var namegroup = @lstdescEdit.BagDesc[i].BagGroupCode;
+                                    }
+                                    @if (lstdescEdit.BagDesc[i].UserCheck == true)
+                                    {
+                                        <td style="width:200px;"><input type="radio" onchange="toggle(@so_id)" checked id=@so_id name=@namegroup style="height: 20px; width: 20px; margin-left: 20px; margin-top: 20px;" onclick="Radio_Selected(this)" value=@so_id></td>
+                                    }
+                                    else
+                                    {
+                                        <td style="width:200px;"><input type="radio" disabled onchange="toggle(@so_id)" id=@so_id name=@namegroup style="height: 20px; width: 20px; margin-left: 20px; margin-top: 20px;" onclick="Radio_Selected(this)" value=@so_id></td>
+                                    }
+                                    <td colspan="2">
+                                        <img src="~/images/BaggageMiss/@lstdescEdit.BagDesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                        <label for="edit_@i" style="margin-top:10px;">@lstdescEdit.BagDesc[i].Desc_VN.ToString()</label>
+                                    </td>
+
+                                </tr>
+
+                            }
+
+
+                        </table>
+                    </div>
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+    var lstdescEdit = @Html.Raw(JsonConvert.SerializeObject(@lstdescEdit));
+    var stage =@Html.Raw(JsonConvert.SerializeObject(stage));
+
+    function getNum() {
+        var val = parseInt($('#amount').val());
+        if (isNaN(val)) {
+            $('#amount').val('0');
+            return false;
+        }
+         
+        return val;
+    }
+
+        function onlyNumberKey(evt) {
+         
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+         }
+
+        function ViewAttach(fileId) {
+            for (let i = 0; i < _attchfileList.length; i++) {
+                if (_attchfileList[i].FileLoc_ID != 0 && _attchfileList[i].sysFileName == fileId) {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Pages/ViewAttached",
+                        data: { t_FileName: fileId },
+                        cache: false,
+                        success: function (data) {
+                            
+                            if (data.mess == "OK") {
+                                var link = "/data/BagMiss/" + _attchfileList[i].sysFileName;
+                                window.open(link, '_blank'); /*Mở thêm 1 tab với link href được chèn vô*/
+
+                            }
+
+                        },
+                        error: function (data) {
+                            return true;
+                        }
+                    })
+
+                }
+            }
+        }
+
+        /*Viết hàm kiểm tra radio check và lấy id đã được gán vào value*/
+    function Radio_Selected(e) {
+        var chuoi = "";
+        var array = [];
+        var radios = document.getElementsByTagName('input');
+             for (var j = 0; j < radios.length; j++) {
+                    if (radios[j].type === 'radio' && radios[j].checked) {
+                        var id = radios[j].value.trim();
+                        array.push(id);
+                        chuoi = chuoi + id + ",";
+                    }
+
+            }
+            return chuoi;
+
+        }
+
+        function toggle(id) {
+            var ids = document.getElementById(id);
+            var name = ids.name;
+            for (var i = 0; i < lstdescEdit.length; i++) {
+                if (lstdesc[i].BagGroup_ID == name) {
+                    var element = $("*[name=" + lstdescEdit.BagDesc[i].BagGroup_ID + "]").attr('id'); // lay id dua vao name -> tu do set td
+                    document.getElementById(element).style.background = "";
+                    document.getElementById(element).style.color = "";
+                    document.getElementById(element).style.background = "yellow";
+                    document.getElementById(element).style.color = "black";
+
+                }
+
+            }
+
+    }
+    function blockUI() {
+        $('#itembaggage_edit').prop('disabled', true);
+        $('#quantity_edit').prop('disabled', true);
+        $('#amount_edit').prop('disabled', true);
+        $('#currency_edit').prop('disabled', true);
+        $('#remark_edit').prop('disabled', true);
+        $('.table table-bordered').prop('disabled', true);
+        $('table input[type=checkbox]').attr('disabled', 'true');
+    }
+   
+
+    (function () {
+      
+        $("#amount_edit").on('keyup', function (evt) {
+                if ($("#amount_edit").val() == "") {
+                    $("#amount_edit").val() = 0;
+                }
+                if (evt.which != 110) {//not a fullstop
+                    var n = parseFloat($(this).val().replace(/\,/g, ''), 10);
+                    $(this).val(n.toLocaleString());
+                  }
+                
+            });
+
+        
+        if (stage == "CL") {
+            blockUI();
+        }
+
+
+        })()
+
+</script>
+

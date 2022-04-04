@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0" />
+    <title>Mobile</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+     <link rel="stylesheet" type="text/css" href="~/lib/alertify/css/alertify.css">
+   
+    @*<link rel="icon" type="image/x-icon" href="~/images/favicon.ico">*@
+   <link href="~/css/devextreme/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+    <script src="~/js/devextreme/jquery.js"></script>
+    <script src="~/js/devextreme/bootstrap.js"></script>
+   <script src="~/js/devextreme/dx.all.js"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+
+
+</head>
+<body >
+    <div class="wrapper_nav_mobile" >
+    <div class="wrapper_nav_mobile_content" style="z-index:9999999;position:fixed;top:0px">
+    <div class="wrapper_nav_mobile_icon_first"><img style="z-index:9999999;display:block;margin:auto;margin-top:17px;margin-bottom:15px;transform:translate(5px)" src="~/images/logo.png" height="45" width="140" /></div>
+    <div class="wrapper_nav_mobile_next"><a href="/Home/Mobile_Index"><img style="z-index:9999999;display:block;margin:auto;margin-top:10px;margin-bottom:5px" src="~/images/home.png" height="27" width="27"/></a><p style="font-size:14px;color:white;text-align:center">Home</p></div>
+    <div class="wrapper_nav_mobile_next"><a href=""><img style="z-index:9999999;display:block;margin:auto;margin-top:10px;margin-bottom:5px" src="~/images/search.png" height="27" width="27"/></a><p style="font-size:14px;color:white;text-align:center">Search</p></div>
+   <div class="wrapper_nav_mobile_next"><a href=""><img style="z-index:9999999;display:block;margin:auto;margin-top:10px;margin-bottom:5px" src="~/images/user.png" height="27" width="27"/></a><p style="font-size:14px;color:white;text-align:center">Login</p></div>
+     </div>
+     @RenderBody()
+    </div>
+    @*<footer>
+        <div class="container" style="position: relative; border-top: 2px solid #e2e1e1;">
+            <div class="row">
+                <div class="col-md-12 BottomFooter">
+                    <p>@Html.Raw("@ 2018 Bamboo Airways Copyright. All Rights Reserved.")</p>
+                </div>
+            </div>
+        </div>
+    </footer>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+     <script src="~/lib/alertify/js/alertify.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

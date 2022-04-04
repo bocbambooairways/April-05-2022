@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+
+
+
+
+@using BOC.Models;
+@model List<Flight>;
+
+<style>
+    #boxtitle {
+        background-color: #64AF53;
+        width:105%;
+    }
+    #boxinfo{
+        border:solid 1px #e5e4e4;
+    }
+    body .container.body .right_col {
+        background: #F7F7F7;
+        height: auto !important;
+        overflow: auto; /*Đi kèm nếu muốn set height auto*/
+    }
+
+    
+
+</style>
+
+
+
+@if (Model != null)
+{
+<div class="container" style="padding-top:40px;height: auto;">
+    <div class="row" id="boxtitle">
+        <h1 style="color:#ffffff;text-align:center;">VN Time-@TempData["Date"].ToString() </h1>
+    </div>
+    @foreach (var item in Model)
+    {
+    <div class="row" style="padding-top:60px;">
+        <div class="col-2">Dep.Time</div>
+        <div class="col-2">Flt.No</div>
+        <div class="col-2">AirCraft</div>
+        <div class="col-2">Reg</div>
+        <div class="col-2"></div>
+        <div class="col-2">Arr</div>
+    </div>
+    <div class="row">
+        <div class="col-2" style="background-color:@item.ATD_Color.ToString()">@item.ATD.ToString()</div>
+        <div class="col-2" style="background-color:@item.FltNo_Color.ToString()">
+            <a href="/FlightDate/FlightDoc?FlightId=@item.FlightID.ToString()" style="color:#0204fd;font-weight: bold;" class="FltNo">@item.FltNo.ToString() </a>
+        </div>
+        <div class="col-2" style="background-color:@item.Aircraft_Color.ToString()">@item.Aircraft.ToString()</div>
+        <div class="col-2" style="background-color:@item.RegisterNo_Color.ToString()">@item.RegisterNo.ToString()</div>
+        <div class="col-2"></div>
+        <div class="col-2" style="background-color:@item.DateTime_ATA_Color.ToString()">@item.DateTime_ATA.ToString()</div>
+    </div>
+    <div class="row">
+        <div class="col-2">Route</div>
+        <div class="col-2">Terminal</div>
+        <div class="col-2">Gate</div>
+        <div class="col-2">Belt</div>
+        <div class="col-2">Dep Bay</div>
+        <div class="col-2">Arr Bay</div>
+    </div>
+    <div class="row">
+        <div class="col-2" id="boxinfo" style="background-color:@item.Route_Color.ToString()">@item.Route.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.Terminal_Color.ToString()">@item.Terminal.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.Gate_Color.ToString()">@item.Gate.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.Belt_Dep_Color.ToString()">@item.Belt_Dep.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.Bay_Dep_Color.ToString()">@item.Bay_Dep.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.Bay_Arr_Color.ToString()">@item.Bay_Arr.ToString()</div>
+    </div>
+    <div class="row">
+        <div class="col-2">STD</div>
+        <div class="col-2">ETD</div>
+        <div class="col-2">BDT</div>
+        <div class="col-2">D Close</div>
+        <div class="col-2">Take off</div>
+        <div class="col-2">TDown</div>
+    </div>
+    <div class="row">
+        <div class="col-2" id="boxinfo" style="background-color:@item.STD_Color.ToString()">@item.STD.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.ETD_Color.ToString()">@item.ETD.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.BDT_Color.ToString()">@item.BDT.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.DoorClose_Color.ToString()">@item.DoorClose.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.TOff_Color.ToString()">@item.TOff.ToString()</div>
+        <div class="col-2" id="boxinfo" style="background-color:@item.TDown_Color.ToString()">@item.TDown.ToString()</div>
+    </div>
+  
+    }
+</div>
+ }
+
+
+

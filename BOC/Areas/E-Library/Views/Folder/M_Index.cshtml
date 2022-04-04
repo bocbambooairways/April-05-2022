@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+
+@using BOC.Areas.E_Library.Models
+@using DevExtreme.AspNet.Mvc
+@model IEnumerable<Doc_Folder_Get>
+ <style>
+ .dx-scrollable {
+   width: 100%
+    
+}
+.dx-button-content{
+    background-color:green;border-radius:8px!important
+}
+.dx-button-text{
+    color:white;
+}
+.dx-button-content:hover{
+    background-color:darkgreen!important
+}
+.dx-header-row{
+        background-color:lightgreen;color:darkgreen
+    }
+    #_myModal{
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:100px
+}
+</style>
+ 
+<div style="width:90%;margin:auto;margin-top:100px;margin-bottom:40px;background-color:lightgray">
+@(Html.DevExtreme().TreeList<Doc_Folder_Get>()
+    .ID("employees")
+    .DataSource(Model)
+    .KeyExpr("ID")
+    .ParentIdExpr("HeadID")
+    .FilterRow(filterRow => filterRow.Visible(true)).ShowBorders(true)@*.ShowRowLines(true)*@
+    .Selection(s => s.Mode(SelectionMode.Single)).Paging(m=>m.PageSize(5)).Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+    .Columns(column => {
+    column.AddFor(m => m.Name).Width("200px").Alignment(HorizontalAlignment.Left).HeaderCellTemplate(@<text>
+                <div style="margin-left:100px"><b style="text-align:center">Tên</b></div><div style="margin-left:95px"> Name</div>
+            </text>).CellTemplate(@<text>
+                <img src="/images/folder-icon.jpg" width="20" height="20">
+                <span class="name"><%-data.Name%></span>
+            </text>);
+    
+  
+     column.AddFor(m => m.Action).Alignment(HorizontalAlignment.Center).HeaderCellTemplate(@<text>
+                <div><b>Thao tác</b></div><div> Action</div>
+            </text>).CellTemplate( @<text>
+        @(Html.DevExtreme().Button()
+                
+                .Text("Open")
+                .OnClick("function () { onItemClick(data); }")
+        )
+    </text>);
+       
+    })
+)
+
+
+</div>
+
+ <script>
+
+     function onItemClick(data) {
+    window.location.href = "/E-Library/Search/M_GetSearchFolder?ID="+ Math.random(1) + "8c11dbe0884a34c2a631f25c7b872e65a2ec2bb4adcb7df9af0678ba03cec69fb669586ax" + data.ID
+}
+           function _OnCellClick(selectedItems) {
+            var data = selectedItems.selectedRowsData[0];
+            alert(data.Description)
+            }
+            function getOrderDay(rowData) {
+            return (new Date(rowData.OrderDate)).getDay();
+            }
+            function selection_changed(selectedItems) {
+           var data = selectedItems.selectedRowsData[0];
+            alert(data.Description)
+           
+    }
+
+        </script>

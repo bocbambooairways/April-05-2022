@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/BaggageMiss/Views/Shared/_Layout.cshtml";
+}
+@{
+
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+    var stage = @HttpContextAccessor.HttpContext.Session.GetString("Status");
+
+}
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json;
+@using BOC.Areas.BaggageMiss.Models;
+
+
+
+
+<div class="row" style="margin-left:20px;">
+    <div class="col-sm-5"><img src="/images/logo.png" style="width:184px;height:45px;" alt="logo"></div>
+    <div class="col-sm-9" style="float:right">
+        <a href="#" id="vn"><img src="/images/vn.png" width="24" height="30" /></a>
+        <a href="#" id="en"><img src="/images/en.png" width="20" height="20" /></a>
+    </div>
+    <div class="col-sm-12" style="text-align:center;">
+            
+            <h4 id="texthead" class="card-title"></h4>
+            <div>PNR: @ViewBag.PNR.ToString()</div>
+            <div>FltNo: @ViewBag.FltNo.ToString()</div>
+    </div>
+
+    
+</div>
+
+<div class="table-responsive">
+    <table class="tableprofile table-bordered"  id="tableProfile">
+        @if (select == "VN")
+        {
+            <thead>
+                <tr>
+                    <th class="sticky-col first-col" style="width: 5%;"></th>
+                    <th class="sticky-col second-col" style="width: 5%">STT</th>
+                    <th scope="col" style="width: 20%;">Mã hồ sơ</th>
+                    <th scope="col" style="width: 20%;">Họ Tên</th>
+                    <th scope="col" style="width: 30%">Địa Chỉ</th>
+                    <th scope="col" style="width: 10%">Email</th>
+                    <th scope="col" style="width: 10%">SĐT</th>
+
+                </tr>
+            </thead>
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th class="sticky-col first-col" style="width: 5%;"></th>
+                    <th class="sticky-col second-col" style="width: 5%;">ID</th>
+                    <th scope="col"  style="width: 20%;">Profile Number</th>
+                    <th scope="col" style="width: 20%;">FullName</th>
+                    <th scope="col" style="width: 30%;">Address</th>
+                    <th scope="col" style="width: 10%">Email</th>
+                    <th scope="col" style="width: 10%;">Phone</th>
+
+                </tr>
+            </thead>
+
+        }
+        @foreach (var item in ViewBag.ProfileDescLst)
+        {
+
+            <tbody>
+                <tr style="word-wrap: break-word;">
+                    <th class="sticky-col first-col" style="width: 5%;">
+                        <a class="edit" id="EditProfile" href="#" data-bb="@item.BagMiss_ID"><img src="/images/edit.png" width="20" height="20" /></a>
+                    </th>
+                    <th class="sticky-col second-col" style="width: 5%;">@item.ID</th>
+                    <th style="width: 20%;">
+                        @item.ProfileNo
+                        <br />
+                        @if (item.Status == "CL" && select == "EN")
+                        {
+                            <small style="font-style: italic; color: #4EBDEC!important;">Completed</small>
+                        }
+                        @if (item.Status == "CL" && select == "VN")
+                        {
+                            <small style="font-style:italic;color:#4EBDEC!important;">Đã hoàn thành</small>
+                        }
+                        @if (item.Status != "CL" && select == "EN")
+                        {
+                            <small style="font-style: italic; color: #E2AE14!important;">Not yet</small>
+                        }
+                        @if (item.Status != "CL" && select == "VN")
+                        {
+                            <small style="font-style: italic; color:#E2AE14!important;">Chưa hoàn thành</small>
+                        }
+                    </th>
+                    <th style="width: 20%;">@item.FullName</th>
+                    <td class="col" style="width: 30%;">@item.Address</td>
+                    <td class="col" style="width: 10%;">@item.Email</td>
+                    <td class="col" style="width: 10%;">@item.Phone</td>
+
+                </tr>
+            </tbody>
+
+        }
+
+    </table>
+</div>
+
+<div class="row">
+    @if (select == "EN")
+    {
+         <button type="button" class="btn btn-primary" id="CreateProfile" style="margin-left:50px;margin-top:10px;">New Profile</button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary" id="CreateProfile" style="margin-left:50px;margin-top:10px;">Tạo hồ sơ mới</button>
+    }
+
+
+</div>
+<br />
+
+<input type="hidden" id="langselect" value="@select" />
+
+<script>
+    $(function () {
+        var lang = $("#langselect").val() == null ? "VN" : $("#langselect").val();
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // true for mobile device
+            $("#typeofdevice").val("MOBILE");
+            if (lang == "VN" || lang == "") {
+                document.getElementById("texthead").innerHTML = "Vui lòng chọn hồ sơ của bạn.";
+            }
+            else {
+                document.getElementById("texthead").innerHTML = "Please choose your miss baggage profile.";
+            }
+
+
+        } else {
+            // false for not mobile device
+            $("#typeofdevice").val("NONE");
+            if (lang == "VN" || lang == "") {
+                document.getElementById("texthead").innerHTML = "Vui lòng chọn hồ sơ của bạn";
+            }
+            else {
+                document.getElementById("texthead").innerHTML = "Please choose your miss baggage profile";
+            }
+
+        }
+
+        $("a#vn").bind('touchstart click', function () {
+            window.location.href = _subFolder + "/Profiles/SetLang?id=VN";
+        });
+        $("a#en").bind('touchstart click', function () {
+            window.location.href = _subFolder + "/Profiles/SetLang?id=EN";
+        });
+        $(".btn-primary").bind('touchstart click', function () {
+            window.location.href = _subFolder + "/Pages/Index?t_flag=" + lang + "&t_bagmiss_id=0";
+
+        });
+
+        $("a.edit").bind('touchstart click', function () {
+
+            ////Check kiểm tra radio có được chọn hay không?
+            //var radios = document.querySelectorAll('input[type="radio"]:checked');
+            //var BagMissDetail_ID = radios.length > 0 ? radios[0].value : null;
+            var BagMiss_ID = $(this).attr("data-bb");
+            if (BagMiss_ID != null) {
+                window.location.href = _subFolder + "/Pages/Index?t_flag=" + lang + "&t_bagmiss_id=" + BagMiss_ID;
+            }
+            else {
+                alertify.alert("Please select your profile.");
+            }
+
+        });
+
+        $("#CreateProfile").bind('touchstart click', function () {
+
+
+            window.location.href = _subFolder + "/Pages/Index?t_flag=" + lang + "&t_bagmiss_id=" + 0 + "&t_action=" + 0;
+
+
+        });
+
+
+
+    })
+</script>
+
+

@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewData["Title"] = "FlightOne";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+@using BOC.Models;
+@model FlightOneModel;
+
+<style>
+    #box {
+           background-color: #006BB8;
+            width: 100%;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 2px;
+            height: 50px;
+
+    }
+
+    #div1 {
+        height: 30px;
+        width: 20%;
+        float: left;
+        color: #333;
+        font-family: Tahoma;
+    }
+
+    #div2 {
+        height: 30px;
+        width: 80%;
+        border: solid 1px #acd9f5;
+        float: left;
+        margin-bottom: 5px;
+        color: #333;
+        font-family: Tahoma;
+        padding-top:2px;
+    }
+
+    #div1, #div2 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .inline {
+        display: inline-block;
+        margin: 2px;
+    }
+</style>
+
+<div id="box"><h4 style="text-align:center;font-family:Tahoma;color:white;"> @TempData["FlightNo"].ToString()- @TempData["Date"].ToString() (@TempData["Routing"].ToString()) </h4></div>
+<br />
+@if (Model != null)
+{
+<div class="container" style="padding-top:60px;">
+    <div class="row" style="font-size:12px;">
+        <div class="col"><div id="div1">Aircraft:</div><div id="div2" style="background-color:@Model.Aircraft.BackColor.ToString();color:@Model.Aircraft.FontColor.ToString();">@Model.Aircraft.Value.ToString()</div></div>
+        <div class="col"><div id="div1">RegisterNo:</div><div id="div2" style="background-color:@Model.RegisterNo.BackColor.ToString();color:@Model.RegisterNo.FontColor.ToString();">@Model.RegisterNo.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Gate:</div><div id="div2" style="background-color:@Model.Gate.BackColor.ToString();color:@Model.Gate.FontColor.ToString();">@Model.Gate.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">Dep Bay:</div><div id="div2" style="background-color:@Model.Bay_Dep.BackColor.ToString();color:@Model.Bay_Dep.FontColor.ToString();"> @Model.Bay_Dep.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Belt:</div><div id="div2" style="background-color:@Model.Belt_Dep.BackColor.ToString();color:@Model.Belt_Dep.FontColor.ToString();">@Model.Belt_Dep.Value.ToString()</div></div>
+        <div class="col"><div id="div1">STD:</div><div id="div2" style="background-color:@Model.STD.BackColor.ToString();color:@Model.STD.FontColor.ToString();"> @Model.STD.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">ETD:</div><div id="div2" style="background-color:@Model.ETD.BackColor.ToString();color:@Model.ETD.FontColor.ToString();">@Model.ETD.Value.ToString()</div></div>
+        <div class="col"><div id="div1">BDT:</div><div id="div2" style="background-color:@Model.BDT.BackColor.ToString();color:@Model.BDT.FontColor.ToString();">@Model.BDT.Value.ToString()</div></div>
+        <div class="col"><div id="div1">D Close:</div><div id="div2" style="background-color:@Model.DoorClose.BackColor.ToString();color:@Model.DoorClose.FontColor.ToString();">@Model.DoorClose.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">Chock Off:</div><div id="div2" style="background-color:@Model.ATD.BackColor.ToString();color:@Model.ATD.FontColor.ToString();">@Model.ATD.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Take Off:</div><div id="div2" style="background-color:@Model.TOff.BackColor.ToString();color:@Model.TOff.FontColor.ToString();">@Model.TOff.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Estimate Pax:</div><div id="div2" style="background-color:@Model.PaxEst_Full.BackColor.ToString();color:@Model.PaxEst_Full.FontColor.ToString();">@Model.PaxEst_Full.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">Actual Pax:</div><div id="div2" style="background-color:@Model.Pax_Full.BackColor.ToString();color:@Model.Pax_Full.FontColor.ToString();">@Model.Pax_Full.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Cargo:</div><div id="div2" style="background-color:@Model.Cargo_Full.BackColor.ToString();color:@Model.Cargo_Full.FontColor.ToString();">@Model.Cargo_Full.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Co Mat:</div><div id="div2" style="background-color:@Model.Co_Mat_Full.BackColor.ToString();color:@Model.Co_Mat_Full.FontColor.ToString();">@Model.Co_Mat_Full.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">Fuel remain:</div><div id="div2" style="background-color:@Model.Fuel_Remmain.BackColor.ToString();color:@Model.Fuel_Remmain.FontColor.ToString();">@Model.Fuel_Remmain.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Fuel Fill:</div><div id="div2" style="background-color:@Model.Fuel_Topup.BackColor.ToString();color:@Model.Fuel_Topup.FontColor.ToString();">@Model.Fuel_Topup.Value.ToString()</div></div>
+        <div class="col"><div id="div1">STA:</div><div id="div2" style="background-color:@Model.STA.BackColor.ToString();color:@Model.STA.FontColor.ToString();">@Model.STA.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">ETA:</div><div id="div2" style="background-color:@Model.ETA.BackColor.ToString();color:@Model.ETA.FontColor.ToString();">@Model.ETA.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Touch Down:</div><div id="div2" style="background-color:@Model.TDown.BackColor.ToString();color:@Model.TDown.FontColor.ToString();">@Model.TDown.Value.ToString()</div></div>
+        <div class="col"><div id="div1">Chock On:</div><div id="div2" style="background-color:@Model.ATA.BackColor.ToString();color:@Model.ATA.FontColor.ToString();">@Model.ATA.Value.ToString()</div></div>
+        <div class="w-100"></div>
+        <div class="col"><div id="div1">Arr Bay:</div><div id="div2" style="background-color:@Model.Bay_Arr.BackColor.ToString();color:@Model.Bay_Arr.FontColor.ToString();">@Model.Bay_Arr.Value.ToString()</div></div>
+        <div class="col"><div id="div1"><input style="margin-left:26px;" type="button" value="FlightOne Doccument" id="fo_doc" class="btn btn-primary" /></div></div>
+        <div class="col"><input type="hidden" id="flightid" value="@ViewData["FlightId"]" /></div>
+    </div>
+    <br />
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Discussion</a>
+            @*<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Delay reason</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Document</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Report</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Technical</a>
+                <a class="nav-item nav-link" id="nav-vip-tab" data-toggle="tab" href="#nav-vip" role="tab" aria-controls="nav-vip" aria-selected="false">VIP/CIP</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Services</a>*@
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            @if (Model.ConferenceFlight != null)
+            {
+                <div id="conference"></div>
+
+
+            }
+        </div>
+        @*<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-vip" role="tabpanel" aria-labelledby="nav-vip-tab">
+                @if (Model.VipFlight != null)
+                {
+                    @(Html.DevExtreme().DataGrid()
+                            .ID("gridContainer2")
+                            .ShowBorders(true)
+                            .DataSource(Model.VipFlight)
+                            .Columns(c =>
+                            {
+
+                                c.Add().DataField("Name").Caption("Name");
+                                c.Add().DataField("Duty").Caption("Duty");
+                                c.Add().DataField("Remark").Caption("Remark");
+                                c.Add().DataField("CreateUser").Caption("Deploy By");
+                                c.Add().DataField("CreateDate").Caption("Deploy Date");
+                                c.Add().DataField("RecieveNote").Caption("Recieve Note");
+                                c.Add().DataField("RecieveUser").Caption("Recieve User");
+                                c.Add().DataField("RecieveDate").Caption("Recieve Date");
+                                c.Add().DataField("ReceiveStatus.Value").Caption("Receive Status");
+
+
+                            })
+                            .Paging(p => p.PageSize(20))
+                            .ShowBorders(true)
+                            .ShowColumnLines(true)
+                            .ShowRowLines(true)
+                            .FilterRow(f => f.Visible(true))
+                            .HeaderFilter(f => f.Visible(false))
+                            .GroupPanel(p => p.Visible(true))
+                            .Grouping(g => g.AutoExpandAll(false))
+                            .RemoteOperations(true)
+                            .WordWrapEnabled(true)
+                            .GroupPanel(z => z.AllowColumnDragging(false))
+
+            )
+
+                }
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>*@
+    </div>
+</div>
+
+
+
+}
+<script>
+    //use Json.parse to convert string to Json
+    var data = JSON.parse('@Html.Raw(ViewData["ConferenceFlight"].ToString())');
+</script>
+<script>
+    $(document).ready(function () {
+        $('#fo_doc').click(function () {
+            var id = $('#flightid').val();
+            window.location = "/FlightDate/FlightDoc?FlightId="+id;
+        });
+        new DevExpress.ui.dxTreeList(document.getElementById("conference"), {
+            columnFixing: {
+                enabled: true
+            },
+            columns: [
+                {
+                    dataField: "divisionName",
+                    caption: "DivisionName",
+                    
+                    
+                },
+                {
+                    dataField: "airport",
+                    caption: "Airport",
+                    fixed: true,
+                    fixedPosition: "left"
+                },
+                {
+                    dataField: "remark",
+                    caption: "Remark"
+                   
+                },
+                {
+                    dataField: "messageType",
+                    caption: "Msg.Type"
+                 
+                },
+                {
+                    dataField: "scope",
+                    caption: "Airport"
+                },
+                {
+                    dataField: "status.value",
+                    caption: "Status"
+                },
+                {
+                    dataField: "createUser",
+                    caption: "Create User"
+                },
+                {
+                    dataField: "createDate",
+                    caption: "Create Date"
+                },
+                {
+                    dataField: "deleteUser",
+                    caption: "Delete User"
+                },
+                {
+                    dataField: "DeleteDate",
+                    caption: "Delete Date"
+                }
+            ],
+            dataSource: data,         
+            searchPanel: {
+                visible: true,
+                searchVisibleColumnsOnly: false,
+                highlightSearchText: true
+            },
+            allowColumnResizing: true,
+            columnResizingMode: "nextColumn",
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },        
+            headerFilter: {
+                visible: true
+            },
+            autoExpandAll: false,
+            autoNavigateToFocusedRow: true,
+            showRowLines: true
+        });
+       
+    });
+
+</script>
+
+

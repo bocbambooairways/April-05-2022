@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+}
+<link rel="icon" type="image/x-icon" href="~/images/favicon.ico">
+@model BOC.Areas.DarkSiteEmergency.Models.UserInfor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link href="~/css/my-login.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/jquery.slim.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="my-login-page">
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper" style="position:relative">
+                    <div class="card fat" style="position:absolute;top:50px">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-5"><img src="/images/Logo.png" style="width:184px;height:45px;" alt="logo"></div>
+                                <div class="col-sm-7"><h3 id="texthead" class="card-title" style="float:right;color:#00548E;font-family:sans-serif;padding-top:50px;">LOGIN</h3></div>
+                            </div>
+
+                            <div>
+                                <form method="post" class="my-login-validation" novalidate="" asp-area="DarkSiteEmergency" asp-controller="Home" asp-action="Login">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label for="email">User name</label>
+                                        @Html.TextBoxFor(model => model.UserCode, new { @class = "form-control", id = "username", placeholder = "Input Your Account" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">
+                                            Password
+                                        </label>
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", id = "password", placeholder = "Input Your PassWord", type = "password" })
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-checkbox custom-control">
+                                            @Html.CheckBoxFor(model => model.Remember, new { @class = "custom-control-input", @id = "remember", @name = "remember", @disabled = "disabled"})
+                                            <label for="remember" class="custom-control-label" >Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-0">
+                                        <button type="submit" id="login" class="btn btn-primary btn-block">
+                                            Login
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @Html.Partial("_modal")
+    <script src="~/js/javascript.js"></script>
+</body>
+</html>

@@ -1,0 +1,1834 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/BaggageMiss/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    List<BagDesc> lstdesc = ViewBag.MissBagDesc;
+    List<BagDesc> lstdescEdit = SessionHelper.GetObjectFromJson<List<BagDesc>>(@HttpContextAccessor.HttpContext.Session, "MissBagDescEdit");
+    List<FileAttach_HS> _attachfileList = SessionHelper.GetObjectFromJson<List<FileAttach_HS>>(@HttpContextAccessor.HttpContext.Session, "Miss_AttachFileHS");
+    var status = @HttpContextAccessor.HttpContext.Session.GetString("Update");
+    var BagMiss_ID = @HttpContextAccessor.HttpContext.Session.GetString("BagMiss_ID") == null ? "0" : @HttpContextAccessor.HttpContext.Session.GetString("BagMiss_ID");
+    var ProfileNo = @HttpContextAccessor.HttpContext.Session.GetString("ProfileNo") == "" ? "0" : @HttpContextAccessor.HttpContext.Session.GetString("ProfileNo");
+    var BagMissDetail_ID = @HttpContextAccessor.HttpContext.Session.GetString("BagMissDetail_ID") == null ? "0" : @HttpContextAccessor.HttpContext.Session.GetString("BagMissDetail_ID");
+    var FltDate = @HttpContextAccessor.HttpContext.Session.GetString("FltDate");
+    var select = @HttpContextAccessor.HttpContext.Session.GetString("Lang") == null ? "VN" : @HttpContextAccessor.HttpContext.Session.GetString("Lang");
+    ViewBag.FltDate = FltDate == null ? ViewBag.FltDate : FltDate;
+    var GroupID = 0;
+    var check = @HttpContextAccessor.HttpContext.Session.GetString("Argree") == null ? "Yes" : @HttpContextAccessor.HttpContext.Session.GetString("Argree");
+    var stage = @HttpContextAccessor.HttpContext.Session.GetString("Status");
+
+
+}
+
+@using System;
+@using System.Globalization;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using Newtonsoft.Json;
+@using BOC.Areas.BaggageMiss.Models;
+@using BOC.Models;
+@model ViewModel;
+
+
+
+
+<div class="row">
+    <div class="Column" style="margin-left:50px;margin-top:2px;">
+        <div class="row">
+            <img src="/images/logo.png" style="width:184px;height:45px;" alt="logo">
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="#" id="vn"><img src="/images/vn.png" width="24" height="30" /></a>
+                <a href="#" id="en"><img src="/images/en.png" width="20" height="20" /></a>
+            </div>
+        </div>
+    </div>
+    <div class="Column"><h4 id="texthead4Profile" class="card-title"></h4></div>
+    <div class="Column">
+        @if (select == "EN")
+        {
+            <p id="mahoso">
+                Profile No.:@ProfileNo.ToString()<br />
+                @ViewBag.FltNo/@ViewBag.FltDate/@ViewBag.PNR
+            </p>
+            <input type="hidden" value="EN" id="lang" />
+        }
+        else
+        {
+            <p id="mahoso">
+                Mã hồ sơ:@ProfileNo.ToString()<br />
+                @ViewBag.FltNo/@ViewBag.FltDate/@ViewBag.PNR
+            </p>
+            <input type="hidden" value="VN" id="lang" />
+        }
+    </div>
+</div>
+
+
+<div class="panel panel-default" style="margin-top:2px;margin-bottom:2px;margin-left:5px;">
+    @if (select == "EN")
+    {
+        <div class="panel-body">
+            <fieldset class="col-md-11"  id="myfieldset">
+                @if (stage != "CL")
+                {
+                    <legend>Contact detail</legend>
+                }
+                else
+                {
+                    <legend>Contact detail<small style="color:#4EBDEC">&nbsp;&nbsp;(completed)</small></legend>
+                }
+
+                @foreach (BaggageMissContactModel contact in Model.MissContacts)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2" id="required">
+                                    FullName:
+                                </div>
+                                <div class="col-md-10">
+                                    @if (BagMiss_ID == "0")
+                                    {
+
+                                        @Html.DropDownList("custname", new SelectList(new List<string>(@contact.PassengerNameList)), "-----------------------------------  Select Your Name ------------------------------", new { style = "width: 98%;" });
+
+                                    }
+                                    @if (BagMiss_ID != "0")
+                                    {
+
+                                        @Html.TextBox("custname", ViewData["CustName"].ToString(), new { @class = "form-control", style = "width: 98%;" })
+                                    }
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" id="required">
+                                    Email:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextBox("custemail", @contact.Email, new { style = "width: 98%;" })
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" id="required">
+                                    Address:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextBox("custadd", @contact.Address, new { style = "width: 98%;" })
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-6" id="required">
+                                    Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.TextBox("custphone", @contact.Phone, new { style = "width: 60%;margin-left:54px;", @type = "number" })
+                                </div>
+
+                                <br />
+                                <div class="col-md-6" data-toggle="tooltip" data-placement="right" title="Bamboo Club membership number (if any)">
+                                    Membership:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.TextBox("bbcno", @contact.BBCNo, new { style = "width: 60%;margin-left:55px;" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" data-toggle="tooltip" data-placement="bottom" title="Other description (if any)">
+                                    Remark:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextArea("custremark", @contact.Remark, new { style = "width: 98%;" })
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:10px;margin-left:4px;">
+                                @if (check == "Yes")
+                                {
+                                    <label for="ckbargree" style="text-align:justify;width:97%;"> <input type="checkbox" checked id="ckbargree" name="ckbargree">I hereby declare that the information given in this form and in the enclosed documents is true and complete. I acknowledge that Bamboo Airways reserves its rights against me if I attempt to make a false claim. I also acknowledge that the information will be used for baggage tracing, baggage delivery, baggage repair and claim handling. Such data may be transmitted to other Bamboo Airways offices, relevant government and enforcement agencies, other Carriers or the providers of ancillary services, in what every country they may be located, for similar purposes. All information provided will be managed in accordance with Bamboo Airways Privacy Policy.</label><br>
+                                    <input type="text" id="ckbargreeval" style="visibility:hidden;" />
+                                }
+                                else
+                                {
+                                    <label for="ckbargree" style="text-align:justify;width:97%;"> <input type="checkbox" id="ckbargree" name="ckbargree">I hereby declare that the information given in this form and in the enclosed documents is true and complete. I acknowledge that Bamboo Airways reserves its rights against me if I attempt to make a false claim. I also acknowledge that the information will be used for baggage tracing, baggage delivery, baggage repair and claim handling. Such data may be transmitted to other Bamboo Airways offices, relevant government and enforcement agencies, other Carriers or the providers of ancillary services, in what every country they may be located, for similar purposes. All information provided will be managed in accordance with Bamboo Airways Privacy Policy.</label><br>
+                                    <input type="text" id="ckbargreeval" style="visibility:hidden;" />
+                                }
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+                <br>
+                @if (stage != "CL")
+                {
+                    @if (BagMiss_ID == "0")
+                    {
+                        <button type="button" class="btn btn-primary" id="CreateProfile" style="float: right; margin-right: 10px; visibility: visible; width: 100px;">Next</button>
+                    }
+                    @if (BagMiss_ID != "0")
+                    {
+                        <button type="button" class="btn btn-primary" id="CreateProfile" style="float: right; margin-right: 10px; visibility: hidden; width: 100px;">Next</button>
+                        <button type="button" class="btn btn-primary" id="EditProfile" style="float:right!important;margin-right:-105px!important;margin-top:-12px;visibility:visible;width:126px;">Edit</button>
+                    }
+
+                    <button type="button" class="btn btn-danger" id="SaveProfileEdit" style="float: right !important;margin-top:-12px; margin-right: -100px; visibility: hidden; width: 126px;">Save</button>
+
+
+                    @if (BagMiss_ID != "0" && BagMissDetail_ID != "0")
+                    {
+                        <input type="button" class="btn btn-success" value="Completed" id="sendemail" style="float:left; margin-right: -2px; margin-top:-10px; visibility: visible;width:126px;">
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-success" value="Completed" id="sendemail" style="float:left;margin-right:10px;visibility:hidden;width:126px;">
+                    }
+                }
+
+
+
+            </fieldset>
+
+            <div class="clearfix"></div>
+            <div class="panel panel-default" style="margin-top:10px;margin-bottom:10px;margin-left:5px;">
+                <div class="panel-body">
+                    @if (BagMiss_ID != "0")
+                    {
+                        <fieldset  class="col-md-11" id="detaildesc">
+                            <legend>Detailed description</legend>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-10" style="margin-top:-16px;">
+                                            @if (stage != "CL")
+                                            {
+                                                <label for="add-item" class="custom-modal" style="visibility: visible; font-size: 14px;">
+                                                    <img id="additem" src="/images/add.png" width="20" height="20" />&nbsp;&nbsp;Add New
+                                                </label>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                    <br />
+
+                                    <div class="fixTableHead">
+                                        <table class="table table-bordered" id="tableDetail">
+
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">TotalAmount</th>
+                                                    <th scope="col">Currency</th>
+                                                    <th scope="col">Remark</th>
+                                                    <th scope="col"></th>
+
+                                                </tr>
+                                            </thead>
+                                            @foreach (BaggageMissDetailModel d in Model.MissDetails)
+                                            {
+                                                <tbody>
+                                                    <tr style="word-wrap: break-word;">
+                                                        <th scope="row">@d.ID</th>
+                                                        <td>@d.Item</td>
+                                                        <td>@d.Qty</td>
+                                                        <td>
+                                                            @if (d.TotalAmount.ToString() == "0")
+                                                            {
+                                                                @String.Format("{0}", d.TotalAmount)
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                @String.Format("{0:0,0}", d.TotalAmount)
+                                                                @*@d.TotalAmount.ToString("#,#", CultureInfo.InvariantCulture)*@
+
+                                                            }
+                                                        </td>
+                                                        <td>@d.Currency</td>
+                                                        <td>@d.Remark</td>
+                                                        @if (stage != "CL")
+                                                        {
+                                                            <td>
+                                                                <a class="edit" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/edit.png" width="20" height="20" /></a>
+                                                                <a class="deletebagmiss" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/delete.png" width="20" height="20" /></a>
+
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <a class="edit" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/view.png" width="20" height="20" /></a>
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                </tbody>
+                                            }
+
+                                        </table>
+                                    </div>
+
+
+
+                                    @if (BagMiss_ID == "0")
+                                    {
+                                        <table class="table table-bordered" id="tableDetail">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">TotalAmount</th>
+                                                    <th scope="col">Currency</th>
+                                                    <th scope="col">Remark</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    }
+
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    }
+                    <div class="clearfix"></div>
+                    @if (BagMiss_ID != "0")
+                    {
+
+                        <fieldset class="col-md-11" id="myattachedfieldset">
+                            <legend>Attachment</legend>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <form method="post" id="formUpload" enctype="multipart/form-data" asp-controller="Pages" asp-action="Index">
+                                        <div class="form-group">
+                                            <div class="col-md-10" style="margin-top:-16px;">
+                                                @if (stage != "CL")
+                                                {
+                                                    <label for="file-upload" class="custom-file-upload">
+                                                        <img src="/images/attach.png" width="20" height="20" />&nbsp;&nbsp;Attach
+                                                    </label>
+                                                    <input id="fileUpload" accept="image/*" class="form-control" name="files" multiple="multiple" type="file" />
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            @if (ViewBag.FileDisplay != null)
+                            {
+
+
+                                <div class="fixTableHead">
+
+                                    @{
+                                        await Html.RenderPartialAsync("_TableFileAttach");
+                                    }
+
+                                </div>
+
+
+                            }
+
+                        </fieldset>
+                    }
+
+
+
+
+                </div>
+
+              @*Modal for add new*@
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="ModalNew" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Baggage Information</h5>
+                                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>*@
+                            </div>
+                            <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Type Baggage Description">
+                                            <p id="required">Baggage Description:</p>
+                                            <textarea class="form-control" id="itembaggage" rows="4" placeholder="Please describe your baggage..." maxlength="1000"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p id="required">Quantity:</p>
+                                            <input type="number" step="any" min="1" name="number" value="1" class="form-control" id="quantity" oninput="check(this)" placeholder="Enter your quantity" style="margin-top:-14px;">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p>Total Amount:</p>
+                                            <input type="text" class="form-control" id="amount" value="0" style="margin-top:-14px;" />
+                                            <input type="text" name="number" value="0" class="form-control" id="amount" placeholder="Enter your total amount" onkeypress="return onlyNumberKeyAdd(event)" oninput="getNum()" style="margin-top:-14px;" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Currency:</p>
+                                            <select name="currency" id="currency" class="form-control" style="margin-top:-14px;">
+                                                <option selected value="VND">VNĐ</option>
+                                                <option value="USD">USD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Other description (if any)">
+                                            Remark:
+                                            <textarea class="form-control" id="remark" rows="4" placeholder="Enter your description(if any).." maxlength="1000"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">Baggage Description:</div>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-bordered" style="margin-left:40px!important;margin-right:20px!important;">
+
+
+                                            @for (int i = 0; i < lstdesc.Count; i++)
+                                            {
+
+                                                @if (lstdesc[i].BagGroup_ID != @GroupID)
+                                                {
+                                                    <tr>
+                                                        <td colspan="2" id="BagGroup_@i" name="@lstdesc[i].BagGroup_ID.ToString()" style="background-color:#4E8DEC;color:#FFFFFF;font-size:medium;font-weight:bold;text-align:center;">@lstdesc[i].GroupName_EN</td>
+                                                    </tr>
+                                                    GroupID = lstdesc[i].BagGroup_ID;
+                                                }
+
+
+                                                <tr>
+                                                    @{
+                                                        var so_id = @lstdesc[i].BagDesc_ID.ToString();
+                                                        var namegroup = @lstdesc[i].BagGroup_ID.ToString();
+                                                    }
+                                                    <td style="width:200px;"><input type="radio" onclick="toggle(@so_id)" id=@so_id name=@namegroup style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" value="@so_id"></td>
+                                                    <td colspan="2">
+                                                        <img src="~/images/BaggageMiss/@lstdesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                                        <label for="@i" style="margin-top:10px;">@lstdesc[i].Desc_EN.ToString()</label>
+                                                    </td>
+
+                                                </tr>
+
+                                            }
+
+
+
+                                            }
+                                        </table>
+                                    </div>
+
+                                    <br />
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary float-left" id="saveBaggage">Save</button>&nbsp;
+                                        <button type="button" class="btn btn-danger mr-auto" onclick="CloseModal();"   @*data-dismiss="modal"*@>Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 @*Modal for edit*@ 
+
+                <div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="ModalEdit" aria-hidden="true">
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        @if (stage != "CL")
+        {
+
+            <div id="loading-div-background" style="visibility:hidden;">
+                <div id="loading-div" class="ui-corner-all">
+                    <img style="height:80px;margin:30px;" src="/images/loading.gif" alt="Loading.." />
+                    <h2 style="color:gray;font-weight:normal;">Please wait....</h2>
+                </div>
+            </div>
+        }
+
+
+    }
+    else
+    {
+
+        <div class="panel-body">
+            <fieldset class="col-md-11" id="myfieldset">
+                @if (stage != "CL")
+                {
+                    <legend>Thông Tin Hồ Sơ</legend>
+                }
+                else
+                {
+                    <legend>Thông Tin Hồ Sơ<small style="color:#4EBDEC">&nbsp;&nbsp;(đã hoàn thành)</small></legend>
+                }
+                @foreach (BaggageMissContactModel contact in Model.MissContacts)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2" id="required">
+                                    Họ Tên:
+                                </div>
+                                <div class="col-md-10">
+                                    @if (BagMiss_ID == "0")
+                                    {
+
+                                        @Html.DropDownList("custname", new SelectList(new List<string>(@contact.PassengerNameList)), "-----------------------------------  Select Your Name ------------------------------", new { style = "width: 98%;", required = "required" });
+
+                                    }
+                                    @if (BagMiss_ID != "0")
+                                    {
+
+                                        @Html.TextBox("custname", ViewData["CustName"].ToString(), new { @class = "form-control", style = "width: 98%;", required = "required" })
+                                    }
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" id="required">
+                                    Email:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextBox("custemail", @contact.Email, new { style = "width: 98%;", required = "required" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" id="required">
+                                    Địa chỉ:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextBox("custadd", @contact.Address, new { style = "width: 98%;", required = "required" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-6">
+                                    <p id="required">Số Điện Thoại:</p> @Html.TextBox("custphone", @contact.Phone, new { style = "width: 60%;margin-left: 171px;margin-top:-36px; ", @type = "number", required = "required" })
+                                </div>
+                                <br />
+                                <div class="col-md-6" data-toggle="tooltip" data-placement="right" title="Mã thành viên Bamboo(nếu có)">
+                                    Mã Thành Viên:&nbsp;&nbsp;@Html.TextBox("bbcno", @contact.BBCNo, new { style = "width: 60%;margin-left:60px;" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="margin-top:-10px;">
+                                <div class="col-md-2" data-toggle="tooltip" data-placement="bottom" title="Thông tin thêm(nếu có)">
+                                    Ghi chú:
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextArea("custremark", @contact.Remark, new { style = "width: 98%;" })
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;margin-left:4px;">
+                                @if (check == "Yes" && BagMiss_ID != "0")
+                                {
+
+                                    <label for="ckbargree" style="text-align: justify; width: 97%;">
+                                        <input type="checkbox" id="ckbargree" checked name="ckbargree">
+                                        Tôi xin cam đoan rằng thông tin được cung cấp trong biểu mẫu này và trong các tài liệu kèm theo là đúng sự thật và đầy đủ. Tôi xác nhận rằng Bamboo Airways bảo lưu các quyền của mình nếu thông tin khiếu nại sai. Tôi cũng xác nhận rằng thông tin cá nhân sẽ được sử dụng để truy tìm hành lý, giao nhận hành lý, sửa chữa hành lý và xử lý các yêu cầu liên quan. Những dữ liệu này có thể được chuyển đến các văn phòng Bamboo Airways tại các sân bay, các cơ quan chính phủ và cơ quan thực thi liên quan, các Hãng vận chuyển khác hoặc các nhà cung cấp dịch vụ phụ trợ, ở mọi quốc gia mà họ có thể đặt trụ sở, cho các mục đích tương tự. Tất cả thông tin được cung cấp sẽ được quản lý theo Chính sách bảo mật thông tin của Hãng
+                                    </label><br>
+                                    <input type="text" id="ckbargreeval" style="visibility:hidden;" />
+                                }
+                                @if (BagMiss_ID == "0")
+                                {
+                                    <label for="ckbargree" style="text-align: justify; width: 97%;">
+                                        <input type="checkbox" id="ckbargree" name="ckbargree">
+                                        Tôi xin cam đoan rằng thông tin được cung cấp trong biểu mẫu này và trong các tài liệu kèm theo là đúng sự thật và đầy đủ. Tôi xác nhận rằng Bamboo Airways bảo lưu các quyền của mình nếu thông tin khiếu nại sai. Tôi cũng xác nhận rằng thông tin cá nhân sẽ được sử dụng để truy tìm hành lý, giao nhận hành lý, sửa chữa hành lý và xử lý các yêu cầu liên quan. Những dữ liệu này có thể được chuyển đến các văn phòng Bamboo Airways tại các sân bay, các cơ quan chính phủ và cơ quan thực thi liên quan, các Hãng vận chuyển khác hoặc các nhà cung cấp dịch vụ phụ trợ, ở mọi quốc gia mà họ có thể đặt trụ sở, cho các mục đích tương tự. Tất cả thông tin được cung cấp sẽ được quản lý theo Chính sách bảo mật thông tin của Hãng
+                                    </label><br>
+                                    <input type="text" id="ckbargreeval" style="visibility:hidden;" />
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <br>
+                @if (stage != "CL")
+                {
+                    @if (BagMiss_ID == "0")
+                    {
+                        <button type="button" class="btn btn-primary" id="CreateProfile" style="float:right;margin-right:10px;visibility:visible;">Tiếp theo</button>
+                    }
+                    @if (BagMiss_ID != "0")
+                    {
+                        <button type="button" class="btn btn-primary" id="CreateProfile" style="float:right;margin-right:10px;visibility:hidden;width:100px;">Tiếp theo</button>
+                        <button type="button" class="btn btn-primary" id="EditProfile" style="float: right !important;margin-right: -100px !important; margin-top: -12px; visibility: visible; width: 126px;">Chỉnh sửa</button>
+                    }
+
+                    <button type="button" class="btn btn-danger" id="SaveProfileEdit" style="float:right!important;margin-top:-12px;margin-right:-100px; visibility: hidden;width:126px;">Lưu</button>
+                    @if (BagMiss_ID != "0" && BagMissDetail_ID != "0")
+                    {
+                        <input type="button" class="btn btn-success" value="Hoàn tất" id="sendemail" style="float:left;margin-right:-2px;margin-top:-10px;visibility:visible;width:126px;">
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-success" value="Hoàn tất" id="sendemail" style="float:left;margin-right:10px;visibility:hidden;width:126px;">
+                    }
+                }
+
+
+
+            </fieldset>
+
+            <div class="clearfix"></div>
+            @if (BagMiss_ID != "0")
+            {
+                <div class="panel panel-default" style="margin-top:10px;margin-bottom:10px;margin-left:5px;">
+                    <div class="panel-body">
+                        <fieldset class="col-md-11" id="detaildesc">
+                            <legend>Chi Tiết Hành Lý Bỏ Quên</legend>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-10" style="margin-top:-16px;">
+                                            @if (stage != "CL")
+                                            {
+                                                <label for="add-item" class="custom-modal" style="visibility: visible; width: 126px; font-size: 14px;">
+                                                    <img id="additem" src="/images/add.png" width="20" height="20" />&nbsp;&nbsp;Thêm mới
+                                                </label>
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                    <br />
+
+
+
+                                    <div class="fixTableHead">
+                                        <table class="table table-bordered" id="tableDetail">
+
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">STT</th>
+                                                    <th scope="col">Mô Tả Hành Lý</th>
+                                                    <th scope="col">Số Lượng</th>
+                                                    <th scope="col">Trị Giá</th>
+                                                    <th scope="col">Tiền Tệ</th>
+                                                    <th scope="col">Ghi Chú</th>
+                                                    <th scope="col"></th>
+
+                                                </tr>
+                                            </thead>
+                                            @if (Model.MissDetails != null)
+                                            {
+                                                @foreach (BaggageMissDetailModel d in Model.MissDetails)
+                                                {
+                                                    <tbody>
+                                                        <tr style="word-wrap: break-word;">
+                                                            <th scope="row" width="30">@d.ID</th>
+                                                            <td>@d.Item</td>
+                                                            <td>@d.Qty</td>
+                                                            <td>
+                                                                @if (d.TotalAmount.ToString() == "0")
+                                                                {
+                                                                    @String.Format("{0}", d.TotalAmount)
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    @*@String.Format("{0:0,0}", d.TotalAmount)*@
+                                                                    @d.TotalAmount.ToString("#,#", CultureInfo.InvariantCulture)
+
+                                                                }
+
+                                                            </td>
+                                                            <td>@d.Currency</td>
+                                                            <td>@d.Remark</td>
+                                                            @if (stage != "CL")
+                                                            {
+                                                                <td>
+
+                                                                    <a class="edit" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/edit.png" width="20" height="20" /></a>
+                                                                    <a class="deletebagmiss" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/delete.png" width="20" height="20" /></a>
+
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+
+                                                                    <a class="edit" href="#" data-bb="@d.BagMissDetail_ID"><img src="/images/view.png" width="20" height="20" /></a>
+
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    </tbody>
+                                                }
+                                            }
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="clearfix"></div>
+
+                    </div>
+
+
+
+                </div>
+            }
+            <!-- Modal for add new -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thông Tin Hành Lý Bỏ Quên</h5>
+                            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                        </div>
+                        <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Mô tả hành lý của bạn">
+                                        <p id="required">Mô Tả Hành Lý:</p>
+                                        <textarea class="form-control" id="itembaggage" rows="4" placeholder="Vui lòng mô tả hành lý của bạn.." maxlength="1000" style="margin-top:-14px;"></textarea>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4"><p id="required">Số Lượng:</p><input type="number" step="any" min="0" name="number" value="1" class="form-control" id="quantity" oninput="check(this)" placeholder="Số lượng" style="margin-top:-14px;"></div>
+                                    <div class="col-md-5">
+                                        <p> Trị Giá:</p>
+                                        @*<input type="text" class="form-control" id="amount" value="0" style="margin-top:-14px;" />*@
+                                        <input type="text" name="number" value="0" class="form-control" id="amount" placeholder="Vui lòng nhập trị giá" onkeypress="return onlyNumberKeyAdd(event)" oninput="getNum()" style="margin-top:-14px;" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            Tiền Tệ:
+                                        </p>
+                                        <select name="currency" id="currency" class="form-control" style="margin-top:-14px;">
+                                            <option selected value="VND">VNĐ</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Thông tin thêm(nếu có)">
+                                        Ghi Chú:
+                                        <textarea class="form-control" id="remark" rows="4" placeholder="Thông tin thêm(nếu có).." maxlength="1000"></textarea>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4">Mô Tả Chi Tiết:</div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-bordered" style="margin-left:40px!important;margin-right:20px!important;">
+
+
+                                        @for (int i = 0; i < lstdesc.Count; i++)
+                                        {
+
+                                            @if (lstdesc[i].BagGroup_ID != @GroupID)
+                                            {
+
+                                                <tr id="@i">
+                                                    <td colspan="2" id="BagGroup_@i" name="@lstdesc[i].BagGroup_ID.ToString()" style="background-color:#4E8DEC;color:#FFFFFF;font-size:medium;font-weight:bold;text-align:center;">@lstdesc[i].GroupName_VN</td>
+                                                </tr>
+                                                GroupID = lstdesc[i].BagGroup_ID;
+                                            }
+
+
+
+                                            <tr class="typeindex" data-index="@i">
+                                                @{
+                                                    var so_id = @lstdesc[i].BagDesc_ID.ToString();
+                                                    var namegroup = @lstdesc[i].BagGroup_ID.ToString();
+                                                }
+                                                <td style="width:200px;">
+                                                    <input type="radio" onclick="toggle(@so_id)" id=@so_id name=@namegroup style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" value="@so_id">
+                                                </td>
+                                                <td colspan="2">
+                                                    <img src="~/images/BaggageMiss/@lstdesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                                    <label for="lbl_@i" style="margin-top:10px;">@lstdesc[i].Desc_VN.ToString()</label>
+                                                </td>
+
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </div>
+                                <br />
+                                <div class="modal-footer">
+                                    <div class="w-100">
+                                        <button type="button" class="btn btn-primary float-left" id="saveBaggage">Cập nhật</button>&nbsp;
+                                        <button type="button" class="btn btn-danger mr-auto" onclick="CloseModal();"  @*data-dismiss="modal"*@>Hủy bỏ</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for edit -->
+
+            <div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            </div>
+            @if (BagMiss_ID != "0")
+            {
+
+                <fieldset class="col-md-11" id="myattachedfieldset">
+                    <legend>Hình Ảnh Đính Kèm</legend>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form method="post" id="formUpload" enctype="multipart/form-data" asp-controller="Pages" asp-action="Index">
+                                <div class="form-group">
+                                    <div class="col-md-10" style="margin-top:-16px;">
+                                        @if (stage != "CL")
+                                        {
+                                            <label for="file-upload" class="custom-file-upload">
+                                                <img src="~/images/attach.png" width="20" height="20" />&nbsp;&nbsp;Đính kèm
+                                            </label>
+                                            <input id="fileUpload" accept="image/*" class="form-control" name="files" multiple="multiple" type="file" />
+
+                                        }
+
+
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            @if (ViewBag.FileDisplay != null)
+                            {
+
+                                <div class="fixTableHead">
+                                    @{
+                                        await Html.RenderPartialAsync("_TableFileAttach");
+                                    }
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </fieldset>
+
+
+            }
+
+
+
+
+
+        </div>
+
+
+
+        @if (stage != "CL")
+        {
+
+            <div id="loading-div-background" style="visibility:hidden;">
+                <div id="loading-div" class="ui-corner-all">
+                    <img style="height:80px;margin:30px;" src="/images/loading.gif" alt="Loading.." />
+                    <h2 style="color:gray;font-weight:normal;">Hệ thống đang xử lý....</h2>
+                </div>
+            </div>
+        }
+
+
+    }
+</div>
+
+
+
+<input type="hidden" id="langselect" value="@select" />
+<input type="hidden" id="uploadstatus" value="@ViewBag.Upload" />
+
+
+
+<script>
+   var lstdesc = @Html.Raw(JsonConvert.SerializeObject(@lstdesc));
+   var _attchfileList =@Html.Raw(JsonConvert.SerializeObject(@_attachfileList));
+
+</script>
+<script>
+    function ShowProgressAnimation() {
+
+        document.getElementById("loading-div-background").style.zIndex = 9999999999;// Set zIndex de nam tren Modal Popup
+        document.getElementById("loading-div-background").style.visibility = "visible";
+        $("#loading-div-background").show();
+
+    }
+    function HideProgressAnimation() {
+        document.getElementById("loading-div-background").style.visibility = "hidden";
+        $("#loading-div-background").hide();
+
+    }
+
+    function check(input) {
+        if (input.value == 0) {
+            input.setCustomValidity('The number must not be zero.');
+        } else {
+            // input is fine -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+
+    function toggle(id) {
+        var ids = document.getElementById(id);
+        var name = ids.name;
+        for (var i = 0; i < lstdesc.length; i++) {
+            if (lstdesc[i].BagGroup_ID == name) {
+                var element = $("*[name=" + lstdesc[i].BagGroup_ID + "]").attr('id'); // lay id dua vao name -> tu do set td
+                document.getElementById(element).style.background = "";
+                document.getElementById(element).style.color = "";
+                document.getElementById(element).style.background = "yellow";
+                document.getElementById(element).style.color = "black";
+
+            }
+
+        }
+
+    }
+
+    function CloseModal() {
+
+        $('#myModal').modal('hide');
+        var BagMiss_ID =@BagMiss_ID== "0" ? sessionStorage.getItem("BagMiss_ID") :@BagMiss_ID;
+        window.location.href = _subFolder + "/Pages/Index?t_flag=" + $("#langselect").val() + "&t_bagmiss_id=" + BagMiss_ID;
+    }
+
+
+    function ViewAttach(fileId) {
+        for (let i = 0; i < _attchfileList.length; i++) {
+            if (_attchfileList[i].FileLoc_ID!="0" && _attchfileList[i].sysFileName == fileId) {
+                $.ajax({
+                    type: "Post",
+                    url:   '@Url.Action("ViewAttached", "Pages")',
+                    data: { t_FileName: fileId },
+                    cache: false,
+                    success: function (data) {
+                        
+                        if (data.mess == "OK") {
+                            var link = "/data/BagMiss/" + _attchfileList[i].sysFileName;
+                            window.open(link, '_blank'); /*Mở thêm 1 tab với link href được chèn vô*/
+
+                        }
+
+
+
+                    },
+                    error: function (data) {
+                        return true;
+                    }
+                })
+
+            }
+        }
+    }
+
+    function blockUI() {
+        $('#custname').prop('disabled', true);
+        $('#custemail').prop('disabled', true);
+        $('#custadd').prop('disabled', true);
+        $('#custphone').prop('disabled', true);
+        $('#bbcno').prop('disabled', true);
+        $('#custremark').prop('disabled', true);
+        $('#ckbargree').prop('disabled', true);
+    }
+    function unblockUI() {
+        $('#custname').prop('disabled', false);
+        $('#custemail').prop('disabled', false);
+        $('#custadd').prop('disabled', false);
+        $('#custphone').prop('disabled', false);
+        $('#bbcno').prop('disabled', false);
+        $('#custremark').prop('disabled', false);
+        $('#ckbargree').prop('disabled', false);
+    }
+
+ /*   document.getElementById('quantity').value = '1';*/
+    var stage = @Html.Raw(JsonConvert.SerializeObject(@stage));
+
+    function getNum() {
+        var val = parseInt($('#amount').val());
+        if (isNaN(val)) {
+            $('#amount').val('0');
+            return false;
+        }
+        return val;
+    }
+    function onlyNumberKeyAdd(evt) {
+
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+     function clickUpdate() {
+        var formData = new FormData();
+        var item = $("#itembaggage_edit").val();
+        if (item === "") {
+            alertify.alert('Item not be blank!');
+            return false;
+        }
+        else {
+            formData.append("t_Item", item);
+        }
+        var quantity = $("#quantity_edit").val();
+        if (quantity === "" || quantity === "NaN") {
+            alertify.alert('Quantity not be blank!');
+            return false;
+        }
+        else {
+            formData.append("t_Quantity", quantity);
+        }
+        var amount = $("#amount_edit").val() == "" ? "0" : $("#amount_edit").val();
+        formData.append("t_TotalAmount", amount);
+        //if (amount === "" || amount == "0") {
+        //    alertify.alert('Amount must be larger than 0!');
+        //    return false;
+        //}
+        //else {
+        //    formData.append("t_TotalAmount", amount);
+        //}
+
+        var currencytruth = $("#currency_edit option:selected").text() == 'VNĐ' ? 'VND' : $("#currency_edit option:selected").text();
+        formData.append("t_Currency", currencytruth);
+
+        var remark = $("#remark_edit").val();
+        formData.append("t_Remark", remark);
+
+
+
+        /* Gọi hàm lấy giá trị radio check bỏ vô mảng*/
+         var arrayselected = Radio_Selected(this);
+         console.log(arrayselected);
+        formData.append("t_RadioSelected", JSON.stringify(arrayselected));
+        //if (arrayselected.length < 3) {
+        //    alertify.alert("Please select baggage description");
+        //    return false;
+        //}
+        //else {
+        //    formData.append("t_RadioSelected", JSON.stringify(arrayselected));
+        //}
+
+
+        formData.append("t_Action", "1"); //action tao moi la 0, edit la 1
+        ShowProgressAnimation();
+        /* event.preventDefault(); //prevent default action*/
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Baggage_Information_Update", "Pages")',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+                
+                if (data.mess == "OK") {
+                    $('#myModalEdit').modal('hide');
+                    HideProgressAnimation();
+                    location.reload(true);
+                }
+
+            },
+            error: function (data) {
+                alertify.alert(data.mess);
+                return false;
+            }
+
+        });
+    }
+
+</script>
+@*Tạo biến giữ object lstdesc để javascript sử dụng*@
+<script>
+    var lstdesc = @Html.Raw(JsonConvert.SerializeObject(@lstdesc));
+    var _attchfileList =@Html.Raw(JsonConvert.SerializeObject(@_attachfileList));
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#ckbargree').change(function () {
+            var check = $('#ckbargreeval').val($(this).is(':checked'));
+            // Store session check argree
+            sessionStorage.setItem("Check", check);
+        });
+
+       /* document.getElementById("amount").innerText = "0";*/
+
+        /*Format input follow #,###*/
+        $("#amount").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString());
+        });
+
+        $("#amount_edit").keyup(function () {
+            var m = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(m.toLocaleString());
+        });
+          /*Phân trang*/
+       /* $("#tableDetail").pagination();*/
+        var lang = $("#langselect").val() == null ? "VN" : $("#langselect").val();
+        if ($("#uploadstatus").val() !== "") {
+                alertify.alert($("#uploadstatus").val());
+        }
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // true for mobile device
+            $("#typeofdevice").val("MOBILE");
+            if (lang == "VN" || lang == "") {
+                document.getElementById("texthead4Profile").innerHTML = "Mẫu khai báo Hành lý bỏ quên.";
+            }
+            else {
+                document.getElementById("texthead4Profile").innerHTML = "Left-behind article Declaration form.";
+            }
+
+
+        } else {
+            // false for not mobile device
+            $("#typeofdevice").val("NONE");
+            if (lang == "VN" || lang == "") {
+                document.getElementById("texthead4Profile").innerHTML = "Mẫu khai báo Hành lý bỏ quên";
+            }
+            else {
+                document.getElementById("texthead4Profile").innerHTML = "Left-behind article Declaration form";
+            }
+
+        }
+
+        $("a#vn").bind('touchstart click', function (){
+                window.location.href = _subFolder + "/Pages/SetLang?t_flag=VN";
+        });
+
+        $("a#en").bind('touchstart click', function () {
+                window.location.href = _subFolder + "/Pages/SetLang?t_flag=EN";
+            });
+        ;
+        $(".table-bordered").css("visibility", "visible");
+        //use Json.parse to convert string to Json
+        var BagMiss_ID = JSON.parse('@Html.Raw(BagMiss_ID)');
+
+        if (BagMiss_ID !== "0") {
+            blockUI();
+        }
+        if (BagMiss_ID == "0") {
+            unblockUI();
+        }
+
+
+
+        //Add tooltip bootstrap
+        $('[data-toggle=tooltip]').tooltip();
+
+        $('#fileUpload').on('change', function () {
+
+            $('#formUpload').submit();
+
+
+        });
+
+        $('.custom-file-upload').bind('touchstart click', function () {
+                $('#fileUpload').click();
+        });
+
+        //Dùng để tạo mới Baggage Information
+        $(".custom-modal").bind('touchstart click', function () {
+            $('#myModal').modal({ show: true });
+
+
+        });
+
+        function initSaveEvent() {
+            $("#saveBaggageUpdate").click(function () {
+                clickUpdate();
+            });
+
+        }
+
+        $("#saveBaggage").bind('touchstart click', function () {
+            if ($('#lang').val() == "EN") {
+                var formData = new FormData();
+                var item = $("#itembaggage").val();
+                if (item === "") {
+                    alertify.alert('Item not be blank!');
+                    return false;
+                }
+                else {
+                    formData.append("t_Item", item);
+                }
+                var quantity = $("#quantity").val();
+                if (quantity === "" || quantity === "NaN") {
+                    alertify.alert('Quantity not be blank!');
+                    return false;
+                }
+                else {
+                    formData.append("t_Quantity", quantity);
+                }
+                var amount = $("#amount").val() == "" ? "0" : $("#amount").val();
+                formData.append("t_TotalAmount", amount);
+                //if (amount === "" || amount=="0") {
+                //    alertify.alert('Amount must be larger than 0!');
+                //    return false;
+                //}
+                //else {
+                //    formData.append("t_TotalAmount", amount);
+                //}
+
+                var currencytruth = $('#currency :selected').text() == "VNĐ" ? "VND" : $('#currency :selected').text();
+                formData.append("t_Currency", currencytruth);
+
+                var remark = $("#remark").val();
+                formData.append("t_Remark", remark);
+
+
+
+                /* Append selected radio to formData*/
+                var arrayselected = [];
+                for (var j = 0; j < lstdesc.length; j++) {
+                    if (document.getElementById(lstdesc[j].BagDesc_ID).checked === true) {
+                        var id = lstdesc[j].BagDesc_ID;
+                        arrayselected.push(id);
+                    }
+
+                }
+
+                if (arrayselected.length < 3) {
+                    alertify.alert("Please select baggage description");
+                    return false;
+                }
+                else {
+                    formData.append("t_RadioSelected", JSON.stringify(arrayselected));
+                }
+
+
+                formData.append("t_Action", "0"); //action tao moi la 0, edit la 1
+                  ShowProgressAnimation();
+                    $.ajax({
+
+                        url:'@Url.Action("Baggage_Information_Update", "Pages")',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        type: "POST",
+                        success: function (data) {
+                            if (data.mess == "OK") {
+                                HideProgressAnimation();
+                                $('#myModal').modal('hide');
+                                window.location.reload();
+                                return false;
+                            }
+
+                            else {
+                                alertify.alert(data.mess);
+                                return false;
+                            }
+                        },
+                        error: function (data) {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+                    });
+
+
+            }
+            else {
+                var formData = new FormData();
+                var item = $("#itembaggage").val();
+                if (item === "") {
+                    alertify.alert('Mô tả hành lý của bạn không được bỏ trống');
+                    return false;
+                }
+                else {
+                    formData.append("t_Item", item);
+                }
+                var quantity = $("#quantity").val();
+                if (quantity === "" || quantity === "NaN") {
+                    alertify.alert('Số lượng không được bỏ trống');
+                    return false;
+                }
+                else {
+                    formData.append("t_Quantity", quantity);
+                }
+                var amount = $("#amount").val() == "" ? "0" : $("#amount").val();
+                formData.append("t_TotalAmount", amount);
+                //if (amount === "" || amount == "0") {
+                //    alertify.alert('Trị giá hành lý phải lớn hơn 0');
+                //    return false;
+                //}
+                //else {
+                //    formData.append("t_TotalAmount", amount);
+                //}
+
+                var currencytruth = $('#currency :selected').text() == "VNĐ" ? "VND" : $('#currency :selected').text();
+                formData.append("t_Currency", currencytruth);
+
+                var remark = $("#remark").val();
+                formData.append("t_Remark", remark);
+
+
+
+                /* Append selected radio to formData*/
+                var arrayselected = [];
+                for (var j = 0; j < lstdesc.length; j++) {
+                    if (document.getElementById(lstdesc[j].BagDesc_ID).checked === true) {
+                        var id = lstdesc[j].BagDesc_ID;
+                        arrayselected.push(id);
+                    }
+
+                }
+
+                if (arrayselected.length < 3) {
+                    alertify.alert("Vui lòng check chọn mô tả hành lý!");
+                    return false;
+                }
+                else {
+                    formData.append("t_RadioSelected", JSON.stringify(arrayselected));
+                }
+                formData.append("t_Action", "0"); //action tao moi la 0, edit la 1
+                ShowProgressAnimation();
+                $.ajax({
+
+                    url:  '@Url.Action("Baggage_Information_Update", "Pages")',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    success: function (data) {
+                        if (data.mess == "OK") {
+                            HideProgressAnimation();
+                            $('#myModal').modal('hide');
+                            window.location.reload();
+                            return false;
+                        }
+
+                        else {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                });
+
+            }
+
+
+        });
+
+
+        $("a.deleteattach").bind('touchstart click', function () {
+            if (stage == "CL") { return false }
+            else {
+                if ($('#lang').val() == "EN") {
+                    var path = $(this).attr("data-attach");
+                    if (path == null) {
+                        return false;
+                    }
+                    alertify.confirm('Delete this file attach?', function (e) {
+                        if (e) {
+                            ShowProgressAnimation();
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("Delete_FileAttach", "Pages")',
+                                data: { fpath: path },
+                                cache: false,
+                                success: function (data) {
+                                    if (data.mess == "OK") {
+
+                                        HideProgressAnimation();
+                                        location.reload();
+                                        return false;
+                                        //for (let i = 0; i < _attachfileList.length; i++) {
+                                        //    var filepath = "/data/BagMiss/" + '/' + json[i].sysFileName;
+                                        //    if (_attachfileList[i].Status == "OK") {
+
+                                        //    }
+                                        //}
+
+                                    }
+                                },
+                                error: function (data) {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+                            });
+                            return true;
+                        }
+                        else { return false; }
+                    });
+
+                }
+                if ($('#lang').val() == "VN") {
+                    var path = $(this).attr("data-attach");
+                    if (path == null) {
+                        return false;
+                    }
+                    alertify.confirm('Xóa tệp đính kèm này?', function (e) {
+                        if (e) {
+                            ShowProgressAnimation();
+                            $.ajax({
+                                type: "POST",
+                                url:  '@Url.Action("Delete_FileAttach", "Pages")',
+                                data: { t_fpath: path },
+                                cache: false,
+                                success: function (data) {
+                                    if (data.mess == "OK") {
+                                        /* location.href = _subFolder + "/Pages/Index";*/
+                                        window.location.reload();
+                                        return true;
+
+                                    }
+                                },
+                                error: function (data) {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+                            });
+                            return true;
+                        }
+                        else { return false; }
+                    });
+                }
+            }
+        });
+
+        $("#EditProfile").bind('touchstart click', function () {
+            $('#EditProfile').css("visibility", "hidden");
+            unblockUI();
+            $('#SaveProfileEdit').css("visibility", "visible");
+
+
+        });
+
+        $("#CreateProfile").bind('touchstart click', function () {
+            var check = sessionStorage.getItem("Check");
+            var ischecked = $('#ckbargree').is(":checked");
+            if (check == false || check == null || ischecked == false) {
+                if ($('#lang').val() == "EN") {
+                    alertify.alert('Kindly acknowledge commitment message to complete declaration form.')
+                    return false;
+                }
+                else {
+                    alertify.alert('Quý khách vui lòng xác nhận thông tin cam kết để hoàn thành khai báo.')
+                    return false;
+                }
+            }
+            else {
+
+                    var custname = $("#custname").find(':selected').text() != null ? $("#custname").find(':selected').text() : $("#custname option:selected").text();
+
+                    if (custname === "-----------------------------------  Select Your Name ------------------------------" || custname == "") {
+                        alertify.alert('Please select your name!');
+                        return false;
+                    }
+
+                    var email = $("#custemail").val();
+                    if (email === "") {
+                        alertify.alert('Email not be blank!');
+                        return false;
+                    }
+                    var address = $("#custadd").val();
+                    if (address === "") {
+                        alertify.alert('Address not be blank!');
+                        return false;
+                    }
+                    var phone = $("#custphone").val();
+                    if (phone === "") {
+                        alertify.alert('Phone not be blank!');
+                        return false;
+                    }
+                    var membershipno = $("#bbcno").val();
+                    var remark = $("#custremark").val();
+
+
+                    var datacust = {
+                        t_FullName: custname,
+                        t_Email: email,
+                        t_Address: address,
+                        t_Phone: phone,
+                        t_MembershipNo: membershipno,
+                        t_Remark: remark,
+
+                    }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateProfile", "Pages")',
+                    data: datacust,
+                    cache: false,
+                    success: function (data) {
+                        if (data.mess == "OK") {
+                            sessionStorage.setItem("BagMiss_ID", data.result);
+                            //Hidden fieldSet
+                            $('#myfieldset').prop('disabled', true);
+                            $("#CreateProfile").hide();
+                            $('#myModal').modal({ show: true });
+                            $('#additem').css("visibility", "visible");
+
+                        }
+                        else {
+                            $('#myModal').modal({ show: false });
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                });
+            }
+
+        });
+
+        $("#SaveProfileEdit").bind('touchstart click', function (e) {
+
+            var custname = $("#custname").val();
+
+            if (custname == "") {
+                alertify.alert('Please input your name!');
+                return false;
+            }
+
+            var email = $("#custemail").val();
+            if (email === "") {
+                alertify.alert('Email not be blank!');
+                return false;
+            }
+            var address = $("#custadd").val();
+            if (address === "") {
+                alertify.alert('Address not be blank!');
+                return false;
+            }
+            var phone = $("#custphone").val();
+            if (phone === "") {
+                alertify.alert('Phone not be blank!');
+                return false;
+            }
+            var membershipno = $("#bbcno").val();
+            var remark = $("#custremark").val();
+
+
+            var datacust = {
+                t_FullName: custname,
+                t_Email: email,
+                t_Address: address,
+                t_Phone: phone,
+                t_MembershipNo: membershipno,
+                t_Remark: remark
+
+            }
+            if ($('#lang').val() == "EN") {
+                alertify.confirm("Do you want to change your information?", function (e) {
+                    if (e) {
+                        $.ajax({
+                            type: "POST",
+                            url:'@Url.Action("UpdateProfile", "Pages")',
+                            data: datacust,
+                            cache: false,
+                            success: function (data) {
+                                if (data.mess == "Edit customer info successfull!") {
+                                    //Hidden fieldSet
+                                    //$('#myfieldset').prop('disabled', true);
+                                    blockUI();
+                                    $("#SaveProfileEdit").css("visibility", "hidden");
+                                    $('#EditProfile').css("visibility", "visible");
+                                }
+                                else {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+                            },
+                            error: function (data) {
+                                alertify.alert(data.mess);
+                                return false;
+                            }
+
+                        });
+
+                    } else {
+                        $('#myfieldset').prop('disabled', true);
+                        return true;
+                    }
+
+
+                });
+            }
+            else {
+                alertify.confirm("Bạn muốn thay đổi thông tin?", function (e) {
+                    if (e) {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("UpdateProfile", "Pages")',
+                            data: datacust,
+                            cache: false,
+                            success: function (data) {
+                                if (data.mess == "Edit customer info successfull!") {
+                                    //Hidden fieldSet
+                                    //$('#myfieldset').prop('disabled', true);
+                                    blockUI();
+                                    $("#SaveProfileEdit").css("visibility", "hidden");
+                                    $('#EditProfile').css("visibility", "visible");
+                                }
+                                else {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+                            },
+                            error: function (data) {
+                                alertify.alert(data.mess);
+                                return false;
+                            }
+
+                        });
+
+                    } else {
+                        $('#myfieldset').prop('disabled', true);
+                        return true;
+                    }
+
+
+                });
+            }
+        });
+
+
+
+         //Dùng để edit Baggage Information
+        $("a.edit").bind('touchstart click', function () {
+
+                var BagMissDetail_ID = $(this).attr("data-bb");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BaggageDescEdit", "Pages")',
+                    data: { t_bagmissdetail_id: BagMissDetail_ID },
+                    cache: false,
+                    success: function (data) {
+                        
+                        if (data.mess == "OK") {
+                            $('#myModalEdit').html(data.rs).modal('show');
+
+                        }
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                });
+
+
+
+
+        });
+
+        //Dùng để delete Baggage Miss
+        $("a.deletebagmiss").bind('touchstart click', function () {
+            if (stage == "CL") {
+                return false;
+            }
+            else {
+                var BagMissDetail_ID = $(this).attr("data-bb");
+                if ($('#lang').val() == "EN") {
+                    alertify.confirm("Do you want to delte this baggagemiss?", function (e) {
+                        if (e) {
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("BaggageMiss_Delete", "Pages")',
+                                data: { t_bagmissdetail_id: BagMissDetail_ID },
+                                cache: false,
+                                success: function (data) {
+                                    if (data.mess == "OK") {
+                                        /*return window.location.reload();*/
+                                        return window.location = "/BaggageMiss/Pages/Index?flag=EN&t_bagmiss_id=" + @BagMiss_ID.ToString();
+
+                                    }
+                                    if (data.mess == "BaggageMiss Deleted Fail!") {
+                                        alertify.alert(data.mess);
+                                        return false;
+                                    }
+                                },
+                                error: function (data) {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+
+                            });
+
+                        } else {
+                            return true;
+                        }
+
+                    });
+                }
+                else {
+                    alertify.confirm("Bạn có muốn xoá hành lý này không?", function (e) {
+                        if (e) {
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("BaggageMiss_Delete", "Pages")',
+                                data: { t_bagmissdetail_id: BagMissDetail_ID },
+                                cache: false,
+                                success: function (data) {
+                                    if (data.mess == "OK") {
+                                        return window.location = "/BaggageMiss/Pages/Index?flag=VN&t_bagmiss_id=" + @BagMiss_ID.ToString();
+
+                                    }
+                                },
+                                error: function (data) {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+
+                            });
+
+                        } else {
+                            return true;
+                        }
+
+                    });
+                }
+            }
+
+        });
+
+
+        $("#sendemail").bind('touchstart click', function () {
+            var email = $("#custemail").val();
+            if ($('#lang').val() == "EN") {
+                alertify.confirm("Do you want to save your information and detailed notification of neglected baggage information?", function (e) {
+                    if (e) {
+                        //Chỉnh sửa thông tin hồ sơ thất lạc
+                      /*  $("#EditProfile").click();*/
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Baggage_Information_Confirm", "Pages")',
+                            data: { t_Email: JSON.stringify(email) },
+                            cache: false,
+                            success: function (data) {
+                                if (data.mess == "0") {
+                                    var chaotambiet = 'Your declaration for left-behind item has been recorded, we have sent confirmation email to your registered email. We will do all possible to assist you through this experience.';
+                                    alertify.alert(chaotambiet).set({ onshow: null, onclose: function () { window.location = "/BaggageMiss"; } });;
+
+                                }
+                                else {
+                                    alertify.alert(data.mess);
+                                    return false;
+                                }
+                            },
+                            error: function (data) {
+                                alertify.alert(data.mess);
+                                return false;
+                            }
+
+                        });
+
+                    } else {
+                        return true;
+                    }
+
+                });
+            }
+            else {
+                alertify.confirm("Bạn có muốn lưu lại thông tin của mình và thông báo chi tiết về thông tin hành lý bị bỏ quên không?", function (e) {
+                if (e) {
+                    //Chỉnh sửa thông tin hồ sơ thất lạc
+               /*     $("#EditProfile").click();*/
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Baggage_Information_Confirm", "Pages")',
+                        data: { t_Email: JSON.stringify(email) },
+                        cache: false,
+                        success: function (data) {
+                            if (data.mess == "0") {
+                                var chaotambiet = 'Hồ sơ khai báo vật phẩm bỏ quên của Quý khách đã khởi tạo thành công. Chúng tôi đã gửi thư xác nhận đến địa chỉ mail Quý khách cung cấp và sẽ tìm kiếm, phúc đáp kết quả đến Quý khách trong thời gian sớm nhất.';
+                                alertify.alert(chaotambiet).set({ onshow: null, onclose: function () { window.location = "/BaggageMiss"; } });;
+
+
+                            }
+                            else {
+                                alertify.alert("Hồ sơ đã hoàn tất");
+                                return false;
+                            }
+                        },
+                        error: function (data) {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+                    });
+
+                } else {
+                    return true;
+                }
+
+            });
+            }
+
+        });
+
+});
+
+</script>
+<script>
+    function getvalueChecked() {
+        var arrData = [];
+        $.each($("input[name='other_edit']:checked"), function () {
+            arrData.push($(this).val());
+        });
+        return arrData;
+    }
+    function getChecked() {
+        var arrData = [];
+        $.each($("input[name='othernew']:checked"), function () {
+            arrData.push($(this).val());
+        });
+        return arrData;
+    }
+
+
+
+</script>
+
+
+
+

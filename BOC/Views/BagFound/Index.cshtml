@@ -1,0 +1,1184 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DeskTop.cshtml";
+}
+
+
+
+@{
+    List<BagDesc_HS> lstdesc = ViewBag.MissBagDescHS;
+    List<FileAttach_HS> _attachfileList = SessionHelper.GetObjectFromJson<List<FileAttach_HS>>(@HttpContextAccessor.HttpContext.Session, "Found_AttachFileHS");
+    var fdate = @HttpContextAccessor.HttpContext.Session.GetString("FromDate");
+    var tdate = @HttpContextAccessor.HttpContext.Session.GetString("ToDate");
+    var GroupID = 0;
+
+}
+
+@using System;
+@using System.Globalization;
+@using BOC.Areas.BaggageMiss.Models;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using Newtonsoft.Json;
+@using BOC.Models;
+@model ViewModelHS;
+
+
+
+
+<link href="~/css/bagfound/BaggageFoundStyle.css" rel="stylesheet" />
+<style>
+    .modal-dialog {
+  width: 75%!important;
+  margin: 0 auto;
+}
+</style>
+<div class="container" style="height:auto!important;">
+    <h1 style="padding-top: 20px; padding-left: 18px; font-size: x-large; color: #005393; font-family: Tahoma;">List of profile found</h1>
+    <form method="post" style="margin-top:-20px;padding-left:20px;" enctype="multipart/form-data" novalidate="" id="frmFilter" asp-controller="BagFound" asp-action="Index">
+        <br />
+        <br />
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Filter</legend>
+            <div class="row">
+                <div class="col">
+                    FromDate: @Html.TextBoxFor(model => model.FromDate, new { placeholder = "mm/dd/yyyy", id = "datepickerfrom", @class = "form-control" })
+                </div>
+                <div class="col" style="padding-left:10px;">
+                    ToDate: @Html.TextBoxFor(model => model.ToDate, new { placeholder = "mm/dd/yyyy", id = "datepickerto", @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Station:@Html.TextBoxFor(model => model.Station, new { @class = "form-control", id = "station", style = "width:99%", maxlength = 3, placeholder = "Please Input Your Station", oninput = "this.value = this.value.toUpperCase()" })
+                </div>
+                <div class="col" style="padding-left: 10px">
+                    Key Search:@Html.TextBoxFor(model => model.KeySearch, new { @class = "form-control", id = "keysearch", style = "width:99%", placeholder = "Please Input Your Data Search", oninput = "this.value = this.value.toUpperCase()" })
+                </div>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div id="search"  onclick="reply_Click(this)" >
+                <label for="search-item" class="searchbtn" style="visibility:visible;">
+                    <img id="searchitem" src="/images/seach.png" width="20" height="20" >&nbsp;&nbsp;Search
+                </label>
+
+            </div>
+            <div id="additem" onclick="reply_Click(this)"  style="margin-left:120px;">
+                <label for="add-item" class="newbtn" style="visibility:visible;">
+                    <img id="additem" src="/images/add.png" width="20" height="20" >&nbsp;&nbsp;Create New
+                </label>
+
+            </div>
+        </div>
+    </form>
+    @if (Model.Table_HS != null)
+    {
+
+        <div class="wrapper">
+            <div class="divTable">
+                <table class="table table-bordered" id="tableBagHS" style="table-layout:fixed;width:2000px">
+                    <thead>
+                        <tr style="word-wrap: break-word;">
+                            <th width="50" style="z-index:99;"></th>
+                            <th width="200" style="z-index:99;">ProfileNo</th>
+                            <th width="100">Date</th>
+                            <th width="100">Station</th>
+                            <th width="250">Item</th>
+                            <th width="100">Quantity</th>
+                            <th width="200">TotalAmount</th>
+                            <th width="100">Currency</th>
+                            <th width="500">Description</th>
+                            <th width="100">Status</th>
+                            <th width="250">LastUserUpdate</th>
+                            <th width="200">LastUpdate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (BagMissHS_Model item in Model.Table_HS)
+                        {
+
+
+                            <tr>
+                                <td class="sticky-col first-col"><a class="edit" href="#" data-bb="@item.BagFound_ID"><img src="/images/edit.png" width="20" height="20" /></a></td>
+                                <td class="sticky-col second-col">@item.HS_No.ToUpper()</td>
+                                <td>@Html.Label(item.HS_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture))</td>
+                                <td>@item.Airport.ToUpper()</td>
+                                <td>@item.BrandName</td>
+                                <td>@item.Qty</td>
+                                <td>@item.TotalAmount.ToString("#,#", CultureInfo.InvariantCulture)</td>
+                                <td>@item.Currency</td>
+                                <td>@item.Remark</td>
+                                <td>@item.Status</td>
+                                <td>@item.LastUserUpdate</td>
+                                <td>@item.LastUpdate</td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+
+                    </table>
+            </div>
+
+        </div>
+            
+                          
+    }
+
+
+    else
+    {
+
+        <table class="table table-bordered" style="overflow-x: hidden;">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">ProfileNo</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Station</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">TotalAmount</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">LastUserUpdate</th>
+                    <th scope="col">LastUpdate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    }
+
+    <!-- Modal for add new -->
+    @if (Model.BagDesc != null)
+    {
+        <form method="post" id="modalBaggageHS" style="margin-top:-20px;padding-left:20px;" enctype="multipart/form-data" novalidate="" asp-controller="BagFound" asp-action="NewAndEdit">
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" style="height:800px;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Baggage Information Found</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="height: 400px;overflow-y: auto;">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Description Baggage">
+                                        <p id="required" style="font-weight: bold;">Baggage Description:</p>
+                                        @Html.TextAreaFor(model => model.Item, new { @class = "form-control", @maxlength = "1000", @row = "4", @placeholder = "Please describe your baggage...", @id = "item", style = "width:99%;margin-top:-14px;" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p id="required" style="font-weight: bold;">
+                                            Quantity:
+                                        </p>
+                                        <input type="number" step="any" min="1" name="number" value="1" class="form-control" id="quantity" oninput="check(this)" placeholder="Enter your quantity" style="margin-top:-14px;">
+                                        @Html.HiddenFor(model => model.Quantity)
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p style="font-weight: bold;">
+                                            Total Amount:
+                                        </p>
+                                        @*@Html.TextBoxFor(model => model.TotalAmount, "{0:0,0}" , new { @class = "form-control", id = "amount", @Value = "0", @style ="margin-top:-14px;" })*@
+                                        <input type="text" name="number" value="0" class="form-control" id="amount" placeholder="Enter your total amount" onkeypress="return onlyNumberKeyAdd(event)" oninput="getNum()" style="margin-top:-14px;" />
+                                        @Html.HiddenFor(model => model.TotalAmount)
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p  style="font-weight: bold;">
+                                            Currency:
+                                        </p>
+                                        <select name="currency" id="currency" class="form-control" style="margin-top: -14px; width: 97%;">
+                                            <option selected value="VND">VNĐ</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                        @Html.HiddenFor(model => model.Currency)
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p id="required" style="font-weight: bold;">
+                                            Station:
+                                        </p>
+                                        @Html.TextBoxFor(model => model.Station, new { @class = "form-control", id = "stationpick", style = "width:99%;margin-top:-14px;", maxlength = 3, placeholder = "Enter Station", oninput = "this.value = this.value.toUpperCase()" })
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p id="required" style="font-weight: bold;">
+                                            Date:
+                                        </p>
+                                        @Html.TextBoxFor(model => model.DatePicker, new { placeholder = "dd/MM/yyyy", id = "datepicker", @class = "form-control", style = "width:99%;margin-top:-14px;" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12" data-toggle="tooltip" data-placement="bottom" title="Other description (if any)" style="font-weight: bold;">
+                                        <p style="font-weight: bold;">
+                                            Remark:
+                                        </p>
+                                        @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @maxlength = "1000", @row = "2", @placeholder = "Please input your description...", @id = "remark", style = "width:99%;margin-top:-14px;" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-5" id="required" style="font-weight: bold;">Baggage Description Detail:</div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-bordered" id="tableHS" style="margin-left:40px;margin-right:20px;">
+
+
+                                        @for (int i = 0; i < lstdesc.Count; i++)
+                                        {
+
+                                            @if (lstdesc[i].BagGroup_ID != @GroupID)
+                                            {
+
+                                                <tr id="row_@i">
+                                                    <td colspan="2" id="BagGroup_@i" name="@lstdesc[i].BagGroup_ID.ToString()" style="background-color:#4E8DEC;color:#FFFFFF;font-size:medium;font-weight:bold;text-align:center;">@lstdesc[i].GroupName_EN</td>
+                                                </tr>
+                                                GroupID = lstdesc[i].BagGroup_ID;
+                                            }
+
+
+
+                                            <tr class="typeindex" id="row_@i" data-index="@i">
+                                                @{
+                                                    var so_id = @lstdesc[i].BagDesc_ID.ToString();
+                                                    var namegroup = @lstdesc[i].BagGroup_ID.ToString();
+                                                }
+
+                                                <td style="width:200px;">
+                                                    <input type="radio" onchange="toggle(@so_id)" id=@so_id name=@namegroup style="height: 20px; width: 20px;margin-left:20px;margin-top:20px;" value="@so_id">
+                                                </td>
+                                                <td colspan="2">
+                                                    <img src="~/images/BaggageMiss/@lstdesc[i].sysFileName.ToString()" alt="Color Image" width="50" height="50">
+                                                    <label for="lbl_@i" style="margin-top:10px;">@lstdesc[i].Desc_EN.ToString()</label>
+                                                </td>
+
+                                            </tr>
+
+                                        }
+
+                                    </table>
+                                </div>
+
+                                <div class="row files" id="files1">
+
+                                    <div class="col-md-4" style="margin-left:16px;">
+                                        <label for="file-upload" class="custom-file-upload">
+                                            <img src="/images/attach.png" width="20" height="20" />&nbsp;&nbsp;Attach File
+                                        </label>
+                                        <input type="file" id="fileToUpload" accept="image/*" />
+                                    </div>
+
+                                    <div class="col-md-8" style="margin-left: 150px; margin-top: -30px;">
+                                        <ul class="fileList" id="list">
+                                          
+                                            @foreach (var item in _attachfileList)
+                                            {
+                                                if (item.Status != "" && item.Status != "XX")
+                                                {
+                                                    await Html.RenderPartialAsync("_FileUpload", _attachfileList);
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="modal-footer">
+                                    <button type="button" style="margin-left:-10px;width:100px;" class="btn btn-primary float-left" id="saveBaggage">Save</button>&nbsp;
+                                    <button type="button" id="cancel" style="width:100px;" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+
+
+    <!------------------------>
+    <!-- Modal for edit -->
+
+
+    <div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="ModalEdit" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    </div>
+
+    <!-------------------->
+
+    @*<div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <img style="height:80px;margin:30px;" src="/images/loading.gif" alt="Loading.." />
+            <h2 style="color:gray;font-weight:normal;">Please wait....</h2>
+        </div>
+    </div>*@
+ 
+    <input type="hidden" id="error" value="@Model.ErrorMessage" />
+    <input type="hidden" value="@fdate" id="fromdatesearch" />
+    <input type="hidden" value="@tdate" id="todatesearch" />
+
+
+
+</div>
+
+
+    @*Tạo biến giữ object lstdesc   để javascript sử dụng*@
+<script>
+   var lstdesc = @Html.Raw(JsonConvert.SerializeObject(@lstdesc));
+   var _attchfileList =@Html.Raw(JsonConvert.SerializeObject(@_attachfileList));
+
+</script>
+
+<script>
+    function getNum() {
+        var val = parseInt($('#amount').val());
+        if (isNaN(val)) {
+            $('#amount').val('0');
+            return false;
+        }
+        return val;
+    }
+    function onlyNumberKeyAdd(evt) {
+
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+    function CheckStation(station){
+        if (station == station / 1) {
+            return true;
+        }
+
+        else {
+            return false;
+        }
+    }
+
+    function ShowProgressAnimation() {
+        $("#loading-div-background").show();
+
+    }
+    function HideProgressAnimation() {
+        $("#loading-div-background").hide();
+
+    }
+
+
+
+    function check(input) {
+        if (input.value == 0) {
+            input.setCustomValidity('The number must not be zero.');
+        } else {
+            // input is fine -- reset the error message
+            input.setCustomValidity('');
+        }
+     }
+
+    function toggle(id) {
+            
+            var ids = document.getElementById(id);
+            var name = ids.name;
+         /*   console.log(name);*/
+            for (var i = 0; i < lstdesc.length; i++) {
+                if (lstdesc[i].BagGroup_ID == name) {
+                        var element = $("*[name=" + lstdesc[i].BagGroup_ID + "]").attr('id'); // lay id dua vao name -> tu do set td
+                        /*console.log(element);*/
+                        document.getElementById(element).style.background = "";
+                        document.getElementById(element).style.color = "";
+                        document.getElementById(element).style.background = "yellow";
+                        document.getElementById(element).style.color = "black";
+
+                }
+
+            }
+
+        }
+
+    function clickUpdate() {
+            var formData = new FormData();
+
+            var item = $("#itembaggage_edit").val();
+            if (item == "") {
+                alertify.alert('Item not be blank!');
+                return false;
+            }
+            else {
+                formData.append("Item", item);
+            }
+
+            var quantity = $("#quantity_edit").val();
+            if (quantity === "") {
+                alertify.alert('Quantity not be blank!');
+                return false;
+            }
+            else {
+                formData.append("Quantity", quantity);
+            }
+            var amount = $("#amount_edit").val() == ""?"0": $("#amount_edit").val();
+            formData.append("TotalAmount", amount);
+
+            var station = $("#station_edit").val();
+            var check = CheckStation(station);
+            if (check === true) {
+                alertify.alert("Station not be a number!");
+                return false;
+            }
+            /*    Kiem tra xem chuoi station co chua so khong ?*/
+            var matches = station.match(/\d+/g);
+            if (matches != null) {
+                alertify.alert("Station does not contain numbers!");
+                return false;
+            }
+            if (station === "") {
+                alertify.alert('Station not be blank!');
+                return false;
+            }
+             else {
+                formData.append("Station", station);
+            }
+
+            var datepick = $("#datepick").val();
+            formData.append("DatePicker", datepick);
+
+            var currencytruth = $('#currency :selected').text() == "VNĐ" ? "VND" : $('#currency :selected').text();
+            formData.append("Currency", currencytruth);
+
+            var remark = $("#remark_edit").val();
+            formData.append("Remark", remark);
+            /* Append selected radio to formData*/
+           /* Gọi hàm lấy giá trị radio check bỏ vô mảng*/
+             var arrayselected = Radio_Selected();
+
+            if (arrayselected.length < 3) {
+                alertify.alert("Please select baggage description");
+                return false;
+            }
+            else {
+                formData.append("RadioSelected", JSON.stringify(arrayselected));
+            }
+
+            /* Append array Delete*/
+            if (clickedDel != null || clickedDel!="[]") {
+                formData.append("FileRemove", JSON.stringify(clickedDel));
+            }
+
+
+            formData.append("BagFound_ID", JSON.stringify(lstdescEdit.BagFound_ID));
+            ///*Append list file upload*/
+            //for (var i = 0, len = filesToUpload.length; i < len; i++) {
+            //    formData.append("files", filesToUpload[i].file);
+            //}
+
+
+
+
+            ShowProgressAnimation();
+            event.preventDefault(); //prevent default action
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("NewAndEdit", "BagFound")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    if (data.mess == "OK") {
+                        $('#myModalEdit').modal('hide');
+                        //files2Uploader.clear();
+                        HideProgressAnimation();
+                        window.location.reload();
+                        return false;
+
+                    }
+                },
+                error: function (data) {
+                    alertify.alert(data.mess);
+                    return false;
+                }
+
+            });
+    }
+    function initSaveEvent() {
+
+        $("#saveBaggageUpdate").click(function () {
+            clickUpdate();
+        });
+
+
+    }
+    // Hàm định dạng lại chuỗi json theo chuẩn  #,#
+    function formatPrice(value) {
+        let val = (value / 1).toFixed(0).replace(',', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+     // Hàm định dạng lại ngày tháng theo dd/mm/yyyy
+    function formatDate(value) {
+        var currentTime = new Date(value)
+        var month = currentTime.getMonth() + 1
+        var day = currentTime.getDate()
+        var year = currentTime.getFullYear()
+        var date = day + "/" + month + "/" + year
+        return date;
+    }
+
+    function clickSearch() {
+            var fromdate = $('#datepickerfrom').val();
+            var todate = $('#datepickerto').val();
+            var station = $('#station').val();
+            if (station == null || station == undefined) {
+                station = "";
+             }
+            /*    Kiem tra xem chuoi station co chua so khong ?*/
+            var matches = station.match(/\d+/g);
+            if (matches != null) {
+                alertify.alert("Station does not contain numbers!");
+                return false;
+            }
+
+
+            var keysearch = $('#keysearch').val();
+            if (keysearch == null || keysearch == undefined) {
+                keysearch = "";
+            }
+                $.ajax({
+                    type: "Post",
+                    url: "/BagFound/Index",
+                    data: { t_FromDate: fromdate, t_ToDate: todate, t_Station: station, t_KeySearch: keysearch },
+                    cache: false,
+                    success: function (data) {
+                        if (data.mess == "OK") {
+                            var rs = JSON.parse(data.obj);
+                            $("#tableBagHS > tbody").html('');
+                            for (let i = 0; i < rs.length; i++) {
+                                $("#tableBagHS > tbody").append("<tr>" +
+                                    "<td class='sticky-col first-col'>" +"<a class='edit' href='#' data-bb="+ rs[i].BagFound_ID+ "><img src='/images/edit.png' width='20' height='20' /></a>"  + "</td>" +
+                                    "<td class='sticky-col second-col'>" + rs[i].HS_No + "</td>" +
+                                    "<td>" + formatDate(rs[i].HS_Date) + "</td>" +
+                                    "<td>" + rs[i].Airport + "</td>" +
+                                    "<td>" + rs[i].BrandName + "</td>" +
+                                    "<td>" + rs[i].Qty + "</td>" +
+                                    "<td>" + formatPrice(rs[i].TotalAmount) + "</td>" +
+                                    "<td>" + rs[i].Currency + "</td>" +
+                                    "<td>" + rs[i].Remark + "</td>" +
+                                    "<td>" + rs[i].Status + "</td>" +
+                                    "<td>" + rs[i].LastUserUpdate + "</td>" +
+                                    "<td>" + formatDate(rs[i].LastUpdate) + "</td>" +
+                                    + "</tr>");
+                            }
+                            return true;
+
+
+                        }
+                        else {
+                            alertify.alert('Not Found');
+                            $("#tableBagHS > tbody").html('');
+                            return false;
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                });
+    }
+
+    function clickNew() {
+
+        $('#myModal').modal('show');
+    }
+    function reply_Click(obj) {
+        var id = $(obj).attr('id');
+        console.log(id);
+        if (id == "search") {
+            clickSearch();
+        }
+        if (id == "additem") {
+            clickNew()
+        }
+
+
+    }
+
+</script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            if ($("#error").val() != '') {
+                alertify.alert($("#error").val());
+                return false;
+
+            }
+
+        var firstDay = (new Date().getMonth() + 1) + "/01/" + new Date().getFullYear();
+
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+        var now = new Date();
+        var datepick = new Date(now);
+        /*Thiết lập ngày mặc định cho datepicker*/
+
+
+        $("#datepicker").datepicker({
+            weekStart: 1,
+            daysOfWeekHighlighted: "6,0",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd/mm/yyyy',
+            zIndexOffset: '1001'
+        });
+        if (datepick != null) {
+            $("#datepicker").datepicker("setDate", datepick);
+        }
+
+  
+            /*Thiết lập ngày mặc định cho datepicker*/
+
+
+            $("#datepicker").datepicker({
+                weekStart: 1,
+                daysOfWeekHighlighted: "6,0",
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy',
+                zIndexOffset: '1001'
+            });
+            if (datepick != null) {
+                $("#datepicker").datepicker("setDate", datepick);
+            }
+
+               
+
+                $('#datepickerfrom').datepicker({
+                    weekStart: 1,
+                    daysOfWeekHighlighted: "6,0",
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: 'dd/mm/yyyy',
+                    zIndexOffset: '1001'
+                }).datepicker("setDate", new Date(firstDay));
+
+                if ($("#fromdatesearch").val() !== "") {
+
+                    $('#datepickerfrom').datepicker('setDate', $("#fromdatesearch").val()).datepicker('fill');
+                }
+                $('#datepickerto').datepicker({
+                    weekStart: 1,
+                    daysOfWeekHighlighted: "6,0",
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: 'dd/mm/yyyy',
+                    zIndexOffset: '1001'
+                }).datepicker("setDate", new Date(datepick));
+
+                if ($("#todatesearch").val() !== "") {
+                    $('#datepickerto').datepicker('setDate', $("#todatesearch").val()).datepicker('fill');
+            }
+
+        
+            $('.wrapper').on('scroll', function (e) {
+                $('.wrapper').scrollLeft($('.wrapper').scrollLeft());
+            });
+
+            $(window).on('load', function (e) {
+                $('.divTable').width($('table').width());
+
+            });
+
+            
+
+            // Nut Cancel tren Modal
+        $('body').on('touchstart click', "#cancel", function () {
+                var formData = new FormData();
+                var AttachedFile = sessionStorage.getItem("AttachedFile");
+                //Su dung vong lap duyet va ghi lai chuoi json su dung ajax de xu ly
+                json = JSON.parse(AttachedFile);
+                if (json != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/BagFound/ClearTrash_HS",
+                        data: formData,
+                        //use contentType, processData for sure.
+                        contentType: false,
+                        processData: false,
+
+                        success: function (data) {
+                            if (data.mess = "OK") {
+                                $('.fileList').empty();  //Set lai danh sach list dinh kem ve null
+                                $('#myModal').modal('hide');
+                                return true;
+                            }
+                        },
+                        error: function (data) {
+                            return true;
+                        }
+                    })
+                }
+                else {
+                    $('#myModal').modal('hide');
+                    return false;
+                }
+            });
+
+      /*  Sử dụng để refresh lại modal khi user click cancel*/
+        $("#myModal").on("hidden.bs.modal", function () {
+            window.location.reload(true);
+            return true;
+        });
+       
+        /*    Format input follow #,###*/
+            $("#amount").on('keyup', function () {
+                
+                 var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+                 $(this).val(n.toLocaleString());
+
+            });
+
+        //Dùng để open fileUpload
+        $('.custom-file-upload').bind('touchstart click', function () {
+            $('#fileToUpload').click();
+        });
+
+
+       //Dùng để open modal popup tạo mới Baggage HS
+        $('body').on('touchstart click', "#additem", function () {
+                $('#myModal').modal('show');
+
+            });
+           
+
+            //Dùng để open Modal Popup edit Baggage HS Information
+        $('body').on('touchstart click', "a.edit", function () {
+                    var BagFound_ID = $(this).attr("data-bb");
+                        $.ajax({
+                            type: "POST",
+                            url:'@Url.Action("ShowModalEdit", "BagFound")',
+                            data: { t_bagfound_id: BagFound_ID },
+                            cache: false,
+                            success: function (data) {
+                                if (data.mess == "Successful.") {
+                                    $('#myModalEdit').html(data.rs).modal('show');
+                                    initSaveEvent();
+
+                                }
+                            },
+                            error: function (data) {
+                                alertify.alert(data.mess);
+                                return false;
+                            }
+
+                        });
+
+
+         });
+
+            
+
+ });
+    </script>
+    <script>
+        var clickedDel = [];
+        var obj;
+        var json;
+        var obj;
+        var json;
+        $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
+            var fileIdCounter = 0;
+            /*  evt.target.value = null; //reset the input to null - nice little chrome bug!*/
+            this.closest(".files").change(function (evt) {
+                var files = $("#fileAttach");
+                /*Append list file upload*/
+                var formData = new FormData();
+
+                var ins = document.getElementById('fileToUploadEdit').files.length;
+                for (var x = 0; x < ins; x++) {
+                    formData.append("Files", document.getElementById('fileToUploadEdit').files[x]);
+                }
+
+                ShowProgressAnimation();
+                $.ajax({
+                    type: "POST",
+                    url: "/BagFound/UploadAttachFile_HS",
+                    data: formData,
+                    //use contentType, processData for sure.
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data) {
+                        
+                        if (data.mess = "Successful.") {
+                            HideProgressAnimation();
+                            //parse json result ra string
+                            json = JSON.parse(data.obj);
+                            var chuoi = "";
+                            for (let i = 0; i < json.length; i++) {
+                                var filepath = "/data/BagHS_Found/" + '/' + json[i].sysFileName;
+                                if (json[i].Status == "OK") {
+                                    obj = "<li>" + json[i].FileName + "&nbsp&nbsp-&nbsp&nbsp" + "<a  href=" + filepath + " ' target='_blank'" + " ' style='display: inline-block; width: 20px; height: 20px;color:blue;'" + "\" >View</a>" + "&nbsp&nbsp&nbsp&nbsp" + "<a class=\"removeFile\" href=\"#\"  style=\"display: inline - block; width: 20px; height: 20px; color: red;\" data-fileid=\"" + json[i].sysFileName + "\" >Remove</a>" + "</li> ";
+                                    chuoi = chuoi + obj;
+                                }
+                            }
+
+                            $('.fileList').html(chuoi);
+
+
+                        }
+                        else {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+                })
+
+            });
+            $(this).on("click", ".removeFile", function (e) {
+                e.preventDefault();
+                
+                var formData = new FormData();
+                var fileId = $(this).data("fileid");
+                
+
+
+                formData.append("FileRemove", fileId);
+
+
+
+                ShowProgressAnimation();
+                $.ajax({
+                    type: "POST",
+                    url: "/BagFound/RemoveAttachFile_HS",
+                    data: formData,
+                    //use contentType, processData for sure.
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data) {
+                        
+                        if (data.mess = "OK") {
+                            HideProgressAnimation();
+                            //// Luu lai Session Object File Upload
+                            //sessionStorage.setItem('AttachedFile', JSON.stringify(data.obj));
+                            json = JSON.parse(data.obj);
+                            var chuoi = "";
+                            console.log(json);
+                            for (let i = 0; i < json.length; i++) {
+                                var filepath = "/data/BagHS_Found/" + '/' + json[i].sysFileName;
+                                if (json[i].Status == "OK") {
+                                    var obj = "<li>" + json[i].FileName + "&nbsp&nbsp-&nbsp&nbsp" + "<a  href=" + filepath + " ' target='_blank'" + " ' style='display: inline-block; width: 20px; height: 20px;color:blue;'" + "\" >View</a>" + "&nbsp&nbsp&nbsp&nbsp" + "<a class=\"removeFile\" href=\"#\"  style=\"display: inline - block; width: 20px; height: 20px; color: red;\" data-fileid=\"" + json[i].sysFileName + "\" >Remove</a>" + "</li> ";
+                                    var chuoi = chuoi + obj;
+                                }
+
+                            }
+                            $('.fileList').html(chuoi);
+
+
+                        }
+                        else {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+                })
+
+
+
+            });
+
+
+        };
+
+      
+           
+        $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
+            var fileIdCounter = 0;
+            /*  evt.target.value = null; //reset the input to null - nice little chrome bug!*/
+            this.closest(".files").change(function (evt) {
+                var files = $("#fileAttach");
+                /*Append list file upload*/
+                var formData = new FormData();
+
+                var ins = document.getElementById('fileToUpload').files.length;
+                for (var x = 0; x < ins; x++) {
+                    formData.append("Files", document.getElementById('fileToUpload').files[x]);
+                }
+
+                ShowProgressAnimation();
+                $.ajax({
+                    type: "POST",
+                    url: "/BagFound/UploadAttachFile_HS",
+                    data: formData,
+                    //use contentType, processData for sure.
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data) {
+                        
+                        if (data.mess = "Successful.") {
+                            HideProgressAnimation();
+                            // Luu lai Session Object File Upload
+                            sessionStorage.setItem('AttachedFile', JSON.stringify(data.obj));
+                            json = JSON.parse(data.obj);
+                            console.log(json);
+                            var chuoi = "";
+                            for (let i = 0; i < json.length; i++) {
+                                var filepath = "/data/BagHS_Found/" + '/' + json[i].sysFileName;
+                                if (json[i].Status == "OK") {
+                                    obj = "<li>" + json[i].FileName + "&nbsp&nbsp-&nbsp&nbsp" + "<a  href=" + filepath + " ' target='_blank'" + " ' style='display: inline-block; width: 20px; height: 20px;color:blue;'" + "\" >View</a>" + "&nbsp&nbsp&nbsp&nbsp" + "<a class=\"removeFile\" href=\"#\"  style=\"display: inline - block; width: 20px; height: 20px; color: red;\" data-fileid=\"" + json[i].sysFileName + "\" >Remove</a>" + "</li> ";
+                                    chuoi = chuoi + obj;
+                                }
+ 
+                            }
+                            
+                            $('.fileList').html(chuoi);
+
+                        }
+                        else {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+                })
+
+            });
+
+            $(this).on("click", ".removeFile", function (e) {
+                e.preventDefault();
+                
+                var formData = new FormData();
+                var fileId = $(this).data("fileid");
+                formData.append("FileRemove", fileId);
+            
+
+                ShowProgressAnimation();
+                $.ajax({
+                    type: "POST",
+                    url: "/BagFound/RemoveAttachFile_HS",
+                    data: formData,
+                    //use contentType, processData for sure.
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data) {
+                        
+                        if (data.mess = "OK") {
+                            HideProgressAnimation();
+                            //// Luu lai Session Object File Upload
+                            //sessionStorage.setItem('AttachedFile', JSON.stringify(data.obj));
+                            json = JSON.parse(data.obj);
+                            var chuoi = "";
+                            console.log(json);
+                            for (let i = 0; i < json.length; i++) {
+                                var filepath = "/data/BagHS_Found/" + '/' + json[i].sysFileName;
+                                if (json[i].Status == "OK") {
+                                    var obj = "<li>" + json[i].FileName + "&nbsp&nbsp-&nbsp&nbsp" + "<a  href=" + filepath + " ' target='_blank'" + " ' style='display: inline-block; width: 20px; height: 20px;color:blue;'" + "\" >View</a>" + "&nbsp&nbsp&nbsp&nbsp" + "<a class=\"removeFile\" href=\"#\"  style=\"display: inline - block; width: 20px; height: 20px; color: red;\" data-fileid=\"" + json[i].sysFileName + "\" >Remove</a>" + "</li> ";
+                                    chuoi = chuoi + obj;
+                                }
+                               
+                            }
+                            $('.fileList').html(chuoi);
+
+
+                        }
+                        else {
+                            alertify.alert(data.mess);
+                            return false;
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+                })
+               
+
+        
+                
+            });
+
+          
+            
+        };
+
+        (function () {
+            var filesToUpload = [];
+
+            var files1Uploader = $("#files1").fileUploader(filesToUpload, "files1");
+ 
+          
+
+
+            $("#saveBaggage").click(function () {
+                
+                var formData = new FormData();
+                /* Append từng đối tượng vô formdata để push xử lý*/
+                var item = $('#item').val();
+                if (item == "" || item == null) {
+                    alertify.alert("Description baggage not be blank!");
+                    return false;
+                }
+                else {
+                    formData.append("Item", item);
+                }
+
+                var quantity = $('#quantity').val();
+                if (quantity == 0 || quantity < 0) {
+                    alertify.alert("Quantity must larger than 0!");
+                    return false;
+                }
+                else {
+                    formData.append("Quantity", quantity);
+                }
+       
+                var totalAmount = $('#amount').val() == "" ? "0" : $('#amount').val();
+                formData.append("TotalAmount", totalAmount);
+
+                var currencytruth = $('#currency :selected').text() == "VNĐ" ? "VND" : $('#currency :selected').text();
+                formData.append("Currency", currencytruth);
+
+                var station = $('#stationpick').val();
+                if (station == "" || station == null) {
+                    alertify.alert("Station not be blank!");
+                    return false;
+                }
+                var check = CheckStation(station);
+                if (check === true) {
+                    alertify.alert("Station not be a number!");
+                    return false;
+                }
+                /*    Kiem tra xem chuoi station co chua so khong ?*/
+                var matches = station.match(/\d+/g);
+                if (matches != null) {
+                    alertify.alert("Station does not contain numbers!");
+                    return false;
+                }
+               
+                else {
+                    formData.append("Station", station);
+                }
+
+                var datepick = $('#datepicker').val();
+                formData.append("DatePicker", datepick);
+
+                var remark = $('#remark').val();
+                formData.append("Remark", remark);
+
+                ///* Append selected radio to formData*/
+                var arrayselected = [];
+                for (var j = 0; j < lstdesc.length; j++) {
+                    if (document.getElementById(lstdesc[j].BagDesc_ID).checked === true) {
+                        var id = lstdesc[j].BagDesc_ID;
+                        arrayselected.push(id);
+                    }
+
+                }
+
+                if (arrayselected.length < 3) {
+                    alertify.alert("Please select baggage description");
+                    return false;
+                }
+                else {
+
+                    formData.append("RadioSelected", JSON.stringify(arrayselected));
+                }
+                if (clickedDel != null || clickedDel!="[]") {
+                    formData.append("FileRemove", JSON.stringify(clickedDel));
+                }
+                
+
+                $.ajax({
+
+                    url: "/BagFound/NewAndEdit",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    success: function (data) {
+                        if (data.mess == "OK") {
+                            $('#myModal').modal('hide');
+                            window.location.reload();
+                            return true;
+                        }
+                         else{
+                            alertify.alert(data.MessageEr);
+                            return false;
+                        }
+                       
+                    },
+                    error: function (data) {
+                        alertify.alert(data.mess);
+                        return false;
+                    }
+
+                });
+            });
+
+
+
+        })();
+    </script>
+
+
+
+
+
+
+
+

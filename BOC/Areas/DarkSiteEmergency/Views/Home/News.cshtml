@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_News.cshtml";
+}
+<div class="row" style="margin-top:-10px">
+    <div class="col-md-8 LeftSide">
+        @if (Model[0] != null)
+            @foreach (var item in Model[0])
+            {
+                <div class="clearfix">
+
+                    @if (item.Html_Short != "")
+                    {
+                        <div style="margin-bottom:5px">
+                            @Html.Raw(item.Html_Short)
+                        </div>
+                        @if (@HttpContextAccessor.HttpContext.Session.GetString("lang") == "VN")
+                        {
+                            <a href="/DarkSiteEmergency/Home/Detail?DaskSiteID=@item.DaskSiteID" class="btn-primary btn-primary btnDetail" style="text-decoration:none">Đọc Thêm</a>
+                        }
+                        else
+                        {
+                            <a href="/DarkSiteEmergency/Home/Detail?DaskSiteID=@item.DaskSiteID" class="btn-primary btn-primary btnDetail" style="text-decoration:none">Read More</a>
+
+                        }
+                    }
+                    else
+                    {
+                        <p>
+                            @Html.Raw(item.Html_Data)
+                        </p>
+                    }
+
+                </div>
+            }
+    </div>
+
+    <div class="col-md-4 RightSide">
+        @if (Model[2] != null)
+            @foreach (var item in Model[2])
+            {
+                <p>
+                    @Html.Raw(item.Html_Data)
+                </p>
+            }
+    </div>
+</div>
+
